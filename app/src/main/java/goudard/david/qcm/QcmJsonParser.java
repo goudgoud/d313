@@ -6,6 +6,7 @@ import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.annotation.Target;
 import java.util.Iterator;
 
 import com.android.volley.Request;
@@ -22,26 +23,26 @@ public class QcmJsonParser {
     private static final String QCM_URL = "http://daviddurand.info/D228/qcm";
     private Qcm qcm;
 
-    public void QcmJsonParser(Context context) {
+    public void QcmJsonParser(final MainActivity context) {
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, QCM_URL, null, new Response.Listener<JSONObject>() {
-
                     @Override
                     public void onResponse(JSONObject response) {
                         qcm = jsonParseObject(response);
                     }
                 }, new Response.ErrorListener() {
-
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        tv.setText("error" + error.toString());
-
+                        context.getTvMessageSystem().setText("error" + error.toString());
                     }
                 });
 
         MySingleton.getInstance(context).addToRequestQueue(jsObjRequest);
     }
 
+    public Qcm getQcm() {
+        return this.qcm;
+    }
 
     private Qcm jsonParseObject(JSONObject json) {
 
