@@ -22,8 +22,11 @@ public class QcmJsonParser {
 
     private static final String QCM_URL = "http://daviddurand.info/D228/qcm";
     private Qcm qcm;
+    private MainActivity mainActivity;
 
     public void QcmJsonParser(final MainActivity context) {
+        mainActivity = context;
+
         JsonObjectRequest jsObjRequest = new JsonObjectRequest
                 (Request.Method.GET, QCM_URL, null, new Response.Listener<JSONObject>() {
                     @Override
@@ -33,7 +36,7 @@ public class QcmJsonParser {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        context.getTvMessageSystem().setText("error" + error.toString());
+                        mainActivity.getTvMessageSystem().setText("error" + error.toString());
                     }
                 });
 
