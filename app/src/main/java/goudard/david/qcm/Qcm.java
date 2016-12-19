@@ -6,4 +6,6 @@ package goudard.david.qcm;
 
 public class Qcm {
 
+    FamilleQuestionnaire[] familleQuestionnaire;
+
 }

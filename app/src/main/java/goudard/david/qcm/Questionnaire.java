@@ -5,4 +5,5 @@ package goudard.david.qcm;
  */
 
 public class Questionnaire {
+    Question[] question;
 }
