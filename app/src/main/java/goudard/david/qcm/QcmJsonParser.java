@@ -1,20 +1,25 @@
 package goudard.david.qcm;
 
 import android.content.Context;
-import android.util.Log;
+import android.os.StrictMode;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.annotation.Target;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
+import com.android.volley.RequestTickle;
 import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.Response.ErrorListener;
+import com.android.volley.request.JsonObjectRequest;
+import com.android.volley.request.JsonRequest;
+import com.android.volley.request.StringRequest;
+import com.android.volley.toolbox.VolleyTickle;
 
 /**
  * Created by david on 19/12/16.
@@ -25,11 +30,17 @@ public class QcmJsonParser {
     private static final String QCM_URL = "http://daviddurand.info/D228/qcm";
     private Qcm qcm;
     private Survey survey;
-    private MainActivity mainActivity;
+    private TextView tv;
     private boolean loading = false;
+    private Context context;
 
-    public void QcmJsonParser(final MainActivity context) {
-        mainActivity = context;
+
+    public QcmJsonParser(Context m, TextView tv) throws JSONException {
+        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+        StrictMode.setThreadPolicy(policy);
+
+        this.tv = tv;
+        this.context = m;
         loadQcm();
     }
 
@@ -39,26 +50,29 @@ public class QcmJsonParser {
         return this.qcm;
     }
 
-
-    private void loadQcm() {
+    private void loadQcm() throws JSONException {
         loading = true;
-        JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                (Request.Method.GET, QCM_URL, null, new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        qcm = loadSurveyFamilies(qcm, response);
-                        loading = false;
-                    }
-                }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        mainActivity.getTvMessageSystem().setText("error " + error.toString());
-                        qcm = null;
-                        loading = false;
-                    }
-                });
+        try {
+            RequestTickle mRequestTickle = VolleyTickle.newRequestTickle(context.getApplicationContext());
 
-        MySingleton.getInstance(mainActivity).addToRequestQueue(jsObjRequest);
+            JsonRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, QCM_URL, null, null, null);
+            mRequestTickle.add(jsonRequest);
+            NetworkResponse response = mRequestTickle.start();
+
+            if (response.statusCode == 200) {
+                String data = VolleyTickle.parseResponse(response);
+                JSONObject jsonData = new JSONObject(data);
+                qcm = loadSurveyFamilies(qcm, jsonData);
+                loading = false;
+
+            } else {
+
+                throw new Exception("Erreur " + response.statusCode);
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private Qcm loadSurveyFamilies(Qcm qcm, JSONObject jsonResponse) {
@@ -71,59 +85,46 @@ public class QcmJsonParser {
                 surveyFamily.setName(surveyFamilyName);
 
                 JSONObject jsonSurveys = jsonResponse.getJSONObject(surveyFamilyName);
-                loadSurveys(surveyFamily, jsonSurveys);
+                surveyFamily = loadSurveys(surveyFamily, jsonSurveys);
                 qcm.addFamilleQuestionnaire(surveyFamily);
             }
 
         } catch (JSONException e) {
             e.printStackTrace();
-            mainActivity.getTvMessageSystem().setText("error " + e.toString());
+            tv.setText("error " + e.toString());
+        } catch (Exception e) {
+            tv.setText("error " + e.toString());
+            e.printStackTrace();
         }
-
+        tv.setText("Terminé");
         return qcm;
     }
 
-    private SurveyFamily loadSurveys(SurveyFamily surveyFamily, JSONObject jsonSurveys) {
-        try {
-
-            Iterator<String> iteratorSurvey = jsonSurveys.keys();
+    private SurveyFamily loadSurveys(final SurveyFamily surveyFamily, JSONObject jsonSurveys) throws Exception {
+        Iterator<String> iteratorSurvey = jsonSurveys.keys();
             while (iteratorSurvey.hasNext()) {
                 String code = iteratorSurvey.next();
                 String name = jsonSurveys.getString(code);
                 survey = new Survey();
                 survey.setCode(code).setName(name);
 
-                JsonObjectRequest jsObjRequest = new JsonObjectRequest
-                        (Request.Method.GET, QCM_URL + "/?action=pack&pack=" + code, null, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    survey = loadQuestions(survey, response.getJSONArray("questions"));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                    qcm = null;
-                                    loading = false;
-                                    mainActivity.getTvMessageSystem().setText("error " + e.toString());
-                                }
-                            }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                mainActivity.getTvMessageSystem().setText("error " + error.toString());
-                                qcm = null;
-                                loading = false;
-                            }
-                        });
+                RequestTickle mRequestTickle = VolleyTickle.newRequestTickle(context.getApplicationContext());
 
-                MySingleton.getInstance(mainActivity).addToRequestQueue(jsObjRequest);
+                JsonRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, QCM_URL + "/?action=pack&pack=" + code, null, null, null);
+                mRequestTickle.add(jsonRequest);
+                NetworkResponse response = mRequestTickle.start();
 
-                surveyFamily.addQuestionnaire(survey);
+                if (response.statusCode == 200) {
+                    String data = VolleyTickle.parseResponse(response);
+                    JSONObject jsonData = new JSONObject(data);
+                    survey = loadQuestions(survey, jsonData.getJSONArray("questions"));
+                    surveyFamily.addQuestionnaire(survey);
+
+                } else {
+                    throw new Exception("Erreur " + response.statusCode);
+                }
             }
 
-        } catch (Exception e) {
-            e.printStackTrace();
-            mainActivity.getTvMessageSystem().setText("error " + e.toString());
-        }
         return surveyFamily;
     }
 
@@ -133,36 +134,27 @@ public class QcmJsonParser {
                 JSONObject jsonQuestion = jsonQuestions.getJSONObject(n);
                 String titre = jsonQuestion.getString("titre");
                 JSONArray jsonChoix = jsonQuestion.getJSONArray("choix");
+                ArrayList<String> choix = new ArrayList<>();
 
+                for (int i = 0; i < jsonChoix.length(); i++) {
+                    String unChoix = jsonChoix.getString(i);
+                    choix.add(unChoix.toString());
+                }
+                int correct = jsonQuestion.getInt("correct");
+
+                Question question = new Question();
+                question.setTitre(titre);
+                question.setChoix(choix);
+                question.setCorrect(correct);
+                question.setScore(0);
+
+                survey.addQuestion(question);
             }
         } catch (Exception e) {
             e.printStackTrace();
-            mainActivity.getTvMessageSystem().setText("error " + e.toString());
+            tv.setText("error " + e.toString());
         }
+        return survey;
     }
 
-    private ArrayList<String> jsonParseObject(JSONObject json) {
-
-        ArrayList<String> pack = new ArrayList<>();
-        try {
-            Iterator<String> keys = json.keys();
-            while (keys.hasNext()) {
-                String key = keys.next();
-                pack.add(key);
-
-                JSONObject innerJson = json.getJSONObject(key);
-                Iterator<String> innerKeys = innerJson.keys();
-                while (innerKeys.hasNext()) {
-                    String innerKey = innerKeys.next();
-                    Log.d("subkey", innerKey);
-                    String strQuestionnaire = innerJson.getString(innerKey);
-                    pack += strQuestionnaire + "\n";
-                }
-            }
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return pack; //jsonObj.toString();
-    }
 }

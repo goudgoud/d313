@@ -54,6 +54,9 @@ public class Survey {
     }
 
     public Survey addQuestion(Question question) {
+        if (questions == null) {
+            questions = new ArrayList<>();
+        }
         questions.add(question);
         return this;
     }

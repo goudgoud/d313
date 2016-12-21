@@ -8,19 +8,22 @@ import java.util.ArrayList;
 
 public class Qcm {
 
-    private ArrayList<SurveyFamily> familleQuestionnaire;
+    private ArrayList<SurveyFamily> familleQuestionnaires;
 
     public ArrayList<SurveyFamily> getFamilleQuestionnaire() {
-        return this.familleQuestionnaire;
+        return this.familleQuestionnaires;
     }
 
     public Qcm setFamilleQuestionnaire(ArrayList<SurveyFamily> familleQuestionnaire) {
-        this.familleQuestionnaire = familleQuestionnaire;
+        this.familleQuestionnaires = familleQuestionnaire;
         return this;
     }
 
     public Qcm addFamilleQuestionnaire(SurveyFamily surveyFamily) {
-        familleQuestionnaire.add(surveyFamily);
+        if (familleQuestionnaires == null) {
+            familleQuestionnaires = new ArrayList<>();
+        }
+        familleQuestionnaires.add(surveyFamily);
         return this;
     }
 }

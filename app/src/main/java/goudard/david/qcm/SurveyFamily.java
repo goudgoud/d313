@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class SurveyFamily {
     private String name;
-    private ArrayList<Survey> questionnaire;
+    private ArrayList<Survey> questionnaires;
 
     public String getName() {
         return this.name;
@@ -20,16 +20,19 @@ public class SurveyFamily {
     }
 
     public ArrayList<Survey> getQuestionnaire() {
-        return this.questionnaire;
+        return this.questionnaires;
     }
 
     public SurveyFamily setQuestionnaire(ArrayList<Survey> questionnaire) {
-        this.questionnaire = questionnaire;
+        this.questionnaires = questionnaire;
         return this;
     }
 
     public SurveyFamily addQuestionnaire(Survey survey) {
-        questionnaire.add(survey);
+        if (questionnaires == null) {
+            questionnaires = new ArrayList<>();
+        }
+        questionnaires.add(survey);
         return this;
     }
 }
