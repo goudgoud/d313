@@ -3,6 +3,7 @@ package goudard.david.qcm;
 import android.content.Context;
 import android.os.StrictMode;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -14,11 +15,8 @@ import java.util.Iterator;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestTickle;
-import com.android.volley.Response;
-import com.android.volley.Response.ErrorListener;
 import com.android.volley.request.JsonObjectRequest;
 import com.android.volley.request.JsonRequest;
-import com.android.volley.request.StringRequest;
 import com.android.volley.toolbox.VolleyTickle;
 
 /**
@@ -29,7 +27,6 @@ public class QcmJsonParser {
 
     private static final String QCM_URL = "http://daviddurand.info/D228/qcm";
     private Qcm qcm;
-    private Survey survey;
     private TextView tv;
     private boolean loading = false;
     private Context context;
@@ -45,13 +42,12 @@ public class QcmJsonParser {
     }
 
     public Qcm getQcm() {
-        while (loading) {
-        }
         return this.qcm;
     }
 
     private void loadQcm() throws JSONException {
-        loading = true;
+        qcm = new Qcm();
+
         try {
             RequestTickle mRequestTickle = VolleyTickle.newRequestTickle(context.getApplicationContext());
 
@@ -63,19 +59,18 @@ public class QcmJsonParser {
                 String data = VolleyTickle.parseResponse(response);
                 JSONObject jsonData = new JSONObject(data);
                 qcm = loadSurveyFamilies(qcm, jsonData);
-                loading = false;
-
             } else {
 
                 throw new Exception("Erreur " + response.statusCode);
-
             }
         } catch (Exception e) {
+            //tv.setText("error " + e.toString());
             e.printStackTrace();
+            Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
         }
     }
 
-    private Qcm loadSurveyFamilies(Qcm qcm, JSONObject jsonResponse) {
+    private Qcm loadSurveyFamilies(Qcm qcm, JSONObject jsonResponse) throws Exception {
         try {
             Iterator<String> iteratorSurveyFamily = jsonResponse.keys();
 
@@ -91,69 +86,62 @@ public class QcmJsonParser {
 
         } catch (JSONException e) {
             e.printStackTrace();
-            tv.setText("error " + e.toString());
-        } catch (Exception e) {
-            tv.setText("error " + e.toString());
-            e.printStackTrace();
+            //tv.setText("error " + e.toString());
+            Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
         }
-        tv.setText("Terminé");
         return qcm;
     }
 
     private SurveyFamily loadSurveys(final SurveyFamily surveyFamily, JSONObject jsonSurveys) throws Exception {
         Iterator<String> iteratorSurvey = jsonSurveys.keys();
-            while (iteratorSurvey.hasNext()) {
-                String code = iteratorSurvey.next();
-                String name = jsonSurveys.getString(code);
-                survey = new Survey();
-                survey.setCode(code).setName(name);
+        while (iteratorSurvey.hasNext()) {
+            String code = iteratorSurvey.next();
+            String name = jsonSurveys.getString(code);
+            Survey survey = new Survey();
+            survey.setCode(code).setName(name);
 
-                RequestTickle mRequestTickle = VolleyTickle.newRequestTickle(context.getApplicationContext());
+            RequestTickle mRequestTickle = VolleyTickle.newRequestTickle(context.getApplicationContext());
 
-                JsonRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, QCM_URL + "/?action=pack&pack=" + code, null, null, null);
-                mRequestTickle.add(jsonRequest);
-                NetworkResponse response = mRequestTickle.start();
+            JsonRequest jsonRequest = new JsonObjectRequest(Request.Method.GET, QCM_URL + "/?action=pack&pack=" + code, null, null, null);
+            mRequestTickle.add(jsonRequest);
+            NetworkResponse response = mRequestTickle.start();
 
-                if (response.statusCode == 200) {
-                    String data = VolleyTickle.parseResponse(response);
-                    JSONObject jsonData = new JSONObject(data);
-                    survey = loadQuestions(survey, jsonData.getJSONArray("questions"));
-                    surveyFamily.addQuestionnaire(survey);
+            if (response.statusCode == 200) {
+                String data = VolleyTickle.parseResponse(response);
+                JSONObject jsonData = new JSONObject(data);
+                survey = loadQuestions(survey, jsonData.getJSONArray("questions"));
+                surveyFamily.addQuestionnaire(survey);
 
-                } else {
-                    throw new Exception("Erreur " + response.statusCode);
-                }
+            } else {
+                throw new Exception("Erreur " + response.statusCode);
             }
-
+        }
         return surveyFamily;
     }
 
-    private Survey loadQuestions(Survey survey, JSONArray jsonQuestions) {
-        try {
-            for (int n = 0; n < jsonQuestions.length(); n++) {
-                JSONObject jsonQuestion = jsonQuestions.getJSONObject(n);
-                String titre = jsonQuestion.getString("titre");
-                JSONArray jsonChoix = jsonQuestion.getJSONArray("choix");
-                ArrayList<String> choix = new ArrayList<>();
+    private Survey loadQuestions(Survey survey, JSONArray jsonQuestions) throws JSONException {
 
-                for (int i = 0; i < jsonChoix.length(); i++) {
-                    String unChoix = jsonChoix.getString(i);
-                    choix.add(unChoix.toString());
-                }
-                int correct = jsonQuestion.getInt("correct");
+        for (int n = 0; n < jsonQuestions.length(); n++) {
+            JSONObject jsonQuestion = jsonQuestions.getJSONObject(n);
+            String titre = jsonQuestion.getString("titre");
+            JSONArray jsonChoix = jsonQuestion.getJSONArray("choix");
+            ArrayList<String> choix = new ArrayList<>();
 
-                Question question = new Question();
-                question.setTitre(titre);
-                question.setChoix(choix);
-                question.setCorrect(correct);
-                question.setScore(0);
-
-                survey.addQuestion(question);
+            for (int i = 0; i < jsonChoix.length(); i++) {
+                String unChoix = jsonChoix.getString(i);
+                choix.add(unChoix.toString());
             }
-        } catch (Exception e) {
-            e.printStackTrace();
-            tv.setText("error " + e.toString());
+            int correct = jsonQuestion.getInt("correct");
+
+            Question question = new Question();
+            question.setTitre(titre);
+            question.setChoix(choix);
+            question.setCorrect(correct);
+            question.setScore(0);
+
+            survey.addQuestion(question);
         }
+
         return survey;
     }
 

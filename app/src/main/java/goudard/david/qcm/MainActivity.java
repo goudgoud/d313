@@ -6,9 +6,12 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 
+import static goudard.david.qcm.IO_Qcm.readFromFile;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView tvMessageSystem = null;
+    private Qcm qcm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +24,11 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         TextView tv = getTvMessageSystem();
         try {
-            QcmJsonParser qcmParser = new QcmJsonParser(this, tv);
+            qcm = IO_Qcm.readFromFile(this, tv);
+            // if qcm doesn't exist on disk, load from internet
+            if (qcm == null) {
+                loadQcm();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -32,5 +39,16 @@ public class MainActivity extends AppCompatActivity {
             tvMessageSystem = (TextView) findViewById(R.id.tvMainActivity_MessageSystem);
         }
         return tvMessageSystem;
+    }
+
+    private void loadQcm() throws JSONException {
+        if (Internet.isNetworkConnectivity(this)) {
+            if (Internet.isNetworkAvailable(this)) {
+                QcmJsonParser qcmParser = new QcmJsonParser(this, tvMessageSystem);
+                qcm = qcmParser.getQcm();
+                IO_Qcm io = new IO_Qcm(this, tvMessageSystem);
+                io.saveToFile(qcm);
+            }
+        }
     }
 }
