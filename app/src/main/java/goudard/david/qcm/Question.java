@@ -1,18 +1,18 @@
 package goudard.david.qcm;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by david on 19/12/16.
  */
 
-public class Question {
+public class Question implements Serializable {
 
     private String titre;
     private ArrayList<String> choix;
     private int correct;
-    private int response;
-    private int score;
+    private int response = -1;
 
     public String getTitre() {
         return this.titre;
@@ -50,12 +50,5 @@ public class Question {
         return this;
     }
 
-    public int getScore() {
-        return this.score;
-    }
 
-    public Question setScore(int score) {
-        this.score = score;
-        return this;
-    }
 }

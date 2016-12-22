@@ -1,12 +1,13 @@
 package goudard.david.qcm;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
  * Created by david on 19/12/16.
  */
 
-public class Qcm {
+public class Qcm implements Serializable {
 
     private ArrayList<SurveyFamily> familleQuestionnaires;
 

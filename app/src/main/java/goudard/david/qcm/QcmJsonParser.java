@@ -99,6 +99,7 @@ public class QcmJsonParser {
             String name = jsonSurveys.getString(code);
             Survey survey = new Survey();
             survey.setCode(code).setName(name);
+            survey.setScore(0);
 
             RequestTickle mRequestTickle = VolleyTickle.newRequestTickle(context.getApplicationContext());
 
@@ -137,7 +138,6 @@ public class QcmJsonParser {
             question.setTitre(titre);
             question.setChoix(choix);
             question.setCorrect(correct);
-            question.setScore(0);
 
             survey.addQuestion(question);
         }
