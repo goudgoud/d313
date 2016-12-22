@@ -12,7 +12,8 @@ public class Survey implements Serializable {
     private String code;
     private String name;
     private ArrayList<Question> questions;
-    private int score;
+    private int score = 0;
+    private int questionInProgress = 0;
 
     /**
      * @return String
@@ -72,4 +73,11 @@ public class Survey implements Serializable {
         return this;
     }
 
+    public int getQuestionInProgress() {
+        return questionInProgress;
+    }
+
+    public Survey setQuestionInProgress(int questionInProgress) {
+        this.questionInProgress = questionInProgress;
+    }
 }
