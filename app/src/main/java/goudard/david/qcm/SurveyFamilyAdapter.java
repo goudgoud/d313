@@ -8,6 +8,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -24,6 +25,10 @@ public class SurveyFamilyAdapter extends BaseAdapter {
 
     //Un mécanisme pour gérer l'affichage graphique depuis un layout XML
     private LayoutInflater mInflater;
+
+    //Contient la liste des listeners
+    private ArrayList<SurveyFamilyAdapterListener> mListListener = new ArrayList<SurveyFamilyAdapterListener>();
+
 
     public SurveyFamilyAdapter(Context context, List<SurveyFamily> aListSurveyFamily) {
         this.mContext = context;
@@ -63,7 +68,38 @@ public class SurveyFamilyAdapter extends BaseAdapter {
         //(3) : Renseignement des valeurs
         tvSurveyFamily.setText(mListSurveyFamilly.get(position).getName());
 
+        //On mémorise la position dans le composant textview
+        tvSurveyFamily.setTag(position);
+        //On ajoute un listener
+        tvSurveyFamily.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Lorsque l'on clique sur le nom, on récupère la position de la "SurveyFamily"
+                Integer position = (Integer) v.getTag();
+                //On prévient les listeners qu'il y a eu un clic sur le TextView "TV_Nom".
+                sendListener(mListSurveyFamilly.get(position), position);
+            }
+        });
+
         //On retourne l'item créé.
         return layoutItem;
+    }
+
+
+    /***************************
+     * Listener
+     */
+
+    /**
+     * Pour ajouter un listener sur notre adapter
+     */
+    public void addListener(SurveyFamilyAdapterListener aListener) {
+        mListListener.add(aListener);
+    }
+
+    private void sendListener(SurveyFamily item, int position) {
+        for (int i = mListListener.size() - 1; i >= 0; i--) {
+            mListListener.get(i).onClickNom(item, position);
+        }
     }
 }

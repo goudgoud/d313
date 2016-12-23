@@ -13,7 +13,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapterListener {
 
     private TextView tvMessageSystem = null;
     private Qcm qcm;
@@ -77,6 +77,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+
+    public void onClickNom(SurveyFamily item, int position) {
+
+    }
+
+
     public TextView getTvMessageSystem() {
         if (tvMessageSystem == null) {
             tvMessageSystem = (TextView) findViewById(R.id.tvMainActivity_MessageSystem);
@@ -102,4 +108,5 @@ public class MainActivity extends AppCompatActivity {
         }
         return qcm;
     }
+
 }
