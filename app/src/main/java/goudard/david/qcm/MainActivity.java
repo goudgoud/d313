@@ -1,20 +1,17 @@
 package goudard.david.qcm;
 
-import android.support.annotation.IdRes;
-import android.support.design.widget.TabLayout;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.TextView;
-
-import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.BottomBarTab;
-import com.roughike.bottombar.OnTabSelectListener;
 
 import org.json.JSONException;
 
 public class MainActivity extends AppCompatActivity {
 
-    private BottomBar mBottomBar;
     private TextView tvMessageSystem = null;
     private Qcm qcm;
 
@@ -23,16 +20,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
-        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelected(@IdRes int tabId) {
-                if (tabId == R.id.tab_favorites) {
-                    // The tab with id R.id.tab_favorites was selected,
-                    // change your content accordingly.
-                }
-            }
-        });
 
     }
 
@@ -50,6 +37,32 @@ public class MainActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.preferences: {
+                /*
+                getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
+                //*/
+                //*
+                Intent intent = new Intent();
+                intent.setClassName(this, "goudard.david.qcm.MyPreferenceActivity");
+                startActivity(intent);
+                return true;
+                //*/
+            }
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
     }
 
     public TextView getTvMessageSystem() {

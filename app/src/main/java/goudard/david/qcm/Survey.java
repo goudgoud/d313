@@ -79,5 +79,6 @@ public class Survey implements Serializable {
 
     public Survey setQuestionInProgress(int questionInProgress) {
         this.questionInProgress = questionInProgress;
+        return this;
     }
 }

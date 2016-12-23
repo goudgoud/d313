@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Qcm</string>
+    <string name="pref_qcm_restart">Qcm can be restart</string>
+    <string name="pref_qcm_restart_summ">Allow to make a QCM already done</string>
+    <string name="pref_qcm">Qcm preferences</string>
+    <string name="pref_qcm_summ">Setting of qcm preferences</string>
 </resources>
