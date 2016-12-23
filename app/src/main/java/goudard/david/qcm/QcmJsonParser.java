@@ -32,11 +32,10 @@ public class QcmJsonParser {
     private Context context;
 
 
-    public QcmJsonParser(Context m, TextView tv) throws JSONException {
+    public QcmJsonParser(Context m) throws JSONException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
 
-        this.tv = tv;
         this.context = m;
         loadQcm();
     }
@@ -64,7 +63,6 @@ public class QcmJsonParser {
                 throw new Exception("Erreur " + response.statusCode);
             }
         } catch (Exception e) {
-            //tv.setText("error " + e.toString());
             e.printStackTrace();
             Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
         }
@@ -86,7 +84,6 @@ public class QcmJsonParser {
 
         } catch (JSONException e) {
             e.printStackTrace();
-            //tv.setText("error " + e.toString());
             Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
         }
         return qcm;
