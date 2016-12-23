@@ -6,9 +6,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONException;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,8 +22,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-
     }
 
     @Override
@@ -34,24 +35,35 @@ public class MainActivity extends AppCompatActivity {
                 this.qcm = downloadQcm();
                 saveQcm(this.qcm);
             }
+
+            initListView_Qcm();
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    private void initListView_Qcm() {
+        //Récupération de la liste des personnes
+        ArrayList<SurveyFamily> listSurveyFamily = this.qcm.getFamilleQuestionnaire();
+
+        //Création et initialisation de l'Adapter pour les personnes
+        SurveyFamilyAdapter adapter = new SurveyFamilyAdapter(this, listSurveyFamily);
+
+        //Récupération du composant ListView
+        ListView list = (ListView) findViewById(R.id.lvMainActivity_Qcm);
+
+        //Initialisation de la liste avec les données
+        list.setAdapter(adapter);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.preferences: {
-                /*
-                getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
-                //*/
-                //*
                 Intent intent = new Intent();
                 intent.setClassName(this, "goudard.david.qcm.MyPreferenceActivity");
                 startActivity(intent);
                 return true;
-                //*/
             }
         }
 
