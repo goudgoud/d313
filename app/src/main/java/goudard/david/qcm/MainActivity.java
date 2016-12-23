@@ -13,7 +13,9 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapterListener {
+public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapterListenerInterface {
+
+    static final String KEY_FROM_MAIN = "KEY_FROM_MAIN";
 
     private TextView tvMessageSystem = null;
     private Qcm qcm;
@@ -29,13 +31,12 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         super.onStart();
         TextView tv = getTvMessageSystem();
         try {
-            this.qcm = loadQcm();
+            this.qcm = QcmStorageManager.loadQcm(this);
             // if qcm doesn't exist on disk, load from internet
             if (this.qcm == null) {
-                this.qcm = downloadQcm();
-                saveQcm(this.qcm);
+                this.qcm = QcmStorageManager.downloadQcm(this);
+                QcmStorageManager.saveQcm(this, this.qcm);
             }
-
             initListView_Qcm();
         } catch (JSONException e) {
             e.printStackTrace();
@@ -78,8 +79,11 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
     }
 
 
-    public void onClickNom(SurveyFamily item, int position) {
+    public void onClickSurveyFamily(SurveyFamily item, int position) {
+        Intent myIntent = new Intent(MainActivity.this, SurveyFamilyActivity.class);
 
+        myIntent.putExtra(KEY_FROM_MAIN, item);
+        startActivity(myIntent);
     }
 
 
@@ -88,25 +92,6 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
             tvMessageSystem = (TextView) findViewById(R.id.tvMainActivity_MessageSystem);
         }
         return tvMessageSystem;
-    }
-
-    private Qcm loadQcm() {
-        return (Qcm) SerializableManager.readSerializable(this, "qcm.er");
-    }
-
-    private void saveQcm(Qcm qcm) {
-        SerializableManager.saveSerializable(this, qcm, "qcm.er");
-    }
-
-    private Qcm downloadQcm() throws JSONException {
-        Qcm qcm = null;
-        if (Internet.isNetworkConnectivity(this)) {
-            if (Internet.isNetworkAvailable(this)) {
-                QcmJsonParser qcmParser = new QcmJsonParser(this, tvMessageSystem);
-                qcm = qcmParser.getQcm();
-            }
-        }
-        return qcm;
     }
 
 }

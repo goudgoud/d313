@@ -27,7 +27,7 @@ public class SurveyFamilyAdapter extends BaseAdapter {
     private LayoutInflater mInflater;
 
     //Contient la liste des listeners
-    private ArrayList<SurveyFamilyAdapterListener> mListListener = new ArrayList<SurveyFamilyAdapterListener>();
+    private ArrayList<SurveyFamilyAdapterListenerInterface> mListListener = new ArrayList<SurveyFamilyAdapterListenerInterface>();
 
 
     public SurveyFamilyAdapter(Context context, List<SurveyFamily> aListSurveyFamily) {
@@ -63,7 +63,7 @@ public class SurveyFamilyAdapter extends BaseAdapter {
         }
 
         //(2) : Récupération des TextView du layout
-        TextView tvSurveyFamily = (TextView) layoutItem.findViewById(R.id.lvQuestion_tvText);
+        TextView tvSurveyFamily = (TextView) layoutItem.findViewById(R.id.lvMain_SurveyFamily_tvText);
 
         //(3) : Renseignement des valeurs
         tvSurveyFamily.setText(mListSurveyFamilly.get(position).getName());
@@ -93,13 +93,13 @@ public class SurveyFamilyAdapter extends BaseAdapter {
     /**
      * Pour ajouter un listener sur notre adapter
      */
-    public void addListener(SurveyFamilyAdapterListener aListener) {
+    public void addListener(SurveyFamilyAdapterListenerInterface aListener) {
         mListListener.add(aListener);
     }
 
     private void sendListener(SurveyFamily item, int position) {
         for (int i = mListListener.size() - 1; i >= 0; i--) {
-            mListListener.get(i).onClickNom(item, position);
+            mListListener.get(i).onClickSurveyFamily(item, position);
         }
     }
 }
