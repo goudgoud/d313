@@ -8,4 +8,5 @@
     <string name="survey_restart_title">Survey</string>
     <string name="restart">Restart</string>
     <string name="resume">Resume</string>
+    <string name="next">Next</string>
 </resources>
