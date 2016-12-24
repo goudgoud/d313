@@ -20,9 +20,10 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
         this.surveyFamily = (SurveyFamily) getIntent().getSerializableExtra(MainActivity.KEY_FROM_MAIN);
 
         setContentView(R.layout.activity_survey_family);
+        this.initListView();
     }
 
-    private void initListView_Qcm() {
+    private void initListView() {
         //Récupération de la liste des personnes
         ArrayList<Survey> listSurvey = this.surveyFamily.getQuestionnaire();
 
