@@ -50,6 +50,9 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         //Création et initialisation de l'Adapter pour les personnes
         SurveyFamilyAdapter adapter = new SurveyFamilyAdapter(this, listSurveyFamily);
 
+        //Ecoute des évènements sur la liste
+        adapter.addListener(this);
+
         //Récupération du composant ListView
         ListView list = (ListView) findViewById(R.id.lvMainActivity_Qcm);
 

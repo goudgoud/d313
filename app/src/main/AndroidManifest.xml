@@ -20,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".SurveyFamilyActivity"></activity>
         <activity
             android:name="goudard.david.qcm.MyPreferenceActivity"
             android:label="Preferences"></activity>

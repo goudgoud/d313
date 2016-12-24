@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * Created by david on 23/12/16.
  */
 
-public class SurveyFamilyActivity extends AppCompatActivity {
+public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAdapterListenerInterface {
 
     private SurveyFamily surveyFamily;
 
@@ -29,6 +29,9 @@ public class SurveyFamilyActivity extends AppCompatActivity {
         //Création et initialisation de l'Adapter pour les personnes
         SurveyAdapter adapter = new SurveyAdapter(this, listSurvey);
 
+        //Ecoute des évènements sur la liste
+        adapter.addListener(this);
+
         //Récupération du composant ListView
         ListView list = (ListView) findViewById(R.id.lvSurveyFamilyActivity_Survey);
 
@@ -36,4 +39,8 @@ public class SurveyFamilyActivity extends AppCompatActivity {
         list.setAdapter(adapter);
     }
 
+    @Override
+    public void onClickSurvey(Survey item, int position) {
+
+    }
 }
