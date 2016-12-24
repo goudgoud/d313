@@ -89,13 +89,13 @@ public class Survey implements Serializable {
         Iterator<Question> iterator = this.questions.iterator();
         ArrayList<Question> newQuestions = new ArrayList<>();
 
+        int count = 0;
         while (iterator.hasNext()) {
             Question question = iterator.next();
             question.setResponse(-1);
-            newQuestions.add(question);
+            questions.set(count, question);
+            count++;
         }
-        this.setQuestions(newQuestions);
-
         return this;
     }
 }

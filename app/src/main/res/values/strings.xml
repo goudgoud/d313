@@ -4,4 +4,8 @@
     <string name="pref_qcm_restart_summ">Allow to make a QCM already done</string>
     <string name="pref_qcm">Qcm preferences</string>
     <string name="pref_qcm_summ">Setting of qcm preferences</string>
+    <string name="survey_restart_ask">Would you restart the survey ?</string>
+    <string name="survey_restart_title">Survey</string>
+    <string name="restart">Restart</string>
+    <string name="resume">Resume</string>
 </resources>

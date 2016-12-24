@@ -21,6 +21,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".SurveyFamilyActivity"></activity>
+        <activity android:name=".SurveyActivity"></activity>
         <activity
             android:name="goudard.david.qcm.MyPreferenceActivity"
             android:label="Preferences"></activity>
