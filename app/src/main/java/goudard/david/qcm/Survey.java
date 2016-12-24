@@ -2,6 +2,7 @@ package goudard.david.qcm;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Created by david on 19/12/16.
@@ -13,7 +14,7 @@ public class Survey implements Serializable {
     private String name;
     private ArrayList<Question> questions;
     private int score = 0;
-    private int questionInProgress = 0;
+    private int questionInProgress = -1;
 
     /**
      * @return String
@@ -79,6 +80,22 @@ public class Survey implements Serializable {
 
     public Survey setQuestionInProgress(int questionInProgress) {
         this.questionInProgress = questionInProgress;
+        return this;
+    }
+
+    public Survey reset() {
+        this.score = 0;
+        this.questionInProgress = -1;
+        Iterator<Question> iterator = this.questions.iterator();
+        ArrayList<Question> newQuestions = new ArrayList<>();
+
+        while (iterator.hasNext()) {
+            Question question = iterator.next();
+            question.setResponse(-1);
+            newQuestions.add(question);
+        }
+        this.setQuestions(newQuestions);
+
         return this;
     }
 }
