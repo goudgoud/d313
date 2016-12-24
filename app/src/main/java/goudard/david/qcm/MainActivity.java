@@ -1,6 +1,7 @@
 package goudard.david.qcm;
 
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -16,9 +17,11 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapterListenerInterface {
 
     static final String KEY_FROM_MAIN = "KEY_FROM_MAIN";
+    static final int RQC_SURVEY_FAMILY = 101;
 
     private TextView tvMessageSystem = null;
     private Qcm qcm;
+    private SurveyFamily surveyFamily;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +87,14 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
 
     public void onClickSurveyFamily(SurveyFamily item, int position) {
         Intent myIntent = new Intent(MainActivity.this, SurveyFamilyActivity.class);
-
+        this.surveyFamily = item;
         myIntent.putExtra(KEY_FROM_MAIN, item);
-        startActivity(myIntent);
+        startActivityForResult(myIntent, RQC_SURVEY_FAMILY);
     }
 
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Resources res = getResources();
+    }
 
     public TextView getTvMessageSystem() {
         if (tvMessageSystem == null) {

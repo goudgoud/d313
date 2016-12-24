@@ -4,4 +4,20 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <TextView
+        android:id="@+id/tvSurveyActivity_Question_Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
+
+    <ListView
+        android:id="@+id/lvSurveyActivity_Question"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/tvSurveyActivity_MessageSystem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="" />
 </LinearLayout>
