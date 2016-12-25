@@ -90,7 +90,7 @@ public class Survey implements Serializable {
 
     public Survey reset() {
         this.score = 0;
-        this.questionInProgress = -1;
+        this.questionInProgress = 0;
         Iterator<Question> iterator = this.questions.iterator();
         ArrayList<Question> newQuestions = new ArrayList<>();
 

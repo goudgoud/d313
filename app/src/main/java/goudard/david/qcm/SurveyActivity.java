@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -43,18 +44,25 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         QuestionAdapter adapter = new QuestionAdapter(this, getListChoixQuestion());
         //Ecoute des évènements sur la liste
         adapter.addListener(this);
-        initListView(adapter);
+        initView(adapter);
 
     }
 
     private void showAnswer() {
         AnswerAdapter adapter = new AnswerAdapter(this, getListChoixQuestion());
-        initListView(adapter);
+        initView(adapter);
     }
 
-    private void initListView(ListAdapter adapter) {
+    private void initView(QuestionAdapter adapter) {
+
+        TextView tv = (TextView) findViewById(R.id.tvSurveyActivity_Question_Title);
+        int questionInProgress = survey.getQuestionInProgress();
+        ArrayList<Question> questions = this.survey.getQuestions();
+        Question question = questions.get(questionInProgress);
+        tv.setText(question.getTitre());
+
         //Récupération du composant ListView
-        ListView list = (ListView) findViewById(R.id.lvSurveyFamilyActivity_Survey);
+        ListView list = (ListView) findViewById(R.id.lvSurveyActivity_Question);
 
         //Initialisation de la liste avec les données
         list.setAdapter(adapter);
@@ -62,7 +70,10 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
 
     private ArrayList<String> getListChoixQuestion() {
         //Récupération de la liste
-        return this.survey.getQuestions().get(survey.getQuestionInProgress()).getChoix();
+        int questionInProgress = survey.getQuestionInProgress();
+        ArrayList<Question> questions = this.survey.getQuestions();
+        Question question = questions.get(questionInProgress);
+        return question.getChoix();
     }
 
     @Override
