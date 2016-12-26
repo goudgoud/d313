@@ -3,11 +3,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:background="@drawable/list_row_selector"
+    android:orientation="vertical"
+    android:padding="8dp">
 
     <TextView
         android:id="@+id/lvMain_SurveyFamily_tvText"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_marginTop="1dip"
+        android:textSize="@dimen/title"
+        android:textStyle="bold" />
 
 </LinearLayout>

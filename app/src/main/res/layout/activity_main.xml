@@ -13,7 +13,10 @@
     <ListView
         android:id="@+id/lvMainActivity_Qcm"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:divider="@color/list_divider"
+        android:dividerHeight="1dp"
+        android:listSelector="@drawable/list_row_selector" />
 
     <TextView
         android:id="@+id/tvMainActivity_MessageSystem"
