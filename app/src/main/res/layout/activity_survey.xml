@@ -8,13 +8,16 @@
         android:id="@+id/tvSurveyActivity_MessageSystem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:gravity="end"
+        android:text=""
+        android:textSize="@dimen/text" />
 
     <TextView
         android:id="@+id/tvSurveyActivity_Question_Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:text=""
+        android:textSize="@dimen/answer" />
 
     <ListView
         android:id="@+id/lvSurveyActivity_Question"

@@ -23,7 +23,9 @@ public class AnswerAdapter extends QuestionAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
+
         LinearLayout layoutItem;
+
         //(1) : Réutilisation des layouts
         if (convertView == null) {
             //Initialisation de notre item à partir du  layout XML
@@ -43,12 +45,10 @@ public class AnswerAdapter extends QuestionAdapter {
         ImageView imageView = (ImageView) layoutItem.findViewById(R.id.lvQuestion_img);
         int questionInProgress = surveyActivity.getSurvey().getQuestionInProgress();
         Question question = surveyActivity.getSurvey().getQuestions().get(questionInProgress);
-        if (position == question.getResponse()) {
-            if (position == question.getCorrect()) {
-                imageView.setImageResource(R.drawable.ic_ok);
-            } else {
-                imageView.setImageResource(R.drawable.ic_no);
-            }
+        if (position == question.getCorrect()) {
+            imageView.setImageResource(R.drawable.ic_ok);
+        } else if (position == question.getResponse()) {
+            imageView.setImageResource(R.drawable.ic_no);
         }
 
         //On mémorise la position dans le composant textview

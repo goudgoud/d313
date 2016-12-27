@@ -3,9 +3,9 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
 
-    <dimen name="title">17dp</dimen>
-    <dimen name="rating">15dip</dimen>
-    <dimen name="genre">13dip</dimen>
-    <dimen name="year">12dip</dimen>
+    <dimen name="title">17sp</dimen>
+    <dimen name="question">15sp</dimen>
+    <dimen name="answer">13sp</dimen>
+    <dimen name="text">15sp</dimen>
 
 </resources>

@@ -51,9 +51,10 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
     private void showAnswer() {
         AnswerAdapter adapter = new AnswerAdapter(this, getListChoixQuestion());
         initView(adapter);
+        adapter.notifyDataSetChanged();
     }
 
-    private void initView(QuestionAdapter adapter) {
+    private void initView(ListAdapter adapter) {
 
         TextView tv = (TextView) findViewById(R.id.tvSurveyActivity_Question_Title);
         int questionInProgress = survey.getQuestionInProgress();
@@ -61,11 +62,18 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         Question question = questions.get(questionInProgress);
         tv.setText(question.getTitre());
 
+        TextView tvSystem = (TextView) findViewById(R.id.tvSurveyActivity_MessageSystem);
+        String msg = new Integer(questionInProgress + 1).toString()
+                + "/"
+                + new Integer(questions.size() + 1).toString();
+        tvSystem.setText(msg);
+
         //Récupération du composant ListView
         ListView list = (ListView) findViewById(R.id.lvSurveyActivity_Question);
 
         //Initialisation de la liste avec les données
         list.setAdapter(adapter);
+
     }
 
     private ArrayList<String> getListChoixQuestion() {
@@ -78,10 +86,18 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
 
     @Override
     public void onClickQuestion(String item, int position) {
-        showAnswer();
-        int questionInProgress = this.survey.getQuestionInProgress() + 1;
-        this.survey.setQuestionInProgress(questionInProgress);
+        int questionInProgress = this.survey.getQuestionInProgress();
 
+        Question question = survey.getQuestions().get(questionInProgress);
+        if (position == question.getCorrect()) {
+            survey.setScore(survey.getScore() + 1);
+        }
+        question.setResponse(position);
+
+        showAnswer();
+
+        questionInProgress++;
+        this.survey.setQuestionInProgress(questionInProgress);
     }
 
 
