@@ -87,13 +87,14 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
     @Override
     public void onClickQuestion(String item, int position) {
         int questionInProgress = this.survey.getQuestionInProgress();
-
-        Question question = survey.getQuestions().get(questionInProgress);
+        ArrayList<Question> questions = survey.getQuestions();
+        Question question = questions.get(questionInProgress);
         if (position == question.getCorrect()) {
-            survey.setScore(survey.getScore() + 1);
+            this.survey.setScore(survey.getScore() + 1);
         }
         question.setResponse(position);
-
+        questions.set(questionInProgress, question);
+        this.survey.setQuestions(questions);
         showAnswer();
 
         questionInProgress++;
