@@ -10,7 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+
+import static goudard.david.qcm.SurveyActivity.KEY_FROM_SURVEY;
 
 /**
  * Created by david on 23/12/16.
@@ -96,6 +99,20 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Resources res = getResources();
+        if (requestCode == RQC_SURVEY && resultCode == RESULT_OK) {
+            Survey survey = (Survey) data.getSerializableExtra(KEY_FROM_SURVEY);
+            // store survey updated
+            this.surveyFamily.getQuestionnaire().set(
+                this.surveyFamily.getQuestionnaire().indexOf(survey),
+                    survey);
+        }
     }
 
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra(KEY_FROM_SURVEY_FAMILY, this.surveyFamily);
+        setResult(RESULT_OK, intent);
+        super.finish();
+    }
 }

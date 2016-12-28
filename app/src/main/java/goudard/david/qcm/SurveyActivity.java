@@ -1,19 +1,23 @@
 package goudard.david.qcm;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+
+import static goudard.david.qcm.SurveyFamilyActivity.RQC_SURVEY;
 
 /**
  * Created by david on 24/12/16.
  */
 
 public class SurveyActivity extends AppCompatActivity implements QuestionAdapterListenerInterface {
-
+    public static final String KEY_FROM_SURVEY = "KEY_FROM_SURVEY";
     private Survey survey;
 
     public Survey getSurvey() {
@@ -36,6 +40,23 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
     protected void onStart() {
         super.onStart();
         showQuestion();
+    }
+
+    protected void onPause() {
+        super.onPause();
+        SerializableManager.saveSerializable(this, this.survey, "survey.er");
+    }
+
+    protected void onResume() {
+        super.onResume();
+        try {
+            Survey survey = (Survey) SerializableManager.readSerializable(this, "survey.er");
+            this.survey = survey;
+            SerializableManager.removeSerializable(this,"survey.er");
+        }
+        catch (Exception e) {
+
+        }
     }
 
     private void showQuestion() {
@@ -101,5 +122,12 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         this.survey.setQuestionInProgress(questionInProgress);
     }
 
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra(KEY_FROM_SURVEY, (Serializable) this.survey);
+        setResult(RESULT_OK, intent);
+        super.finish();
+    }
 
 }
