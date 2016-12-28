@@ -2,7 +2,9 @@ package goudard.david.qcm;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +15,8 @@ import android.widget.TextView;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Objects;
 
 import static goudard.david.qcm.SurveyActivity.KEY_FROM_SURVEY;
 import static goudard.david.qcm.SurveyFamilyActivity.KEY_FROM_SURVEY_FAMILY;
@@ -101,14 +105,24 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         startActivityForResult(myIntent, RQC_SURVEY_FAMILY);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Resources res = getResources();
         if (requestCode == RQC_SURVEY_FAMILY && resultCode == RESULT_OK) {
             SurveyFamily surveyFamily = (SurveyFamily) data.getSerializableExtra(KEY_FROM_SURVEY_FAMILY);
             // store surveyFamily updated
-            this.qcm.getFamilleQuestionnaire().set(
-                    this.qcm.getFamilleQuestionnaire().indexOf(surveyFamily),
-                    surveyFamily);
+            // store survey updated
+            ArrayList<SurveyFamily> familleQuestionnaires = this.qcm.getFamilleQuestionnaire();
+            Iterator iterator = familleQuestionnaires.iterator();
+            int idx = -1;
+            while (iterator.hasNext()) {
+                idx++;
+                if (Objects.equals(familleQuestionnaires.get(idx).getName(), surveyFamily.getName())) {
+                    familleQuestionnaires.set(idx, surveyFamily);
+                    this.qcm.setFamilleQuestionnaire(familleQuestionnaires);
+                    break;
+                }
+            }
         }
     }
 

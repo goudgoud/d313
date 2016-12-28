@@ -42,16 +42,16 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         showQuestion();
     }
 
-    protected void onPause() {
-        super.onPause();
+    protected void onStop() {
+        super.onStop();
         SerializableManager.saveSerializable(this, this.survey, "survey.er");
     }
 
-    protected void onResume() {
-        super.onResume();
+    protected void onRestart() {
+        super.onRestart();
         try {
             Survey survey = (Survey) SerializableManager.readSerializable(this, "survey.er");
-            this.survey = survey;
+            if (survey != null) this.survey = survey;
             SerializableManager.removeSerializable(this,"survey.er");
         }
         catch (Exception e) {

@@ -3,7 +3,9 @@ package goudard.david.qcm;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -12,6 +14,8 @@ import android.widget.ListView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Objects;
 
 import static goudard.david.qcm.SurveyActivity.KEY_FROM_SURVEY;
 
@@ -97,14 +101,23 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
         startActivityForResult(myIntent, RQC_SURVEY);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Resources res = getResources();
         if (requestCode == RQC_SURVEY && resultCode == RESULT_OK) {
             Survey survey = (Survey) data.getSerializableExtra(KEY_FROM_SURVEY);
             // store survey updated
-            this.surveyFamily.getQuestionnaire().set(
-                this.surveyFamily.getQuestionnaire().indexOf(survey),
-                    survey);
+            ArrayList<Survey> questionnaires = this.surveyFamily.getQuestionnaire();
+            Iterator iterator = questionnaires.iterator();
+            int idx = -1;
+            while (iterator.hasNext()) {
+                idx++;
+                if (Objects.equals(questionnaires.get(idx).getCode(), survey.getCode())) {
+                    questionnaires.set(idx, survey);
+                    this.surveyFamily.setQuestionnaire(questionnaires);
+                    break;
+                }
+            }
         }
     }
 
