@@ -60,7 +60,13 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
 
         // Si preférence est de pouvoir refaire un questionnaire et si questionnaire commencé,
         // alors afficher demander si continuer ou recommencer questionnaire
-        surveyRestartDialog(item);
+        if (item.getQuestionInProgress() > 0) {
+            surveyRestartDialog(item);
+        }
+        else {
+            item.reset();
+            launchSurvey(item);
+        }
     }
 
     private void surveyRestartDialog(final Survey survey) {
