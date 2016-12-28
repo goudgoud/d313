@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
@@ -92,7 +91,7 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
                 launchSurvey(survey);
             }
         });
-        //On crée un bouton "Recommencer" à notre AlertDialog et on lui affecte un évènement
+        //On crée un bouton "Continuer" à notre AlertDialog et on lui affecte un évènement
         adb.setNegativeButton(R.string.resume, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 launchSurvey(survey);
