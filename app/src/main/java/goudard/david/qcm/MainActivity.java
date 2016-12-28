@@ -33,12 +33,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
         TextView tv = getTvMessageSystem();
         try {
             this.qcm = QcmStorageManager.loadQcm(this);
@@ -47,10 +42,23 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                 this.qcm = QcmStorageManager.downloadQcm(this);
                 QcmStorageManager.saveQcm(this, this.qcm);
             }
-            initListView_Qcm();
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initListView_Qcm();
+    }
+
+    protected void onRestart() {
+        super.onRestart();
+        this.qcm = QcmStorageManager.loadQcm(this);
     }
 
     @Override
@@ -120,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                 if (Objects.equals(familleQuestionnaires.get(idx).getName(), surveyFamily.getName())) {
                     familleQuestionnaires.set(idx, surveyFamily);
                     this.qcm.setFamilleQuestionnaire(familleQuestionnaires);
+                    QcmStorageManager.saveQcm(this, this.qcm);
                     break;
                 }
             }
