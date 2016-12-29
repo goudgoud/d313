@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
 
     private TextView tvMessageSystem = null;
     private Qcm qcm;
-    //private SurveyFamily surveyFamily;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                 return true;
             }
         }
-
         return super.onOptionsItemSelected(item);
     }
 

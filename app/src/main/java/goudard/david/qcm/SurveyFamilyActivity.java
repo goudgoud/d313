@@ -2,9 +2,12 @@ package goudard.david.qcm;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -16,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
+import static goudard.david.qcm.R.string.pref_qcm_restart;
 import static goudard.david.qcm.SurveyActivity.KEY_FROM_SURVEY;
 
 /**
@@ -27,12 +31,13 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
     public static final String KEY_FROM_SURVEY_FAMILY = "KEY_FROM_SURVEY_FAMILY";
     public static final int RQC_SURVEY = 3001;
     private SurveyFamily surveyFamily;
+    private SharedPreferences sharedPreferences;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         this.surveyFamily = (SurveyFamily) getIntent().getSerializableExtra(MainActivity.KEY_FROM_MAIN);
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences (this.getBaseContext());
         setContentView(R.layout.activity_survey_family);
         this.initListView();
     }
@@ -57,14 +62,32 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
     @Override
     public void onClickSurvey(Survey item, int position) {
 
+        final boolean bCanRestart;
+
         // Si preférence est de pouvoir refaire un questionnaire et si questionnaire commencé,
         // alors afficher demander si continuer ou recommencer questionnaire
+        if (this.sharedPreferences.contains(String.valueOf(pref_qcm_restart))) {
+            bCanRestart = this.sharedPreferences.getBoolean(String.valueOf(pref_qcm_restart), true);
+        }
+        else {
+            bCanRestart = true;
+        }
 
         if (item.getQuestionInProgress()>=item.getQuestions().size()) {
-            surveyRestartDialog(item);
+            if (bCanRestart) {
+                surveyRestartDialog(item);
+            }
+            else {
+
+            }
         }
         else if (item.getQuestionInProgress() > 0) {
-            surveyRestartResumeDialog(item);
+            if (bCanRestart) {
+                surveyRestartResumeDialog(item);
+            }
+            else {
+                launchSurvey(item);
+            }
         }
         else {
             item.reset();
