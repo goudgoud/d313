@@ -63,34 +63,35 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
     private void showQuestion() {
         //Création et initialisation de l'Adapter
         //Récupération de la liste
-        QuestionAdapter adapter = new QuestionAdapter(this, getListChoixQuestion());
+        int questionToShow  = this.survey.getQuestionInProgress();
+        QuestionAdapter adapter = new QuestionAdapter(this, getListChoixQuestion(questionToShow));
         //Ecoute des évènements sur la liste
         adapter.addListener(this);
-        initView(adapter);
+        initView(adapter, questionToShow);
         adapter.notifyDataSetChanged();
     }
 
     private void showAnswer() {
-        AnswerAdapter adapter = new AnswerAdapter(this, getListChoixQuestion());
         Button button = (Button) findViewById(R.id.btnSurveyActivity_ButtonNext);
-        int question = this.survey.getQuestionInProgress();
-        if (question + 1 >= this.survey.getQuestions().size()) {
+        int questionToShow = this.survey.getQuestionInProgress() - 1;
+        AnswerAdapter adapter = new AnswerAdapter(this, getListChoixQuestion(questionToShow));
+        if (questionToShow + 1 >= this.survey.getQuestions().size()) {
             button.setText(R.string.Finish);
         }
         button.setVisibility(View.VISIBLE);
-        initView(adapter);
+        initView(adapter, questionToShow);
         adapter.notifyDataSetChanged();
     }
 
-    private void initView(ListAdapter adapter) {
+    private void initView(ListAdapter adapter, int questionToShow) {
         TextView tv = (TextView) findViewById(R.id.tvSurveyActivity_Question_Title);
-        int questionInProgress = survey.getQuestionInProgress();
+        //int questionInProgress = survey.getQuestionInProgress();
         ArrayList<Question> questions = this.survey.getQuestions();
-        Question question = questions.get(questionInProgress);
+        Question question = questions.get(questionToShow);
         tv.setText(question.getTitre());
 
         TextView tvSystem = (TextView) findViewById(R.id.tvSurveyActivity_MessageSystem);
-        String msg = new Integer(questionInProgress + 1).toString()
+        String msg = new Integer(questionToShow + 1).toString()
                 + "/"
                 + new Integer(questions.size()).toString();
         tvSystem.setText(msg);
@@ -103,11 +104,10 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
 
     }
 
-    private ArrayList<String> getListChoixQuestion() {
+    private ArrayList<String> getListChoixQuestion(int questionToShow) {
         //Récupération de la liste
-        int questionInProgress = survey.getQuestionInProgress();
         ArrayList<Question> questions = this.survey.getQuestions();
-        Question question = questions.get(questionInProgress);
+        Question question = questions.get(questionToShow);
         return question.getChoix();
     }
 
@@ -137,7 +137,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
 
     public void onClickNext(View v) {
         int question = this.survey.getQuestionInProgress();
-        if (question + 1 >= this.survey.getQuestions().size()) {
+        if (question + 1 > this.survey.getQuestions().size()) {
             this.finish();
         }
         else {
