@@ -9,4 +9,6 @@
     <string name="restart">Restart</string>
     <string name="resume">Resume</string>
     <string name="next">Next</string>
+    <string name="restartSurvey">Are you want to restart the survey ?</string>
+    <string name="restartSurveyTitle">Restart survey</string>
 </resources>

@@ -59,8 +59,12 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
 
         // Si preférence est de pouvoir refaire un questionnaire et si questionnaire commencé,
         // alors afficher demander si continuer ou recommencer questionnaire
-        if (item.getQuestionInProgress() > 0) {
+
+        if (item.getQuestionInProgress()>=item.getQuestions().size()) {
             surveyRestartDialog(item);
+        }
+        else if (item.getQuestionInProgress() > 0) {
+            surveyRestartResumeDialog(item);
         }
         else {
             item.reset();
@@ -68,7 +72,26 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
         }
     }
 
-    private void surveyRestartDialog(final Survey survey) {
+    private void surveyRestartDialog(final Survey item) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.restartSurveyTitle)
+                .setMessage(R.string.restartSurvey)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        item.reset();
+                        launchSurvey(item);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    private void surveyRestartResumeDialog(final Survey survey) {
         final boolean[] response = new boolean[1];
 
         // instancie layout en tant que View
