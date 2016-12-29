@@ -66,14 +66,14 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
 
         // Si preférence est de pouvoir refaire un questionnaire et si questionnaire commencé,
         // alors afficher demander si continuer ou recommencer questionnaire
-        if (this.sharedPreferences.contains(String.valueOf(pref_qcm_restart))) {
-            bCanRestart = this.sharedPreferences.getBoolean(String.valueOf(pref_qcm_restart), true);
-        }
-        else {
-            bCanRestart = true;
-        }
+//        if (this.sharedPreferences.contains(String.valueOf(pref_qcm_restart))) {
+            bCanRestart = this.sharedPreferences.getBoolean("pref_qcm_restart", true);
+//        }
+//        else {
+//            bCanRestart = true;
+//        }
 
-        if (item.getQuestionInProgress()>=item.getQuestions().size()) {
+        if (item.getQuestionInProgress()+1>=item.getQuestions().size()) {
             if (bCanRestart) {
                 surveyRestartDialog(item);
             }

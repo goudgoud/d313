@@ -41,7 +41,7 @@ public class AnswerAdapter extends QuestionAdapter {
         // positionne réponse
         SurveyActivity surveyActivity = (SurveyActivity) mContext;
         ImageView imageView = (ImageView) layoutItem.findViewById(R.id.lvQuestion_img);
-        int questionInProgress = surveyActivity.getSurvey().getQuestionInProgress() - 1;
+        int questionInProgress = surveyActivity.getSurvey().getQuestionInProgress();
         Question question = surveyActivity.getSurvey().getQuestions().get(questionInProgress);
         if (position == question.getCorrect()) {
             imageView.setImageResource(R.drawable.ic_ok);

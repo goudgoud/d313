@@ -69,12 +69,12 @@ public class SurveyAdapter extends BaseAdapter {
         // si questionnaire terminé, et que l'on ne peut le refaire
         boolean bCanRestart;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        if (sharedPreferences.contains(String.valueOf(pref_qcm_restart))) {
-            bCanRestart = sharedPreferences.getBoolean(String.valueOf(pref_qcm_restart), true);
-        }
-        else {
-            bCanRestart = true;
-        }
+        //if (sharedPreferences.contains("pref_qcm_restart")) {
+            bCanRestart = sharedPreferences.getBoolean("pref_qcm_restart", true);
+        //}
+        //else {
+        //    bCanRestart = true;
+        //}
 
         if (mListSurvey.get(position).getQuestionInProgress() >= mListSurvey.get(position).getQuestions().size()) {
             if (!bCanRestart) {

@@ -34,9 +34,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         this.survey = (Survey) getIntent().getSerializableExtra(SurveyFamilyActivity.KEY_FROM_SURVEY_FAMILY);
-
         setContentView(R.layout.activity_survey);
     }
 
@@ -69,19 +67,22 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         //Ecoute des évènements sur la liste
         adapter.addListener(this);
         initView(adapter);
-
+        adapter.notifyDataSetChanged();
     }
 
     private void showAnswer() {
         AnswerAdapter adapter = new AnswerAdapter(this, getListChoixQuestion());
         Button button = (Button) findViewById(R.id.btnSurveyActivity_ButtonNext);
+        int question = this.survey.getQuestionInProgress();
+        if (question + 1 >= this.survey.getQuestions().size()) {
+            button.setText(R.string.Finish);
+        }
         button.setVisibility(View.VISIBLE);
         initView(adapter);
         adapter.notifyDataSetChanged();
     }
 
     private void initView(ListAdapter adapter) {
-
         TextView tv = (TextView) findViewById(R.id.tvSurveyActivity_Question_Title);
         int questionInProgress = survey.getQuestionInProgress();
         ArrayList<Question> questions = this.survey.getQuestions();
@@ -91,7 +92,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         TextView tvSystem = (TextView) findViewById(R.id.tvSurveyActivity_MessageSystem);
         String msg = new Integer(questionInProgress + 1).toString()
                 + "/"
-                + new Integer(questions.size() + 1).toString();
+                + new Integer(questions.size()).toString();
         tvSystem.setText(msg);
 
         //Récupération du composant ListView
@@ -121,10 +122,9 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         question.setResponse(position);
         questions.set(questionInProgress, question);
         this.survey.setQuestions(questions);
-        showAnswer();
-
         questionInProgress++;
         this.survey.setQuestionInProgress(questionInProgress);
+        showAnswer();
     }
 
     @Override
@@ -136,8 +136,14 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
     }
 
     public void onClickNext(View v) {
-        Button button = (Button) findViewById(R.id.btnSurveyActivity_ButtonNext);
-        button.setVisibility(View.INVISIBLE);
-        showQuestion();
+        int question = this.survey.getQuestionInProgress();
+        if (question + 1 >= this.survey.getQuestions().size()) {
+            this.finish();
+        }
+        else {
+            Button button = (Button) findViewById(R.id.btnSurveyActivity_ButtonNext);
+            button.setVisibility(View.INVISIBLE);
+            showQuestion();
+        }
     }
  }
