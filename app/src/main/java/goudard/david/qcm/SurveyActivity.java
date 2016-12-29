@@ -3,6 +3,8 @@ package goudard.david.qcm;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import static goudard.david.qcm.R.id.btnSurveyActivity_ButtonNext;
 import static goudard.david.qcm.SurveyFamilyActivity.RQC_SURVEY;
 
 /**
@@ -71,6 +74,8 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
 
     private void showAnswer() {
         AnswerAdapter adapter = new AnswerAdapter(this, getListChoixQuestion());
+        Button button = (Button) findViewById(R.id.btnSurveyActivity_ButtonNext);
+        button.setVisibility(View.VISIBLE);
         initView(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -130,4 +135,9 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         super.finish();
     }
 
-}
+    public void onClickNext(View v) {
+        Button button = (Button) findViewById(R.id.btnSurveyActivity_ButtonNext);
+        button.setVisibility(View.INVISIBLE);
+        showQuestion();
+    }
+ }

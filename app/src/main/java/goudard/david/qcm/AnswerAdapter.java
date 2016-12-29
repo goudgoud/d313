@@ -1,15 +1,13 @@
 package goudard.david.qcm;
 
 import android.content.Context;
-import android.view.LayoutInflater;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -47,8 +45,12 @@ public class AnswerAdapter extends QuestionAdapter {
         Question question = surveyActivity.getSurvey().getQuestions().get(questionInProgress);
         if (position == question.getCorrect()) {
             imageView.setImageResource(R.drawable.ic_ok);
-        } else if (position == question.getResponse()) {
-            imageView.setImageResource(R.drawable.ic_no);
+            tvQuestionChoix.setTextColor(Color.GREEN);
+        } else {
+            if (position == question.getResponse()) {
+                imageView.setImageResource(R.drawable.ic_no);
+                tvQuestionChoix.setTextColor(Color.RED);
+            }
         }
 
         //On mémorise la position dans le composant textview
