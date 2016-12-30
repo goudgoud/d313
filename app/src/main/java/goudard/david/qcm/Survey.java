@@ -80,7 +80,7 @@ public class Survey implements Serializable {
 
     public Survey setQuestionInProgress(int questionInProgress) {
         this.questionInProgress = questionInProgress;
-        if (questionInProgress > questions.size()) {
+        if (questionInProgress >= questions.size()) {
             this.questionInProgress = questions.size();
         } else {
             this.questionInProgress = questionInProgress;

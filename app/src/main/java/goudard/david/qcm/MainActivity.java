@@ -2,7 +2,9 @@ package goudard.david.qcm;
 
 import android.content.Intent;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +15,11 @@ import android.widget.TextView;
 import org.json.JSONException;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Objects;
+
+import static goudard.david.qcm.SurveyActivity.KEY_FROM_SURVEY;
+import static goudard.david.qcm.SurveyFamilyActivity.KEY_FROM_SURVEY_FAMILY;
 
 public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapterListenerInterface {
 
@@ -21,17 +28,11 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
 
     private TextView tvMessageSystem = null;
     private Qcm qcm;
-    private SurveyFamily surveyFamily;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
         TextView tv = getTvMessageSystem();
         try {
             this.qcm = QcmStorageManager.loadQcm(this);
@@ -40,10 +41,29 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                 this.qcm = QcmStorageManager.downloadQcm(this);
                 QcmStorageManager.saveQcm(this, this.qcm);
             }
-            initListView_Qcm();
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        initListView_Qcm();
+    }
+
+    protected void onRestart() {
+        super.onRestart();
+        this.qcm = QcmStorageManager.loadQcm(this);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        QcmStorageManager.saveQcm(this, this.qcm);
     }
 
     private void initListView_Qcm() {
@@ -73,7 +93,6 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                 return true;
             }
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -87,13 +106,31 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
 
     public void onClickSurveyFamily(SurveyFamily item, int position) {
         Intent myIntent = new Intent(MainActivity.this, SurveyFamilyActivity.class);
-        this.surveyFamily = item;
+        //this.surveyFamily = item;
         myIntent.putExtra(KEY_FROM_MAIN, item);
         startActivityForResult(myIntent, RQC_SURVEY_FAMILY);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Resources res = getResources();
+        if (requestCode == RQC_SURVEY_FAMILY && resultCode == RESULT_OK) {
+            SurveyFamily surveyFamily = (SurveyFamily) data.getSerializableExtra(KEY_FROM_SURVEY_FAMILY);
+            // store surveyFamily updated
+            // store survey updated
+            ArrayList<SurveyFamily> familleQuestionnaires = this.qcm.getFamilleQuestionnaire();
+            Iterator iterator = familleQuestionnaires.iterator();
+            int idx = -1;
+            while (iterator.hasNext()) {
+                idx++;
+                if (Objects.equals(familleQuestionnaires.get(idx).getName(), surveyFamily.getName())) {
+                    familleQuestionnaires.set(idx, surveyFamily);
+                    this.qcm.setFamilleQuestionnaire(familleQuestionnaires);
+                    QcmStorageManager.saveQcm(this, this.qcm);
+                    break;
+                }
+            }
+        }
     }
 
     public TextView getTvMessageSystem() {

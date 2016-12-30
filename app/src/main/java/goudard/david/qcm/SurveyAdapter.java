@@ -1,6 +1,8 @@
 package goudard.david.qcm;
 
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +12,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static goudard.david.qcm.R.string.pref_qcm_restart;
 
 /**
  * Created by david on 23/12/16.
@@ -60,6 +64,22 @@ public class SurveyAdapter extends BaseAdapter {
             layoutItem = (LinearLayout) mInflater.inflate(R.layout.activity_survey_family_listview_survey, parent, false);
         } else {
             layoutItem = (LinearLayout) convertView;
+        }
+
+        // si questionnaire terminé, et que l'on ne peut le refaire
+        boolean bCanRestart;
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+        //if (sharedPreferences.contains("pref_qcm_restart")) {
+            bCanRestart = sharedPreferences.getBoolean("pref_qcm_restart", true);
+        //}
+        //else {
+        //    bCanRestart = true;
+        //}
+
+        if (mListSurvey.get(position).getQuestionInProgress() >= mListSurvey.get(position).getQuestions().size()) {
+            if (!bCanRestart) {
+                layoutItem.setEnabled(false);
+            }
         }
 
         //(2) : Récupération des TextView du layout

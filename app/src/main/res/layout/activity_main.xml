@@ -10,15 +10,29 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="goudard.david.qcm.MainActivity">
 
+    <TextView
+        android:id="@+id/tvMainActivity_Title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Please select a subject"
+        android:textSize="20sp"
+        android:paddingBottom="4dp" />
+
     <ListView
         android:id="@+id/lvMainActivity_Qcm"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:divider="@color/list_divider"
+        android:dividerHeight="1dp"
+        android:listSelector="@drawable/list_row_selector"
+        android:layout_marginTop="25dp" />
 
     <TextView
         android:id="@+id/tvMainActivity_MessageSystem"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:text=""
+        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@+id/lvMainActivity_Qcm"/>
 
 </RelativeLayout>

@@ -2,8 +2,13 @@ package goudard.david.qcm;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.PreferenceManager;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -11,6 +16,11 @@ import android.view.View;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.Objects;
+
+import static goudard.david.qcm.R.string.pref_qcm_restart;
+import static goudard.david.qcm.SurveyActivity.KEY_FROM_SURVEY;
 
 /**
  * Created by david on 23/12/16.
@@ -21,12 +31,13 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
     public static final String KEY_FROM_SURVEY_FAMILY = "KEY_FROM_SURVEY_FAMILY";
     public static final int RQC_SURVEY = 3001;
     private SurveyFamily surveyFamily;
+    private SharedPreferences sharedPreferences;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         this.surveyFamily = (SurveyFamily) getIntent().getSerializableExtra(MainActivity.KEY_FROM_MAIN);
-
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences (this.getBaseContext());
         setContentView(R.layout.activity_survey_family);
         this.initListView();
     }
@@ -51,12 +62,59 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
     @Override
     public void onClickSurvey(Survey item, int position) {
 
+        final boolean bCanRestart;
+
         // Si preférence est de pouvoir refaire un questionnaire et si questionnaire commencé,
         // alors afficher demander si continuer ou recommencer questionnaire
-        surveyRestartDialog(item);
+//        if (this.sharedPreferences.contains(String.valueOf(pref_qcm_restart))) {
+            bCanRestart = this.sharedPreferences.getBoolean("pref_qcm_restart", true);
+//        }
+//        else {
+//            bCanRestart = true;
+//        }
+
+        if (item.getQuestionInProgress()+1>=item.getQuestions().size()) {
+            if (bCanRestart) {
+                surveyRestartDialog(item);
+            }
+            else {
+
+            }
+        }
+        else if (item.getQuestionInProgress() > 0) {
+            if (bCanRestart) {
+                surveyRestartResumeDialog(item);
+            }
+            else {
+                launchSurvey(item);
+            }
+        }
+        else {
+            item.reset();
+            launchSurvey(item);
+        }
     }
 
-    private void surveyRestartDialog(final Survey survey) {
+    private void surveyRestartDialog(final Survey item) {
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.restartSurveyTitle)
+                .setMessage(R.string.restartSurvey)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        item.reset();
+                        launchSurvey(item);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // do nothing
+                    }
+                })
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+    }
+
+    private void surveyRestartResumeDialog(final Survey survey) {
         final boolean[] response = new boolean[1];
 
         // instancie layout en tant que View
@@ -79,7 +137,7 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
                 launchSurvey(survey);
             }
         });
-        //On crée un bouton "Recommencer" à notre AlertDialog et on lui affecte un évènement
+        //On crée un bouton "Continuer" à notre AlertDialog et on lui affecte un évènement
         adb.setNegativeButton(R.string.resume, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 launchSurvey(survey);
@@ -94,8 +152,31 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
         startActivityForResult(myIntent, RQC_SURVEY);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Resources res = getResources();
+        if (requestCode == RQC_SURVEY && resultCode == RESULT_OK) {
+            Survey survey = (Survey) data.getSerializableExtra(KEY_FROM_SURVEY);
+            // store survey updated
+            ArrayList<Survey> questionnaires = this.surveyFamily.getQuestionnaire();
+            Iterator iterator = questionnaires.iterator();
+            int idx = -1;
+            while (iterator.hasNext()) {
+                idx++;
+                if (Objects.equals(questionnaires.get(idx).getCode(), survey.getCode())) {
+                    questionnaires.set(idx, survey);
+                    this.surveyFamily.setQuestionnaire(questionnaires);
+                    break;
+                }
+            }
+        }
     }
 
+    @Override
+    public void finish() {
+        Intent intent = new Intent();
+        intent.putExtra(KEY_FROM_SURVEY_FAMILY, this.surveyFamily);
+        setResult(RESULT_OK, intent);
+        super.finish();
+    }
 }

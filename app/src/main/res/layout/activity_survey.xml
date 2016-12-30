@@ -1,32 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/tvSurveyActivity_MessageSystem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="" />
-
-    <TextView
         android:id="@+id/tvSurveyActivity_Question_Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="" />
+        android:text=""
+        android:textSize="@dimen/answer" />
 
     <ListView
         android:id="@+id/lvSurveyActivity_Question"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp" />
 
     <Button
         android:id="@+id/btnSurveyActivity_ButtonNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="bottom|center_vertical|center_horizontal"
-        android:text="@string/next" />
+        android:gravity="top|center_vertical|center_horizontal"
+        android:text="@string/next"
+        android:layout_gravity="bottom|end"
+        android:visibility="invisible"
+        android:onClick="onClickNext" />
 
+    <TextView
+        android:id="@+id/tvSurveyActivity_MessageSystem"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:text=""
+        android:textSize="@dimen/text" />
 </LinearLayout>

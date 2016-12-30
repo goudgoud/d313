@@ -11,11 +11,12 @@ import org.json.JSONException;
 class QcmStorageManager {
 
     static Qcm loadQcm(Context context) {
-        return (Qcm) SerializableManager.readSerializable(context, "qcm.er");
+        return (Qcm) SerializableManager.readSerializable(context, "qcm.tmp");
     }
 
     static void saveQcm(Context context, Qcm qcm) {
-        SerializableManager.saveSerializable(context, qcm, "qcm.er");
+        SerializableManager.removeSerializable(context, "qcm.tmp");
+        SerializableManager.saveSerializable(context, qcm, "qcm.tmp");
     }
 
     static Qcm downloadQcm(Context context) throws JSONException {

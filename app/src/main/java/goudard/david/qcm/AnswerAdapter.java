@@ -1,15 +1,13 @@
 package goudard.david.qcm;
 
 import android.content.Context;
-import android.view.LayoutInflater;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,7 +21,9 @@ public class AnswerAdapter extends QuestionAdapter {
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
+
         LinearLayout layoutItem;
+
         //(1) : Réutilisation des layouts
         if (convertView == null) {
             //Initialisation de notre item à partir du  layout XML
@@ -41,13 +41,15 @@ public class AnswerAdapter extends QuestionAdapter {
         // positionne réponse
         SurveyActivity surveyActivity = (SurveyActivity) mContext;
         ImageView imageView = (ImageView) layoutItem.findViewById(R.id.lvQuestion_img);
-        int questionInProgress = surveyActivity.getSurvey().getQuestionInProgress();
+        int questionInProgress = surveyActivity.getSurvey().getQuestionInProgress() - 1;
         Question question = surveyActivity.getSurvey().getQuestions().get(questionInProgress);
-        if (position == question.getResponse()) {
-            if (position == question.getCorrect()) {
-                imageView.setImageResource(R.drawable.ic_ok);
-            } else {
+        if (position == question.getCorrect()) {
+            imageView.setImageResource(R.drawable.ic_ok);
+            tvQuestionChoix.setTextColor(Color.GREEN);
+        } else {
+            if (position == question.getResponse()) {
                 imageView.setImageResource(R.drawable.ic_no);
+                tvQuestionChoix.setTextColor(Color.RED);
             }
         }
 
