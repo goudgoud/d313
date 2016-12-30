@@ -1,4 +1,4 @@
-package goudard.david.qcm;
+package goudard.david.qcm.tools;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

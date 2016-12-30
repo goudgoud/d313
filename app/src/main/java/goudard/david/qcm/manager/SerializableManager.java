@@ -1,4 +1,4 @@
-package goudard.david.qcm;
+package goudard.david.qcm.manager;
 
 import android.content.Context;
 

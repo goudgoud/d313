@@ -1,4 +1,4 @@
-package goudard.david.qcm;
+package goudard.david.qcm.adapter;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,6 +9,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
+
+import goudard.david.qcm.entity.Question;
+import goudard.david.qcm.R;
+import goudard.david.qcm.activity.SurveyActivity;
 
 /**
  * Created by david on 24/12/16.

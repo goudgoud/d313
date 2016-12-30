@@ -17,4 +17,5 @@
     <string name="score">Score</string>
     <string name="save">Save</string>
     <string name="select_survey">Select a survey</string>
+    <string name="select_subject">Select a subject</string>
 </resources>

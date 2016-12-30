@@ -13,17 +13,17 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/MyTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SurveyFamilyActivity"></activity>
-        <activity android:name=".SurveyActivity"></activity>
+        <activity android:name=".activity.SurveyFamilyActivity"></activity>
+        <activity android:name=".activity.SurveyActivity"></activity>
         <activity
-            android:name="goudard.david.qcm.MyPreferenceActivity"
+            android:name="goudard.david.qcm.activity.MyPreferenceActivity"
             android:label="Preferences"></activity>
 
     </application>

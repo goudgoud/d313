@@ -1,4 +1,4 @@
-package goudard.david.qcm;
+package goudard.david.qcm.entity;
 
 import java.io.Serializable;
 import java.util.ArrayList;

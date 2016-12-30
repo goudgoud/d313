@@ -1,9 +1,9 @@
-package goudard.david.qcm;
+package goudard.david.qcm.adapter;
 
 /**
  * Created by david on 24/12/16.
  */
 
-interface QuestionAdapterListenerInterface {
+public interface QuestionAdapterListenerInterface {
     public void onClickQuestion(String item, int position);
 }

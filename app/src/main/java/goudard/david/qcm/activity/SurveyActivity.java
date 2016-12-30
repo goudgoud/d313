@@ -1,4 +1,4 @@
-package goudard.david.qcm;
+package goudard.david.qcm.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,8 +12,13 @@ import android.widget.TextView;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import static goudard.david.qcm.R.id.btnSurveyActivity_ButtonNext;
-import static goudard.david.qcm.SurveyFamilyActivity.RQC_SURVEY;
+import goudard.david.qcm.adapter.AnswerAdapter;
+import goudard.david.qcm.entity.Question;
+import goudard.david.qcm.adapter.QuestionAdapter;
+import goudard.david.qcm.adapter.QuestionAdapterListenerInterface;
+import goudard.david.qcm.R;
+import goudard.david.qcm.manager.SerializableManager;
+import goudard.david.qcm.entity.Survey;
 
 /**
  * Created by david on 24/12/16.

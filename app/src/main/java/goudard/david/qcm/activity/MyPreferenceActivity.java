@@ -1,9 +1,10 @@
-package goudard.david.qcm;
+package goudard.david.qcm.activity;
 
 import android.preference.PreferenceActivity;
 
 import java.util.List;
 
+import goudard.david.qcm.R;
 import goudard.david.qcm.fragment.MyPreferenceFragment;
 
 /**

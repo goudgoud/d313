@@ -1,4 +1,4 @@
-package goudard.david.qcm;
+package goudard.david.qcm.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,40 +11,42 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import goudard.david.qcm.R;
+
 /**
- * Created by david on 23/12/16.
+ * Created by david on 24/12/16.
  */
 
-public class SurveyFamilyAdapter extends BaseAdapter {
+public class QuestionAdapter extends BaseAdapter {
 
-    // Une liste de familles de questionnaires
-    private List<SurveyFamily> mListSurveyFamilly;
+    // Une liste de questions
+    protected List<String> mListChoix;
 
     //Le contexte dans lequel est présent l' adapter
-    private Context mContext;
+    protected Context mContext;
 
     //Un mécanisme pour gérer l'affichage graphique depuis un layout XML
-    private LayoutInflater mInflater;
+    protected LayoutInflater mInflater;
 
     //Contient la liste des listeners
-    private ArrayList<SurveyFamilyAdapterListenerInterface> mListListener = new ArrayList<SurveyFamilyAdapterListenerInterface>();
+    private ArrayList<QuestionAdapterListenerInterface> mListListener = new ArrayList<QuestionAdapterListenerInterface>();
 
 
-    public SurveyFamilyAdapter(Context context, List<SurveyFamily> aListSurveyFamily) {
+    public QuestionAdapter(Context context, List<String> aListChoix) {
         this.mContext = context;
-        this.mListSurveyFamilly = aListSurveyFamily;
+        this.mListChoix = aListChoix;
         this.mInflater = LayoutInflater.from(mContext);
     }
 
     // Comptage des items
     public int getCount() {
-        return mListSurveyFamilly.size();
+        return mListChoix.size();
     }
 
     // Identification des items
     // par position
     public Object getItem(int position) {
-        return mListSurveyFamilly.get(position);
+        return mListChoix.get(position);
     }
 
     // par id
@@ -56,28 +58,28 @@ public class SurveyFamilyAdapter extends BaseAdapter {
         LinearLayout layoutItem;
         //(1) : Réutilisation des layouts
         if (convertView == null) {
-            //Initialisation de notre item à partir du  layout XML "personne_layout.xml"
-            layoutItem = (LinearLayout) mInflater.inflate(R.layout.activity_main_listview_qcm, parent, false);
+            //Initialisation de notre item à partir du  layout XML
+            layoutItem = (LinearLayout) mInflater.inflate(R.layout.activity_survey_listview_question, parent, false);
         } else {
             layoutItem = (LinearLayout) convertView;
         }
 
         //(2) : Récupération des TextView du layout
-        TextView tvSurveyFamily = (TextView) layoutItem.findViewById(R.id.lvMain_SurveyFamily_tvText);
+        TextView tvQuestion = (TextView) layoutItem.findViewById(R.id.lvSurvey_Question_tvText);
 
         //(3) : Renseignement des valeurs
-        tvSurveyFamily.setText(mListSurveyFamilly.get(position).getName());
+        tvQuestion.setText(mListChoix.get(position));
 
         //On mémorise la position dans le composant textview
-        tvSurveyFamily.setTag(position);
+        tvQuestion.setTag(position);
         //On ajoute un listener
-        tvSurveyFamily.setOnClickListener(new View.OnClickListener() {
+        tvQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Lorsque l'on clique sur le nom, on récupère la position de la "SurveyFamily"
+                //Lorsque l'on clique sur le nom, on récupère la position de la "Survey"
                 Integer position = (Integer) v.getTag();
-                //On prévient les listeners qu'il y a eu un clic sur le TextView "TV_Nom".
-                sendListener(mListSurveyFamilly.get(position), position);
+                //On prévient les listeners qu'il y a eu un clic sur le TextView
+                sendListener(mListChoix.get(position), position);
             }
         });
 
@@ -93,13 +95,13 @@ public class SurveyFamilyAdapter extends BaseAdapter {
     /**
      * Pour ajouter un listener sur notre adapter
      */
-    public void addListener(SurveyFamilyAdapterListenerInterface aListener) {
+    public void addListener(QuestionAdapterListenerInterface aListener) {
         mListListener.add(aListener);
     }
 
-    private void sendListener(SurveyFamily item, int position) {
+    private void sendListener(String item, int position) {
         for (int i = mListListener.size() - 1; i >= 0; i--) {
-            mListListener.get(i).onClickSurveyFamily(item, position);
+            mListListener.get(i).onClickQuestion(item, position);
         }
     }
 }

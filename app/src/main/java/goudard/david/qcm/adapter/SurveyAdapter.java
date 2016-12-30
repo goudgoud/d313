@@ -1,4 +1,4 @@
-package goudard.david.qcm;
+package goudard.david.qcm.adapter;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -13,7 +13,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import static goudard.david.qcm.R.string.pref_qcm_restart;
+import goudard.david.qcm.R;
+import goudard.david.qcm.entity.Survey;
 
 /**
  * Created by david on 23/12/16.

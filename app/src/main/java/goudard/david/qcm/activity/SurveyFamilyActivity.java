@@ -1,4 +1,4 @@
-package goudard.david.qcm;
+package goudard.david.qcm.activity;
 
 import android.annotation.TargetApi;
 import android.content.DialogInterface;
@@ -18,7 +18,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
-import static goudard.david.qcm.SurveyActivity.KEY_FROM_SURVEY;
+import goudard.david.qcm.R;
+import goudard.david.qcm.entity.Survey;
+import goudard.david.qcm.adapter.SurveyAdapter;
+import goudard.david.qcm.adapter.SurveyAdapterListenerInterface;
+import goudard.david.qcm.entity.SurveyFamily;
+
+import static goudard.david.qcm.activity.SurveyActivity.KEY_FROM_SURVEY;
 
 /**
  * Created by david on 23/12/16.

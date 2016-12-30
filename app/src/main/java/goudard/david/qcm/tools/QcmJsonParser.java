@@ -1,4 +1,4 @@
-package goudard.david.qcm;
+package goudard.david.qcm.tools;
 
 import android.content.Context;
 import android.os.StrictMode;
@@ -18,6 +18,11 @@ import com.android.volley.RequestTickle;
 import com.android.volley.request.JsonObjectRequest;
 import com.android.volley.request.JsonRequest;
 import com.android.volley.toolbox.VolleyTickle;
+
+import goudard.david.qcm.entity.Qcm;
+import goudard.david.qcm.entity.Question;
+import goudard.david.qcm.entity.Survey;
+import goudard.david.qcm.entity.SurveyFamily;
 
 /**
  * Created by david on 19/12/16.

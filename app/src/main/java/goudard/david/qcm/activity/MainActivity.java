@@ -1,4 +1,4 @@
-package goudard.david.qcm;
+package goudard.david.qcm.activity;
 
 import android.annotation.TargetApi;
 import android.content.Intent;
@@ -24,10 +24,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
+import goudard.david.qcm.entity.Qcm;
+import goudard.david.qcm.manager.QcmStorageManager;
+import goudard.david.qcm.R;
+import goudard.david.qcm.entity.SurveyFamily;
+import goudard.david.qcm.adapter.SurveyFamilyAdapter;
+import goudard.david.qcm.adapter.SurveyFamilyAdapterListenerInterface;
 import goudard.david.qcm.fragment.MainInternalFragment;
 
-import static goudard.david.qcm.SurveyActivity.KEY_FROM_SURVEY;
-import static goudard.david.qcm.SurveyFamilyActivity.KEY_FROM_SURVEY_FAMILY;
+import static goudard.david.qcm.activity.SurveyFamilyActivity.KEY_FROM_SURVEY_FAMILY;
 
 public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapterListenerInterface {
     static final String KEY_FROM_MAIN = "KEY_FROM_MAIN";
@@ -140,7 +145,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         switch (item.getItemId()) {
             case R.id.preferences: {
                 Intent intent = new Intent();
-                intent.setClassName(this, "goudard.david.qcm.MyPreferenceActivity");
+                intent.setClassName(this, "goudard.david.qcm.activity.MyPreferenceActivity");
                 startActivity(intent);
                 return true;
             }
