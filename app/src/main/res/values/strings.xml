@@ -13,4 +13,8 @@
     <string name="restartSurveyTitle">Restart survey</string>
     <string name="Finish">Finish</string>
     <string name="download_qcm">Reload Qcm</string>
+    <string name="please_select_a_subject">Select a subject</string>
+    <string name="score">Score</string>
+    <string name="save">Save</string>
+    <string name="select_survey">Select a survey</string>
 </resources>

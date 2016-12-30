@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 
 import goudard.david.qcm.R;
 
-
 /**
  * Created by david on 30/12/16.
  */
@@ -57,11 +56,6 @@ public class MainInternalFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.activity_main_internal_fragment, container, false);
-
-//        card = (CardView) rootView.findViewById(R.id.card);
-
-//        card.setCardBackgroundColor(color);
-
         return rootView;
     }
 

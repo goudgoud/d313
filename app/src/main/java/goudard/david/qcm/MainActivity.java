@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                 AppCompatDelegate.MODE_NIGHT_AUTO);
 
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_with_toolbar);
+        setContentView(R.layout.activity_main);
         TextView tv = getTvMessageSystem();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -84,17 +84,25 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
 
     private void initBottomToolBar() {
         AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
+        assert bottomNavigation != null;
+
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(getString(R.string.download_qcm), R.drawable.ic_action_download, Color.GRAY);
         bottomNavigation.addItem(item1);
 
+        AHBottomNavigationItem item2 = new AHBottomNavigationItem(getString(R.string.score), R.drawable.ic_action_score, Color.GRAY);
+        bottomNavigation.addItem(item2);
+
+        AHBottomNavigationItem item3 = new AHBottomNavigationItem(getString(R.string.save), R.drawable.ic_action_save, Color.GRAY);
+        bottomNavigation.addItem(item3);
+
         bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
         bottomNavigation.setAccentColor(Color.parseColor("#F63D2B"));
-        bottomNavigation.setInactiveColor(Color.parseColor("#747474"));
+        bottomNavigation.setInactiveColor(Color.parseColor("#F63D2B"));
+        //bottomNavigation.setInactiveColor(Color.parseColor("#747474"));
         //  Enables Reveal effect
         bottomNavigation.setColored(true);
         bottomNavigation.setCurrentItem(0);
 
-        bottomNavigation.setCurrentItem(0);
     }
 
     @Override
@@ -117,16 +125,12 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
     private void initListView_Qcm() {
         //Récupération de la liste des personnes
         ArrayList<SurveyFamily> listSurveyFamily = this.qcm.getFamilleQuestionnaire();
-
         //Création et initialisation de l'Adapter pour les personnes
         SurveyFamilyAdapter adapter = new SurveyFamilyAdapter(this, listSurveyFamily);
-
         //Ecoute des évènements sur la liste
         adapter.addListener(this);
-
         //Récupération du composant ListView
         ListView list = (ListView) findViewById(R.id.lvMainActivity_Qcm);
-
         //Initialisation de la liste avec les données
         list.setAdapter(adapter);
     }
@@ -150,7 +154,6 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
-
 
     public void onClickSurveyFamily(SurveyFamily item, int position) {
         Intent myIntent = new Intent(MainActivity.this, SurveyFamilyActivity.class);
