@@ -4,6 +4,8 @@ import android.preference.PreferenceActivity;
 
 import java.util.List;
 
+import goudard.david.qcm.fragment.MyPreferenceFragment;
+
 /**
  * Created by david on 23/12/16.
  */

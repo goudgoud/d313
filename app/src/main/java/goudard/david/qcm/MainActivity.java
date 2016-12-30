@@ -1,16 +1,22 @@
 package goudard.david.qcm;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
+import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
 import org.json.JSONException;
 
@@ -18,22 +24,40 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
+import goudard.david.qcm.fragment.MainInternalFragment;
+
 import static goudard.david.qcm.SurveyActivity.KEY_FROM_SURVEY;
 import static goudard.david.qcm.SurveyFamilyActivity.KEY_FROM_SURVEY_FAMILY;
 
 public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapterListenerInterface {
-
     static final String KEY_FROM_MAIN = "KEY_FROM_MAIN";
     static final int RQC_SURVEY_FAMILY = 101;
-
+    Toolbar toolbar;
     private TextView tvMessageSystem = null;
     private Qcm qcm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
+        AppCompatDelegate.setDefaultNightMode(
+                AppCompatDelegate.MODE_NIGHT_AUTO);
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main_with_toolbar);
         TextView tv = getTvMessageSystem();
+
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        //noinspection ConstantConditions
+        getSupportActionBar().setTitle(getString(R.string.app_name));
+
+        initFragment();
+        initBottomToolBar();
+        loadQcm();
+
+    }
+
+    private void loadQcm() {
         try {
             this.qcm = QcmStorageManager.loadQcm(this);
             // if qcm doesn't exist on disk, load from internet
@@ -45,8 +69,32 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
 
-        setContentView(R.layout.activity_main);
+    private void initFragment() {
+        final MainInternalFragment fragment = new MainInternalFragment();
+        Bundle bundle = new Bundle();
+        fragment.setArguments(bundle);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.mainActivityframe, fragment, "square")
+                .commit();
+    }
+
+    private void initBottomToolBar() {
+        AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(getString(R.string.download_qcm), R.drawable.ic_action_download, Color.GRAY);
+        bottomNavigation.addItem(item1);
+
+        bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
+        bottomNavigation.setAccentColor(Color.parseColor("#F63D2B"));
+        bottomNavigation.setInactiveColor(Color.parseColor("#747474"));
+        //  Enables Reveal effect
+        bottomNavigation.setColored(true);
+        bottomNavigation.setCurrentItem(0);
+
+        bottomNavigation.setCurrentItem(0);
     }
 
     @Override
@@ -111,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         startActivityForResult(myIntent, RQC_SURVEY_FAMILY);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Resources res = getResources();
         if (requestCode == RQC_SURVEY_FAMILY && resultCode == RESULT_OK) {

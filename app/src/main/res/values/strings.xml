@@ -12,4 +12,5 @@
     <string name="restartSurvey">Are you want to restart the survey ?</string>
     <string name="restartSurveyTitle">Restart survey</string>
     <string name="Finish">Finish</string>
+    <string name="download_qcm">Reload Qcm</string>
 </resources>

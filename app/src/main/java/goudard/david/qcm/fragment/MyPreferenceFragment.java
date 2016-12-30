@@ -1,7 +1,9 @@
-package goudard.david.qcm;
+package goudard.david.qcm.fragment;
 
 import android.os.Bundle;
 import android.preference.PreferenceFragment;
+
+import goudard.david.qcm.R;
 
 /**
  * Created by david on 23/12/16.

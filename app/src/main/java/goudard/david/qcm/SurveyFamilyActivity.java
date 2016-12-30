@@ -1,14 +1,13 @@
 package goudard.david.qcm;
 
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.Preference;
 import android.preference.PreferenceManager;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
@@ -19,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
 
-import static goudard.david.qcm.R.string.pref_qcm_restart;
 import static goudard.david.qcm.SurveyActivity.KEY_FROM_SURVEY;
 
 /**
@@ -152,12 +150,12 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
         startActivityForResult(myIntent, RQC_SURVEY);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Resources res = getResources();
         if (requestCode == RQC_SURVEY && resultCode == RESULT_OK) {
             Survey survey = (Survey) data.getSerializableExtra(KEY_FROM_SURVEY);
-            // store survey updated
+            // store survey updated    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             ArrayList<Survey> questionnaires = this.surveyFamily.getQuestionnaire();
             Iterator iterator = questionnaires.iterator();
             int idx = -1;
