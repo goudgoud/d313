@@ -18,4 +18,9 @@
     <string name="save">Save</string>
     <string name="select_survey">Select a survey</string>
     <string name="select_subject">Select a subject</string>
+    <string name="please_wait">Please wait</string>
+    <string name="error_download">error while parsing the file status:</string>
+    <string name="error_save">error while saving the qcm:</string>
+    <string name="download_ok">Downloading successfully !</string>
+    <string name="saved">Saved</string>
 </resources>

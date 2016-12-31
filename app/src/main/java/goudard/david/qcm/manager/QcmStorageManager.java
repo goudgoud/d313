@@ -4,6 +4,8 @@ import android.content.Context;
 
 import org.json.JSONException;
 
+import java.io.IOException;
+
 import goudard.david.qcm.tools.Internet;
 import goudard.david.qcm.entity.Qcm;
 import goudard.david.qcm.tools.QcmJsonParser;
@@ -18,9 +20,15 @@ public class QcmStorageManager {
         return (Qcm) SerializableManager.readSerializable(context, "qcm.tmp");
     }
 
-    static public void saveQcm(Context context, Qcm qcm) {
-        SerializableManager.removeSerializable(context, "qcm.tmp");
-        SerializableManager.saveSerializable(context, qcm, "qcm.tmp");
+    static public boolean saveQcm(Context context, Qcm qcm) {
+        try {
+            SerializableManager.removeSerializable(context, "qcm.tmp");
+            SerializableManager.saveSerializable(context, qcm, "qcm.tmp");
+            return true;
+        }
+        catch (Exception e) {
+            return false;
+        }
     }
 
     static public Qcm downloadQcm(Context context) throws JSONException {

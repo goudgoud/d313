@@ -1,25 +1,32 @@
 package goudard.david.qcm.activity;
 
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigation;
 import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
 import org.json.JSONException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
@@ -32,12 +39,58 @@ import goudard.david.qcm.adapter.SurveyFamilyAdapter;
 import goudard.david.qcm.adapter.SurveyFamilyAdapterListenerInterface;
 import goudard.david.qcm.fragment.MainInternalFragment;
 
+import static goudard.david.qcm.R.string.download_qcm;
 import static goudard.david.qcm.activity.SurveyFamilyActivity.KEY_FROM_SURVEY_FAMILY;
 
 public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapterListenerInterface {
+
+    public static final int MSG_ERR = 0;
+    public static final int MSG_CNF = 1;
+    public static final int MSG_IND = 2;
+    public static final String TAG = "MainActivity";
     static final String KEY_FROM_MAIN = "KEY_FROM_MAIN";
     static final int RQC_SURVEY_FAMILY = 101;
+    protected ProgressDialog mProgressDialog;
     Toolbar toolbar;
+
+    ;
+    private Context mContext;
+    /*
+    * Handler pour éviter l'erreur
+    * CalledFromWrongThreadException :
+    * Only the original thread that created a view hierarchy can touch its views
+     */
+    final Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            String text2display = null;
+            switch (msg.what) {
+                case MSG_IND:
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.setMessage(((String) msg.obj));
+                    }
+                    break;
+                case MSG_ERR:
+                    text2display = (String) msg.obj;
+                    Toast.makeText(mContext, "Error: " + text2display,
+                            Toast.LENGTH_LONG).show();
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+                    break;
+                case MSG_CNF:
+                    text2display = (String) msg.obj;
+                    Toast.makeText(mContext, "Info: " + text2display,
+                            Toast.LENGTH_LONG).show();
+                    if (mProgressDialog.isShowing()) {
+                        mProgressDialog.dismiss();
+                    }
+                    break;
+                default: // should never happen
+                    break;
+            }
+        }
+    };
+    private ErrorStatus status;
     private TextView tvMessageSystem = null;
     private Qcm qcm;
 
@@ -48,6 +101,8 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                 AppCompatDelegate.MODE_NIGHT_AUTO);
 
         super.onCreate(savedInstanceState);
+        mContext = this;
+
         setContentView(R.layout.activity_main);
         TextView tv = getTvMessageSystem();
 
@@ -59,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         initFragment();
         initBottomToolBar();
         loadQcm();
-
     }
 
     private void loadQcm() {
@@ -71,20 +125,75 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
 
     }
 
-    private void saveQcm() {
-        QcmStorageManager.saveQcm(this, this.qcm);
+    private ErrorStatus saveQcm() {
+        if (QcmStorageManager.saveQcm(this, this.qcm)) {
+            return ErrorStatus.NO_ERROR;
+        } else {
+            return ErrorStatus.ERROR_SAVE;
+        }
+    }
+
+    private ErrorStatus runDownloadQcm() throws JSONException {
+        this.qcm = QcmStorageManager.downloadQcm(this);
+        return (this.qcm == null ? ErrorStatus.ERROR_DOWNLOAD : ErrorStatus.NO_ERROR);
     }
 
     private void downloadQcm() {
-        try {
+        mProgressDialog = ProgressDialog.show(this, getString(R.string.please_wait),
+                "...", true);
 
+        new Thread((new Runnable() {
+            @Override
+            public void run() {
+                Message msg = null;
 
+                String progressBarData = getString(R.string.download_qcm);
 
-            this.qcm = QcmStorageManager.downloadQcm(this);
-            saveQcm();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+                // populates the message
+                msg = mHandler.obtainMessage(MSG_IND, (Object) progressBarData);
+                // sends the message to our handler
+                mHandler.sendMessage(msg);
+
+                try {
+                    status = runDownloadQcm();
+                } catch (JSONException e) {
+                    status = ErrorStatus.ERROR_DOWNLOAD;
+                    e.printStackTrace();
+                }
+                if (ErrorStatus.NO_ERROR != status) {
+                    Log.e(TAG, getString(R.string.error_download) + status);
+
+                    // error management, creates an error message
+                    msg = mHandler.obtainMessage(MSG_ERR,
+                            getString(R.string.error_download) + status);
+                    // sends the message to our handler
+                    mHandler.sendMessage(msg);
+                } else {
+                    progressBarData = getString(R.string.save);
+                    // populates the message
+                    msg = mHandler.obtainMessage(MSG_IND, (Object) progressBarData);
+                    // sends the message to our handler
+                    mHandler.sendMessage(msg);
+
+                    status = saveQcm();
+
+                    if (ErrorStatus.NO_ERROR != status) {
+                        Log.e(TAG, getString(R.string.error_save) + status);
+                        // error management,creates an error message
+                        msg = mHandler.obtainMessage(MSG_ERR, getString(R.string.error_save)
+                                + status);
+                        // sends the message to our handler
+                        mHandler.sendMessage(msg);
+                    } else {
+                        msg = mHandler.obtainMessage(MSG_CNF, getString(R.string.download_ok));
+                        // sends the message to our handler
+                        mHandler.sendMessage(msg);
+                    }
+                }
+
+            }
+        })).start();
+
     }
 
     private void initFragment() {
@@ -102,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
         assert bottomNavigation != null;
 
-        AHBottomNavigationItem item1 = new AHBottomNavigationItem(getString(R.string.download_qcm), R.drawable.ic_action_download, Color.GRAY);
+        AHBottomNavigationItem item1 = new AHBottomNavigationItem(getString(download_qcm), R.drawable.ic_action_download, Color.GRAY);
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(getString(R.string.score), R.drawable.ic_action_score, Color.GRAY);
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(getString(R.string.save), R.drawable.ic_action_save, Color.GRAY);
 
@@ -130,7 +239,13 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                         showScore();
                         break;
                     case 2:
-                        saveQcm();
+                        status = saveQcm();
+                        if (ErrorStatus.NO_ERROR != status) {
+                            Log.e(TAG, getString(R.string.error_save) + status);
+                            Toast.makeText(mContext, getString(R.string.error_save), Toast.LENGTH_LONG).show();
+                        } else {
+                            Toast.makeText(mContext, R.string.saved, Toast.LENGTH_LONG).show();
+                        }
                         break;
                 }
 
@@ -230,4 +345,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         return tvMessageSystem;
     }
 
+    enum ErrorStatus {
+        NO_ERROR, ERROR_DOWNLOAD, ERROR_SAVE
+    }
 }
