@@ -14,6 +14,8 @@ import goudard.david.qcm.entity.Question;
 import goudard.david.qcm.R;
 import goudard.david.qcm.activity.SurveyActivity;
 
+import static goudard.david.qcm.R.color;
+
 /**
  * Created by david on 24/12/16.
  */
@@ -35,6 +37,9 @@ public class AnswerAdapter extends QuestionAdapter {
         } else {
             layoutItem = (LinearLayout) convertView;
         }
+
+        // change couleur de fond
+        layoutItem.setBackgroundColor(mContext.getResources().getColor(color.list_row_hover_start_color));
 
         //(2) : Récupération des TextView du layout
         TextView tvQuestionChoix = (TextView) layoutItem.findViewById(R.id.lvSurvey_Question_tvText);

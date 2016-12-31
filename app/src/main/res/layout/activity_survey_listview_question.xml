@@ -18,5 +18,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="@dimen/answer"
-        android:textStyle="bold" />
+        android:textColor="@color/colorPrimary"/>
 </LinearLayout>

@@ -63,14 +63,25 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
     }
 
     private void loadQcm() {
-        try {
-            this.qcm = QcmStorageManager.loadQcm(this);
-            // if qcm doesn't exist on disk, load from internet
-            if (this.qcm == null) {
-                this.qcm = QcmStorageManager.downloadQcm(this);
-                QcmStorageManager.saveQcm(this, this.qcm);
-            }
+        this.qcm = QcmStorageManager.loadQcm(this);
+        // if qcm doesn't exist on disk, load from internet
+        if (this.qcm == null) {
+            downloadQcm();
+        }
 
+    }
+
+    private void saveQcm() {
+        QcmStorageManager.saveQcm(this, this.qcm);
+    }
+
+    private void downloadQcm() {
+        try {
+
+
+
+            this.qcm = QcmStorageManager.downloadQcm(this);
+            saveQcm();
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -92,12 +103,11 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         assert bottomNavigation != null;
 
         AHBottomNavigationItem item1 = new AHBottomNavigationItem(getString(R.string.download_qcm), R.drawable.ic_action_download, Color.GRAY);
-        bottomNavigation.addItem(item1);
-
         AHBottomNavigationItem item2 = new AHBottomNavigationItem(getString(R.string.score), R.drawable.ic_action_score, Color.GRAY);
-        bottomNavigation.addItem(item2);
-
         AHBottomNavigationItem item3 = new AHBottomNavigationItem(getString(R.string.save), R.drawable.ic_action_save, Color.GRAY);
+
+        bottomNavigation.addItem(item1);
+        bottomNavigation.addItem(item2);
         bottomNavigation.addItem(item3);
 
         bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
@@ -107,6 +117,30 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         //  Enables Reveal effect
         bottomNavigation.setColored(true);
         bottomNavigation.setCurrentItem(0);
+
+        bottomNavigation.setOnTabSelectedListener(new AHBottomNavigation.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(int position, boolean wasSelected) {
+                // Do something cool here...
+                switch (position) {
+                    case 0:
+                        downloadQcm();
+                        break;
+                    case 1:
+                        showScore();
+                        break;
+                    case 2:
+                        saveQcm();
+                        break;
+                }
+
+            }
+        });
+
+    }
+
+
+    private void showScore() {
 
     }
 

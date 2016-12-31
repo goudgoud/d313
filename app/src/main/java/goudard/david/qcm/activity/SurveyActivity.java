@@ -105,6 +105,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         ListView list = (ListView) findViewById(R.id.lvSurveyActivity_Question);
 
         //Initialisation de la liste avec les données
+        list.setAdapter(null);
         list.setAdapter(adapter);
 
     }
