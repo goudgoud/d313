@@ -57,11 +57,11 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
     protected void onRestart() {
         super.onRestart();
         try {
-            Survey survey = (Survey) SerializableManager.readSerializable(this, "survey.er");
+            Survey survey = SerializableManager.readSerializable(this, "survey.er");
             if (survey != null) this.survey = survey;
             SerializableManager.removeSerializable(this,"survey.er");
         }
-        catch (Exception e) {
+        catch (Exception ignored) {
 
         }
     }
@@ -82,8 +82,10 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         int questionToShow = this.survey.getQuestionInProgress() - 1;
         AnswerAdapter adapter = new AnswerAdapter(this, getListChoixQuestion(questionToShow));
         if (questionToShow + 1 >= this.survey.getQuestions().size()) {
+            assert button != null;
             button.setImageResource(R.drawable.ic_action_exit_survey);
         }
+        assert button != null;
         button.setVisibility(View.VISIBLE);
         initView(adapter, questionToShow);
         adapter.notifyDataSetChanged();
@@ -94,21 +96,23 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         //int questionInProgress = survey.getQuestionInProgress();
         ArrayList<Question> questions = this.survey.getQuestions();
         Question question = questions.get(questionToShow);
+        assert tv != null;
         tv.setText(question.getTitre());
 
         TextView tvSystem = (TextView) findViewById(R.id.tvSurveyActivity_MessageSystem);
-        String msg = new Integer(questionToShow + 1).toString()
+        String msg = Integer.toString(questionToShow + 1)
                 + "/"
-                + new Integer(questions.size()).toString();
+                + Integer.toString(questions.size());
+        assert tvSystem != null;
         tvSystem.setText(msg);
 
         //Récupération du composant ListView
         ListView list = (ListView) findViewById(R.id.lvSurveyActivity_Question);
 
         //Initialisation de la liste avec les données
+        assert list != null;
         list.setAdapter(null);
         list.setAdapter(adapter);
-
     }
 
     private ArrayList<String> getListChoixQuestion(int questionToShow) {
@@ -137,7 +141,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
     @Override
     public void finish() {
         Intent intent = new Intent();
-        intent.putExtra(KEY_FROM_SURVEY, (Serializable) this.survey);
+        intent.putExtra(KEY_FROM_SURVEY, this.survey);
         setResult(RESULT_OK, intent);
         super.finish();
     }
@@ -149,6 +153,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         }
         else {
             FloatingActionButton button = (FloatingActionButton) findViewById(R.id.btnSurveyActivity_ButtonNext);
+            assert button != null;
             button.setVisibility(View.INVISIBLE);
             showQuestion();
         }
