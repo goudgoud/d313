@@ -42,14 +42,14 @@ public class QcmJsonParser {
         StrictMode.setThreadPolicy(policy);
 
         this.context = m;
-        loadQcm();
+        downloadQcm();
     }
 
     public Qcm getQcm() {
         return this.qcm;
     }
 
-    private void loadQcm() throws JSONException {
+    private void downloadQcm() throws JSONException {
         qcm = new Qcm();
 
         try {
@@ -64,7 +64,6 @@ public class QcmJsonParser {
                 JSONObject jsonData = new JSONObject(data);
                 qcm = loadSurveyFamilies(qcm, jsonData);
             } else {
-
                 throw new Exception("Erreur " + response.statusCode);
             }
         } catch (Exception e) {

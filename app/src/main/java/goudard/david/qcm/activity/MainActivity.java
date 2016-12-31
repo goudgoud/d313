@@ -26,7 +26,6 @@ import com.aurelhubert.ahbottomnavigation.AHBottomNavigationItem;
 
 import org.json.JSONException;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Objects;
@@ -55,13 +54,12 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
 
     ;
     private Context mContext;
+
     /*
     * Handler pour éviter l'erreur
     * CalledFromWrongThreadException :
     * Only the original thread that created a view hierarchy can touch its views
      */
-
-
     final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             String text2display = null;
@@ -188,7 +186,6 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
 
             }
         })).start();
-
     }
 
     private void initFragment() {
@@ -243,10 +240,8 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                         }
                         break;
                 }
-
             }
         });
-
     }
 
 
