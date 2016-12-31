@@ -2,6 +2,7 @@ package goudard.david.qcm.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -77,11 +78,11 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
     }
 
     private void showAnswer() {
-        Button button = (Button) findViewById(R.id.btnSurveyActivity_ButtonNext);
+        FloatingActionButton button = (FloatingActionButton) findViewById(R.id.btnSurveyActivity_ButtonNext);
         int questionToShow = this.survey.getQuestionInProgress() - 1;
         AnswerAdapter adapter = new AnswerAdapter(this, getListChoixQuestion(questionToShow));
         if (questionToShow + 1 >= this.survey.getQuestions().size()) {
-            button.setText(R.string.Finish);
+            button.setImageResource(R.drawable.ic_action_exit_survey);
         }
         button.setVisibility(View.VISIBLE);
         initView(adapter, questionToShow);
@@ -147,7 +148,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
             this.finish();
         }
         else {
-            Button button = (Button) findViewById(R.id.btnSurveyActivity_ButtonNext);
+            FloatingActionButton button = (FloatingActionButton) findViewById(R.id.btnSurveyActivity_ButtonNext);
             button.setVisibility(View.INVISIBLE);
             showQuestion();
         }

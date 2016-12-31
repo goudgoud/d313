@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
     * CalledFromWrongThreadException :
     * Only the original thread that created a view hierarchy can touch its views
      */
+
+
     final Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
             String text2display = null;
@@ -96,7 +98,6 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         AppCompatDelegate.setDefaultNightMode(
                 AppCompatDelegate.MODE_NIGHT_AUTO);
 
@@ -122,7 +123,6 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         if (this.qcm == null) {
             downloadQcm();
         }
-
     }
 
     private ErrorStatus saveQcm() {
@@ -146,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
             @Override
             public void run() {
                 Message msg = null;
-
                 String progressBarData = getString(R.string.download_qcm);
 
                 // populates the message
@@ -162,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                 }
                 if (ErrorStatus.NO_ERROR != status) {
                     Log.e(TAG, getString(R.string.error_download) + status);
-
                     // error management, creates an error message
                     msg = mHandler.obtainMessage(MSG_ERR,
                             getString(R.string.error_download) + status);
@@ -174,7 +172,6 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                     msg = mHandler.obtainMessage(MSG_IND, (Object) progressBarData);
                     // sends the message to our handler
                     mHandler.sendMessage(msg);
-
                     status = saveQcm();
 
                     if (ErrorStatus.NO_ERROR != status) {
@@ -182,11 +179,9 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                         // error management,creates an error message
                         msg = mHandler.obtainMessage(MSG_ERR, getString(R.string.error_save)
                                 + status);
-                        // sends the message to our handler
                         mHandler.sendMessage(msg);
                     } else {
                         msg = mHandler.obtainMessage(MSG_CNF, getString(R.string.download_ok));
-                        // sends the message to our handler
                         mHandler.sendMessage(msg);
                     }
                 }
