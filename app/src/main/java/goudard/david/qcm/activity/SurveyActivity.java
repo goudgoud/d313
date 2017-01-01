@@ -95,7 +95,6 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         assert button != null;
         button.setVisibility(View.VISIBLE);
         initView(adapter, questionToShow);
-
     }
 
     private void initView(QuestionAdapter adapter, int questionToShow) {
@@ -122,7 +121,6 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         adapter.notifyDataSetChanged();
         list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
-
     }
 
     private ArrayList<String> getListChoixQuestion(int questionToShow) {
@@ -191,7 +189,6 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
             tvTitle.setText(getString((R.string.congratulations)));
         }
         else if ( score > (int) (nbQuestions / 2)) {
-
             tvTitle.setText(getString(R.string.good_results));
         }
         else {
