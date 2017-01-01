@@ -194,7 +194,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         else {
             tvTitle.setText(getString(R.string.test_result));
         }
-;
+        dialog.setTitle(tvTitle.getText());
 
         assert tvScore != null;
         tvScore.setText(getString(R.string.your_score) + " : " + Integer.toString(score) + "/" + Integer.toString(nbQuestions));

@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -82,7 +83,7 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
                 surveyRestartDialog(item);
             }
             else {
-
+                Toast.makeText(this, R.string.already_completed, Toast.LENGTH_SHORT).show();
             }
         }
         else if (item.getQuestionInProgress() > 0) {
