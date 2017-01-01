@@ -276,6 +276,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         //Récupération du composant ListView
         ListView list = (ListView) findViewById(R.id.lvMainActivity_Qcm);
         //Initialisation de la liste avec les données
+        assert list != null;
         list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

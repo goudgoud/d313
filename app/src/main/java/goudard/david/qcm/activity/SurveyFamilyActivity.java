@@ -42,7 +42,7 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
         super.onCreate(savedInstanceState);
 
         this.surveyFamily = (SurveyFamily) getIntent().getSerializableExtra(MainActivity.KEY_FROM_MAIN);
-        sharedPreferences = PreferenceManager.getDefaultSharedPreferences (this.getBaseContext());
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getBaseContext());
         setContentView(R.layout.activity_survey_family);
         this.initListView();
     }
@@ -61,7 +61,9 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
         ListView list = (ListView) findViewById(R.id.lvSurveyFamilyActivity_Survey);
 
         //Initialisation de la liste avec les données
+        assert list != null;
         list.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -71,30 +73,21 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
 
         // Si preférence est de pouvoir refaire un questionnaire et si questionnaire commencé,
         // alors afficher demander si continuer ou recommencer questionnaire
-//        if (this.sharedPreferences.contains(String.valueOf(pref_qcm_restart))) {
-            bCanRestart = this.sharedPreferences.getBoolean("pref_qcm_restart", true);
-//        }
-//        else {
-//            bCanRestart = true;
-//        }
+        bCanRestart = this.sharedPreferences.getBoolean("pref_qcm_restart", true);
 
-        if (item.getQuestionInProgress()+1>=item.getQuestions().size()) {
+        if (item.getQuestionInProgress() + 1 >= item.getQuestions().size()) {
             if (bCanRestart) {
                 surveyRestartDialog(item);
-            }
-            else {
+            } else {
                 Toast.makeText(this, R.string.already_completed, Toast.LENGTH_SHORT).show();
             }
-        }
-        else if (item.getQuestionInProgress() > 0) {
+        } else if (item.getQuestionInProgress() > 0) {
             if (bCanRestart) {
                 surveyRestartResumeDialog(item);
-            }
-            else {
+            } else {
                 launchSurvey(item);
             }
-        }
-        else {
+        } else {
             item.reset();
             launchSurvey(item);
         }

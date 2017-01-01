@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,13 +21,13 @@ import goudard.david.qcm.R;
 public class QuestionAdapter extends BaseAdapter {
 
     // Une liste de questions
-    protected List<String> mListChoix;
+    List<String> mListChoix;
 
     //Le contexte dans lequel est présent l' adapter
-    protected Context mContext;
+    Context mContext;
 
     //Un mécanisme pour gérer l'affichage graphique depuis un layout XML
-    protected LayoutInflater mInflater;
+    LayoutInflater mInflater;
 
     //Contient la liste des listeners
     private ArrayList<QuestionAdapterListenerInterface> mListListener = new ArrayList<QuestionAdapterListenerInterface>();
@@ -82,6 +83,8 @@ public class QuestionAdapter extends BaseAdapter {
                 sendListener(mListChoix.get(position), position);
             }
         });
+
+        ImageView imageView = (ImageView) layoutItem.findViewById(R.id.lvQuestion_img);
 
         //On retourne l'item créé.
         return layoutItem;

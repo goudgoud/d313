@@ -95,10 +95,10 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         assert button != null;
         button.setVisibility(View.VISIBLE);
         initView(adapter, questionToShow);
-        adapter.notifyDataSetChanged();
+
     }
 
-    private void initView(ListAdapter adapter, int questionToShow) {
+    private void initView(QuestionAdapter adapter, int questionToShow) {
         TextView tv = (TextView) findViewById(R.id.tvSurveyActivity_Question_Title);
         //int questionInProgress = survey.getQuestionInProgress();
         ArrayList<Question> questions = this.survey.getQuestions();
@@ -119,7 +119,10 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         //Initialisation de la liste avec les données
         assert list != null;
         list.setAdapter(null);
+        adapter.notifyDataSetChanged();
         list.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
+
     }
 
     private ArrayList<String> getListChoixQuestion(int questionToShow) {
