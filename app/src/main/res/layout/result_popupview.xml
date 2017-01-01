@@ -7,14 +7,20 @@
         android:id="@+id/tvResultSurvey_Title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/select_subject"
-        android:textSize="20sp" />
+        android:text=""
+        android:textSize="20sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"/>
 
     <TextView
         android:id="@+id/tvResultSurvey_Score"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/your_score"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
         android:textSize="15sp" />
 
     <TextView
@@ -22,5 +28,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/time_elapsed"
-        android:textSize="15sp" />
+        android:textSize="15sp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_below="@+id/tvResultSurvey_Score"/>
+
+    <Button
+        android:id="@+id/dialogButtonOK"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text=" Ok "
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="5dp"
+        android:layout_below="@+id/tvResultSurvey_Time"
+        android:layout_marginRight="5dp" />
+
 </RelativeLayout>

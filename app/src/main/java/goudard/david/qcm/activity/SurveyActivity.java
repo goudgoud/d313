@@ -172,9 +172,10 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
     }
 
     private void showResult() {
-        Dialog dialog = new Dialog(this);
+        final Dialog dialog = new Dialog(this);
 
         dialog.setContentView(R.layout.result_popupview);
+
         TextView tvTitle = (TextView) dialog.findViewById(R.id.tvResultSurvey_Title);
         TextView tvScore = (TextView) dialog.findViewById(R.id.tvResultSurvey_Score);
         TextView tvTime  = (TextView) dialog.findViewById(R.id.tvResultSurvey_Time);
@@ -182,11 +183,12 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         int score = this.survey.getScore();
         int nbQuestions =  this.survey.getQuestions().size();
 
-        assert tvTitle != null;
+        //assert tvTitle != null;
         if (score == nbQuestions) {
             tvTitle.setText(getString((R.string.congratulations)));
         }
         else if ( score > (int) (nbQuestions / 2)) {
+
             tvTitle.setText(getString(R.string.good_results));
         }
         else {
@@ -199,6 +201,15 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
 
         assert tvTime != null;
         tvTime.setText(getString(R.string.time_elapsed) + " : " + ElapsedTime.getStringElapsedTime(this.survey.getTimeElapsed(), this));
+
+        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+        // if button is clicked, close the custom dialog
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
         dialog.show();
     }
