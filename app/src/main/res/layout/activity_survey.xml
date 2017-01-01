@@ -10,23 +10,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text=""
-        android:textSize="@dimen/answer" />
+        android:textSize="@dimen/answer"
+        android:textColor="@color/colorAccentNight"
+        android:layout_marginTop="50dp"
+        android:paddingBottom="25dp"/>
 
     <ListView
         android:id="@+id/lvSurveyActivity_Question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="80dp"/>
 
-    <Button
+    <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnSurveyActivity_ButtonNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="top|center_vertical|center_horizontal"
-        android:text="@string/next"
         android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/ic_action_next"
         android:visibility="invisible"
-        android:onClick="onClickNext" />
+        android:onClick="onClickNext"/>
 
     <TextView
         android:id="@+id/tvSurveyActivity_MessageSystem"
@@ -35,4 +39,5 @@
         android:gravity="end"
         android:text=""
         android:textSize="@dimen/text" />
+
 </LinearLayout>

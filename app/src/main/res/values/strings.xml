@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Qcm</string>
-    <string name="pref_qcm_restart">Qcm can be restart</string>
-    <string name="pref_qcm_restart_summ">Allow to make a QCM already done</string>
-    <string name="pref_qcm">Qcm preferences</string>
-    <string name="pref_qcm_summ">Setting of qcm preferences</string>
+    <string name="app_name">Multiple choice tests</string>
+    <string name="pref_qcm_restart">Ttests can be restart</string>
+    <string name="pref_qcm_restart_summ">Allow to make a test already done</string>
+    <string name="pref_qcm">Multiple choice tests preferences</string>
+    <string name="pref_qcm_summ">Tests preferences</string>
     <string name="survey_restart_ask">Would you restart or resume the survey ?</string>
     <string name="survey_restart_title">Survey</string>
     <string name="restart">Restart</string>
@@ -12,4 +12,27 @@
     <string name="restartSurvey">Are you want to restart the survey ?</string>
     <string name="restartSurveyTitle">Restart survey</string>
     <string name="Finish">Finish</string>
+    <string name="download_qcm">Reload tests</string>
+    <string name="please_select_a_subject">Select a subject</string>
+    <string name="score">Score</string>
+    <string name="save">Save</string>
+    <string name="select_survey">Select a survey</string>
+    <string name="select_subject">Select a subject</string>
+    <string name="please_wait">Please wait</string>
+    <string name="error_download">error while parsing the file status:</string>
+    <string name="error_save">error while saving the tests:</string>
+    <string name="download_ok">Downloading successfully !</string>
+    <string name="saved">Saved</string>
+    <string name="your_score">Your score</string>
+    <string name="time_elapsed">Time elapsed</string>
+    <string name="congratulations">Congratulations !</string>
+    <string name="good_results">Good results</string>
+    <string name="test_result">Test result</string>
+    <string name="hour">Hour</string>
+    <string name="hours">Hours</string>
+    <string name="minutes">minutes</string>
+    <string name="minute">minute</string>
+    <string name="second">second</string>
+    <string name="seconds">seconds</string>
+    <string name="already_completed">This survey is already completed</string>
 </resources>
