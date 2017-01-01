@@ -1,18 +1,69 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@drawable/list_row_selector"
-    android:orientation="vertical"
-    android:padding="8dp">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:padding="6dp"
+android:paddingTop="6dp"
+android:paddingBottom="6dp"
+android:orientation="vertical">
+
+<!--Survey name-->
+<TextView
+    android:id="@+id/lvSurveyFamily_Survey_tvText"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:textAllCaps="true"
+    android:layout_centerHorizontal="true"
+    android:text=""
+    android:textSize="15sp"
+    android:layout_centerInParent="true"
+    android:gravity="center"/>
+
+<LinearLayout
+    android:id="@+id/llSurveyFamily_Survey_Score"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentTop="true" >
+    <TextView
+        android:id="@+id/tvllSurveyFamily_Survey_Score_Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="@string/score"
+        android:textStyle="bold" />
 
     <TextView
-        android:id="@+id/lvSurveyFamily_Survey_tvText"
-        android:layout_width="match_parent"
+        android:id="@+id/tvllSurveyFamily_Survey_Score"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="1dip"
-        android:textSize="@dimen/title"
-        android:textStyle="bold"
-        android:textColor="@color/colorPrimary" />
-
+        android:textSize="12sp"
+        android:text="0" />
 </LinearLayout>
+
+<LinearLayout
+    android:id="@+id/llSurveyFamily_Survey_Progress"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true"
+    android:layout_alignParentBottom="true">
+    <TextView
+        android:id="@+id/tvllSurveyFamily_Survey_Progress_Label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/progress"
+        android:textSize="12sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvllSurveyFamily_Survey_Progress"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:text="5" />
+</LinearLayout>
+
+</RelativeLayout>
