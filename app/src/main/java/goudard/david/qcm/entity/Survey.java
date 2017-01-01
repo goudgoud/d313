@@ -15,6 +15,7 @@ public class Survey implements Serializable {
     private ArrayList<Question> questions;
     private int score = 0;
     private int questionInProgress = 0;
+    private long timeElapsed = 0;
 
     /**
      * @return String
@@ -101,6 +102,20 @@ public class Survey implements Serializable {
             questions.set(count, question);
             count++;
         }
+        return this;
+    }
+
+    public long getTimeElapsed() {
+        return this.timeElapsed;
+    }
+
+    public Survey setTimeElapsed(long timeElapsed) {
+        this.timeElapsed = timeElapsed;
+        return this;
+    }
+
+    public Survey addTimeElapsed(long time) {
+        this.timeElapsed += time;
         return this;
     }
 }

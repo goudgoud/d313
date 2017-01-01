@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Qcm implements Serializable {
 
-    private ArrayList<SurveyFamily> familleQuestionnaires;
+    private ArrayList<SurveyFamily> familleQuestionnaires = new ArrayList<>();
 
     public ArrayList<SurveyFamily> getFamilleQuestionnaire() {
         return this.familleQuestionnaires;

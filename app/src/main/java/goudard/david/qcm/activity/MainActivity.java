@@ -277,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         ListView list = (ListView) findViewById(R.id.lvMainActivity_Qcm);
         //Initialisation de la liste avec les données
         list.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -320,11 +321,11 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                 idx++;
                 if (Objects.equals(familleQuestionnaires.get(idx).getName(), surveyFamily.getName())) {
                     familleQuestionnaires.set(idx, surveyFamily);
-                    this.qcm.setFamilleQuestionnaire(familleQuestionnaires);
-                    QcmStorageManager.saveQcm(this, this.qcm);
                     break;
                 }
             }
+            this.qcm.setFamilleQuestionnaire(familleQuestionnaires);
+            QcmStorageManager.saveQcm(this, this.qcm);
         }
     }
 

@@ -1,5 +1,6 @@
 package goudard.david.qcm.activity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 import goudard.david.qcm.adapter.AnswerAdapter;
 import goudard.david.qcm.entity.Question;
@@ -20,6 +22,7 @@ import goudard.david.qcm.adapter.QuestionAdapterListenerInterface;
 import goudard.david.qcm.R;
 import goudard.david.qcm.manager.SerializableManager;
 import goudard.david.qcm.entity.Survey;
+import goudard.david.qcm.tools.ElapsedTime;
 
 /**
  * Created by david on 24/12/16.
@@ -28,6 +31,8 @@ import goudard.david.qcm.entity.Survey;
 public class SurveyActivity extends AppCompatActivity implements QuestionAdapterListenerInterface {
     public static final String KEY_FROM_SURVEY = "KEY_FROM_SURVEY";
     private Survey survey;
+    private long startQuestion;
+    private ElapsedTime elapsedTime;
 
     public Survey getSurvey() {
         return this.survey;
@@ -46,6 +51,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
 
     protected void onStart() {
         super.onStart();
+        elapsedTime = new ElapsedTime(this);
         showQuestion();
     }
 
@@ -75,6 +81,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         adapter.addListener(this);
         initView(adapter, questionToShow);
         adapter.notifyDataSetChanged();
+        elapsedTime.start();
     }
 
     private void showAnswer() {
@@ -124,6 +131,10 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
 
     @Override
     public void onClickQuestion(String item, int position) {
+        // temps écoulé pour la question
+        elapsedTime.stop();
+        this.survey.addTimeElapsed(elapsedTime.getElapsedTimeSecs());
+
         int questionInProgress = this.survey.getQuestionInProgress();
         ArrayList<Question> questions = survey.getQuestions();
         Question question = questions.get(questionInProgress);
@@ -149,6 +160,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
     public void onClickNext(View v) {
         int question = this.survey.getQuestionInProgress();
         if (question + 1 > this.survey.getQuestions().size()) {
+            showResult();
             this.finish();
         }
         else {
@@ -158,4 +170,37 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
             showQuestion();
         }
     }
- }
+
+    private void showResult() {
+        Dialog dialog = new Dialog(this);
+
+        dialog.setContentView(R.layout.result_popupview);
+        TextView tvTitle = (TextView) dialog.findViewById(R.id.tvResultSurvey_Title);
+        TextView tvScore = (TextView) dialog.findViewById(R.id.tvResultSurvey_Score);
+        TextView tvTime  = (TextView) dialog.findViewById(R.id.tvResultSurvey_Time);
+
+        int score = this.survey.getScore();
+        int nbQuestions =  this.survey.getQuestions().size();
+
+        assert tvTitle != null;
+        if (score == nbQuestions) {
+            tvTitle.setText(getString((R.string.congratulations)));
+        }
+        else if ( score > (int) (nbQuestions / 2)) {
+            tvTitle.setText(getString(R.string.good_results));
+        }
+        else {
+            tvTitle.setText(getString(R.string.test_result));
+        }
+;
+
+        assert tvScore != null;
+        tvScore.setText(getString(R.string.your_score) + " : " + Integer.toString(score) + "/" + Integer.toString(nbQuestions));
+
+        assert tvTime != null;
+        tvTime.setText(getString(R.string.time_elapsed) + " : " + ElapsedTime.getStringElapsedTime(this.survey.getTimeElapsed(), this));
+
+        dialog.show();
+    }
+
+}

@@ -11,13 +11,16 @@
         android:layout_height="wrap_content"
         android:text=""
         android:textSize="@dimen/answer"
-        android:textColor="@color/colorAccentNight"/>
+        android:textColor="@color/colorAccentNight"
+        android:layout_marginTop="50dp"
+        android:paddingBottom="25dp"/>
 
     <ListView
         android:id="@+id/lvSurveyActivity_Question"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginBottom="30dp"
+        android:layout_marginTop="80dp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/btnSurveyActivity_ButtonNext"
@@ -36,4 +39,5 @@
         android:gravity="end"
         android:text=""
         android:textSize="@dimen/text" />
+
 </LinearLayout>
