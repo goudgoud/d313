@@ -76,7 +76,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         //Création et initialisation de l'Adapter
         //Récupération de la liste
         int questionToShow  = this.survey.getQuestionInProgress();
-        QuestionAdapter adapter = new QuestionAdapter(this, getListChoixQuestion(questionToShow));
+        QuestionAdapter adapter = new QuestionAdapter(this, this.survey.getQuestions().get(questionToShow));
         //Ecoute des évènements sur la liste
         adapter.addListener(this);
         initView(adapter, questionToShow);
@@ -87,7 +87,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
     private void showAnswer() {
         FloatingActionButton button = (FloatingActionButton) findViewById(R.id.btnSurveyActivity_ButtonNext);
         int questionToShow = this.survey.getQuestionInProgress() - 1;
-        AnswerAdapter adapter = new AnswerAdapter(this, getListChoixQuestion(questionToShow));
+        AnswerAdapter adapter = new AnswerAdapter(this, this.survey.getQuestions().get(questionToShow));
         if (questionToShow + 1 >= this.survey.getQuestions().size()) {
             assert button != null;
             button.setImageResource(R.drawable.ic_action_exit_survey);

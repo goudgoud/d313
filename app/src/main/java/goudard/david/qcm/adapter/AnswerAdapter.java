@@ -22,8 +22,8 @@ import static goudard.david.qcm.R.color;
 
 public class AnswerAdapter extends QuestionAdapter {
 
-    public AnswerAdapter(Context context, List<String> aListChoix) {
-        super(context, aListChoix);
+    public AnswerAdapter(Context context, Question question) {
+        super(context, question);
     }
 
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -31,12 +31,7 @@ public class AnswerAdapter extends QuestionAdapter {
         LinearLayout layoutItem;
 
         //(1) : Réutilisation des layouts
-        if (convertView == null) {
-            //Initialisation de notre item à partir du  layout XML
-            layoutItem = (LinearLayout) mInflater.inflate(R.layout.activity_survey_listview_question, parent, false);
-        } else {
-            layoutItem = (LinearLayout) convertView;
-        }
+       layoutItem = (LinearLayout) mInflater.inflate(R.layout.activity_survey_listview_question, parent, false);
 
         // change couleur de fond
         layoutItem.setBackgroundColor(mContext.getResources().getColor(color.list_row_hover_start_color));
@@ -45,18 +40,15 @@ public class AnswerAdapter extends QuestionAdapter {
         TextView tvQuestionChoix = (TextView) layoutItem.findViewById(R.id.lvSurvey_Question_tvText);
 
         //(3) : Renseignement des valeurs
-        tvQuestionChoix.setText(mListChoix.get(position));
+        tvQuestionChoix.setText(mQuestion.getChoix().get(position));
 
-        // positionne réponse
-        SurveyActivity surveyActivity = (SurveyActivity) mContext;
         ImageView imageView = (ImageView) layoutItem.findViewById(R.id.lvQuestion_img);
-        int questionInProgress = surveyActivity.getSurvey().getQuestionInProgress() - 1;
-        Question question = surveyActivity.getSurvey().getQuestions().get(questionInProgress);
-        if (position == question.getCorrect()) {
+        // positionne réponse
+        if (position == mQuestion.getCorrect()) {
             imageView.setImageResource(R.drawable.ic_ok);
             tvQuestionChoix.setTextColor(Color.GREEN);
         } else {
-            if (position == question.getResponse()) {
+            if (position == mQuestion.getResponse()) {
                 imageView.setImageResource(R.drawable.ic_no);
                 tvQuestionChoix.setTextColor(Color.RED);
             }
@@ -65,7 +57,6 @@ public class AnswerAdapter extends QuestionAdapter {
         //On mémorise la position dans le composant textview
         tvQuestionChoix.setTag(position);
 
-        //On retourne l'item créé.
         return layoutItem;
     }
 

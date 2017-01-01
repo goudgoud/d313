@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import goudard.david.qcm.R;
+import goudard.david.qcm.entity.Question;
+import goudard.david.qcm.entity.Survey;
 
 /**
  * Created by david on 24/12/16.
@@ -21,33 +23,36 @@ import goudard.david.qcm.R;
 public class QuestionAdapter extends BaseAdapter {
 
     // Une liste de questions
-    List<String> mListChoix;
+    protected List<String> mListChoix;
 
     //Le contexte dans lequel est présent l' adapter
-    Context mContext;
+    protected Context mContext;
 
     //Un mécanisme pour gérer l'affichage graphique depuis un layout XML
-    LayoutInflater mInflater;
+    protected LayoutInflater mInflater;
+
+    protected Question mQuestion;
 
     //Contient la liste des listeners
     private ArrayList<QuestionAdapterListenerInterface> mListListener = new ArrayList<QuestionAdapterListenerInterface>();
 
 
-    public QuestionAdapter(Context context, List<String> aListChoix) {
+    public QuestionAdapter(Context context, Question question) {
         this.mContext = context;
-        this.mListChoix = aListChoix;
+       // this.mListChoix = aListChoix;
+        this.mQuestion = question;
         this.mInflater = LayoutInflater.from(mContext);
     }
 
     // Comptage des items
     public int getCount() {
-        return mListChoix.size();
+        return mQuestion.getChoix().size();
     }
 
     // Identification des items
     // par position
     public Object getItem(int position) {
-        return mListChoix.get(position);
+        return mQuestion.getChoix().get(position);
     }
 
     // par id
@@ -69,7 +74,7 @@ public class QuestionAdapter extends BaseAdapter {
         TextView tvQuestion = (TextView) layoutItem.findViewById(R.id.lvSurvey_Question_tvText);
 
         //(3) : Renseignement des valeurs
-        tvQuestion.setText(mListChoix.get(position));
+        tvQuestion.setText(mQuestion.getChoix().get(position));
 
         //On mémorise la position dans le composant textview
         tvQuestion.setTag(position);
@@ -80,7 +85,7 @@ public class QuestionAdapter extends BaseAdapter {
                 //Lorsque l'on clique sur le nom, on récupère la position de la "Survey"
                 Integer position = (Integer) v.getTag();
                 //On prévient les listeners qu'il y a eu un clic sur le TextView
-                sendListener(mListChoix.get(position), position);
+                sendListener(mQuestion.getChoix().get(position), position);
             }
         });
 
