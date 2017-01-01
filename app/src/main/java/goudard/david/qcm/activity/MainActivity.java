@@ -226,6 +226,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                 switch (position) {
                     case 0:
                         downloadQcm();
+                        initListView_Qcm();
                         break;
                     case 1:
                         showScore();
@@ -277,6 +278,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         ListView list = (ListView) findViewById(R.id.lvMainActivity_Qcm);
         //Initialisation de la liste avec les données
         assert list != null;
+        list.setAdapter(null);
         list.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
@@ -312,6 +314,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Resources res = getResources();
         if (requestCode == RQC_SURVEY_FAMILY && resultCode == RESULT_OK) {
+            Log.d(this.getLocalClassName(), "onActivityResult");
             SurveyFamily surveyFamily = (SurveyFamily) data.getSerializableExtra(KEY_FROM_SURVEY_FAMILY);
             // store surveyFamily updated
             // store survey updated
@@ -322,11 +325,13 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                 idx++;
                 if (Objects.equals(familleQuestionnaires.get(idx).getName(), surveyFamily.getName())) {
                     familleQuestionnaires.set(idx, surveyFamily);
+                    Log.d(this.getLocalClassName(), "set survey family");
                     break;
                 }
             }
             this.qcm.setFamilleQuestionnaire(familleQuestionnaires);
             QcmStorageManager.saveQcm(this, this.qcm);
+            initListView_Qcm();
         }
     }
 

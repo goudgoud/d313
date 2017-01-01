@@ -89,16 +89,17 @@ public class SurveyAdapter extends BaseAdapter {
         //(3) : Renseignement des valeurs
         tvSurvey.setText(survey.getName());
         tvSurveyScore.setText(Integer.toString(survey.getScore()));
+
         tvSurveyProgress.setText(
-                Integer.toString(survey.getQuestionInProgress()) +
-                "/" +
-                Integer.toString(survey.getQuestions().size())
+                Integer.toString(
+                        (int)(100*survey.getQuestionInProgress()/survey.getQuestions().size())
+                ) + "%"
         );
 
-        //On mémorise la position dans le composant textview
-        tvSurvey.setTag(position);
+        //On mémorise la position
+        layoutItem.setTag(position);
         //On ajoute un listener
-        tvSurvey.setOnClickListener(new View.OnClickListener() {
+        layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Lorsque l'on clique sur le nom, on récupère la position de la "Survey"

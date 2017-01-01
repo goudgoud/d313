@@ -77,9 +77,9 @@ public class QuestionAdapter extends BaseAdapter {
         tvQuestion.setText(mQuestion.getChoix().get(position));
 
         //On mémorise la position dans le composant textview
-        tvQuestion.setTag(position);
+        layoutItem.setTag(position);
         //On ajoute un listener
-        tvQuestion.setOnClickListener(new View.OnClickListener() {
+        layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Lorsque l'on clique sur le nom, on récupère la position de la "Survey"
@@ -89,19 +89,12 @@ public class QuestionAdapter extends BaseAdapter {
             }
         });
 
-        ImageView imageView = (ImageView) layoutItem.findViewById(R.id.lvQuestion_img);
-
         //On retourne l'item créé.
         return layoutItem;
     }
 
-
     /***************************
      * Listener
-     */
-
-    /**
-     * Pour ajouter un listener sur notre adapter
      */
     public void addListener(QuestionAdapterListenerInterface aListener) {
         mListListener.add(aListener);

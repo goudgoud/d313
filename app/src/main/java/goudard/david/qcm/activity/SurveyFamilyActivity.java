@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ListView;
@@ -37,6 +38,7 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
     public static final int RQC_SURVEY = 3001;
     private SurveyFamily surveyFamily;
     private SharedPreferences sharedPreferences;
+    private SurveyAdapter surveyAdapter;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +46,17 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
         this.surveyFamily = (SurveyFamily) getIntent().getSerializableExtra(MainActivity.KEY_FROM_MAIN);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.getBaseContext());
         setContentView(R.layout.activity_survey_family);
-        this.initListView();
+        initListView();
+
+    }
+
+    protected void onStart() {
+        super.onStart();
+    }
+
+    protected void onRestart() {
+        super.onRestart();
+        surveyAdapter.notifyDataSetChanged();
     }
 
     private void initListView() {
@@ -52,30 +64,26 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
         ArrayList<Survey> listSurvey = this.surveyFamily.getQuestionnaire();
 
         //Création et initialisation de l'Adapter pour les personnes
-        SurveyAdapter adapter = new SurveyAdapter(this, listSurvey);
-
+        surveyAdapter = new SurveyAdapter(this, listSurvey);
         //Ecoute des évènements sur la liste
-        adapter.addListener(this);
+        surveyAdapter.addListener(this);
 
         //Récupération du composant ListView
         ListView list = (ListView) findViewById(R.id.lvSurveyFamilyActivity_Survey);
-
         //Initialisation de la liste avec les données
         assert list != null;
-        list.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        list.setAdapter(surveyAdapter);
     }
 
     @Override
     public void onClickSurvey(Survey item, int position) {
-
         final boolean bCanRestart;
 
         // Si preférence est de pouvoir refaire un questionnaire et si questionnaire commencé,
         // alors afficher demander si continuer ou recommencer questionnaire
         bCanRestart = this.sharedPreferences.getBoolean("pref_qcm_restart", true);
 
-        if (item.getQuestionInProgress() + 1 >= item.getQuestions().size()) {
+        if (item.getQuestionInProgress() + 1 > item.getQuestions().size()) {
             if (bCanRestart) {
                 surveyRestartDialog(item);
             } else {
@@ -135,7 +143,7 @@ public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAda
                 launchSurvey(survey);
             }
         });
-        //On crée un bouton "Continuer" à notre AlertDialog et on lui affecte un évènement
+        //On crée un bouton "Continuer" à notre AlertDialog et on lui affecte un évèthis.initListView();nement
         adb.setNegativeButton(R.string.resume, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 launchSurvey(survey);

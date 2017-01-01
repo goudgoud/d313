@@ -72,9 +72,9 @@ public class SurveyFamilyAdapter extends BaseAdapter {
         tvSurveyFamily.setText(mListSurveyFamilly.get(position).getName());
 
         //On mémorise la position dans le composant textview
-        tvSurveyFamily.setTag(position);
+        layoutItem.setTag(position);
         //On ajoute un listener
-        tvSurveyFamily.setOnClickListener(new View.OnClickListener() {
+        layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Lorsque l'on clique sur le nom, on récupère la position de la "SurveyFamily"
