@@ -67,17 +67,15 @@ public class SurveyAdapter extends BaseAdapter {
             layoutItem = (LinearLayout) convertView;
         }
 
+        Survey survey = mListSurvey.get(position);
+
         // si questionnaire terminé, et que l'on ne peut le refaire
         boolean bCanRestart;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        //if (sharedPreferences.contains("pref_qcm_restart")) {
-            bCanRestart = sharedPreferences.getBoolean("pref_qcm_restart", true);
-        //}
-        //else {
-        //    bCanRestart = true;
-        //}
 
-        if (mListSurvey.get(position).getQuestionInProgress() >= mListSurvey.get(position).getQuestions().size()) {
+        bCanRestart = sharedPreferences.getBoolean("pref_qcm_restart", true);
+
+        if (survey.getQuestionInProgress() >= survey.getQuestions().size()) {
             if (!bCanRestart) {
                 layoutItem.setEnabled(false);
             }
@@ -85,9 +83,17 @@ public class SurveyAdapter extends BaseAdapter {
 
         //(2) : Récupération des TextView du layout
         TextView tvSurvey = (TextView) layoutItem.findViewById(R.id.lvSurveyFamily_Survey_tvText);
+        TextView tvSurveyScore  = (TextView) layoutItem.findViewById(R.id.tvllSurveyFamily_Survey_Score);
+        TextView tvSurveyProgress = (TextView) layoutItem.findViewById(R.id.tvllSurveyFamily_Survey_Progress);
 
         //(3) : Renseignement des valeurs
-        tvSurvey.setText(mListSurvey.get(position).getName());
+        tvSurvey.setText(survey.getName());
+        tvSurveyScore.setText(Integer.toString(survey.getScore()));
+        tvSurveyProgress.setText(
+                Integer.toString(survey.getQuestionInProgress()) +
+                "/" +
+                Integer.toString(survey.getQuestions().size())
+        );
 
         //On mémorise la position dans le composant textview
         tvSurvey.setTag(position);
