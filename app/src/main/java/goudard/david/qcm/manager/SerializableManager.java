@@ -10,9 +10,12 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 
 /**
- * Created by david on 22/12/16.
+ * Manage serializable object
+ *
+ * @author David GOUDARD
+ * @since 22/12/2016
+ * @version 1
  */
-
 public class SerializableManager {
 
     /**
@@ -23,7 +26,6 @@ public class SerializableManager {
      * @param fileName     The name of the file.
      * @param <T>          The type of the object.
      */
-
     public static <T extends Serializable> void saveSerializable(Context context, T objectToSave, String fileName) {
         try {
             FileOutputStream fileOutputStream = context.openFileOutput(fileName, Context.MODE_PRIVATE);
@@ -46,7 +48,6 @@ public class SerializableManager {
      * @param <T>      The object type.
      * @return the serializable object.
      */
-
     public static <T extends Serializable> T readSerializable(Context context, String fileName) {
         T objectToReturn = null;
 
@@ -70,7 +71,6 @@ public class SerializableManager {
      * @param context  The application context.
      * @param filename The name of the file.
      */
-
     public static void removeSerializable(Context context, String filename) {
         context.deleteFile(filename);
     }
