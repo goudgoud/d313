@@ -108,7 +108,7 @@ public class QuestionAdapter extends BaseAdapter {
         LinearLayout layoutItem;
         //(1) : Réutilisation des layouts
         if (convertView == null) {
-            //Initialisation de notre item à partir du  layout XML
+            //Initialisation de notre item à partir du layout XML
             layoutItem = (LinearLayout) mInflater.inflate(R.layout.activity_survey_listview_question, parent, false);
         } else {
             layoutItem = (LinearLayout) convertView;
