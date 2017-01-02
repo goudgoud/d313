@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  * @author David GOUDARD
  * @version 1
- * @since 19/12/2016
+ * @since 19 /12/2016
  */
 public class SurveyFamily implements Serializable {
 
@@ -25,7 +25,7 @@ public class SurveyFamily implements Serializable {
     /**
      * Name getter
      *
-     * @return String
+     * @return String name
      */
     public String getName() {
         return this.name;
@@ -35,7 +35,7 @@ public class SurveyFamily implements Serializable {
      * Name setter
      *
      * @param name String
-     * @return SurveyFamily
+     * @return SurveyFamily name
      */
     public SurveyFamily setName(String name) {
         this.name = name;
@@ -45,7 +45,7 @@ public class SurveyFamily implements Serializable {
     /**
      * List of surveys getter
      *
-     * @return ArrayList<Survey>
+     * @return ArrayList<Survey>    questionnaire
      */
     public ArrayList<Survey> getQuestionnaire() {
         return this.questionnaires;
@@ -55,7 +55,7 @@ public class SurveyFamily implements Serializable {
      * Surveys list setter
      *
      * @param questionnaire ArrayList<Survey>
-     * @return SurveyFamily
+     * @return SurveyFamily questionnaire
      */
     public SurveyFamily setQuestionnaire(ArrayList<Survey> questionnaire) {
         this.questionnaires = questionnaire;
@@ -66,7 +66,7 @@ public class SurveyFamily implements Serializable {
      * Add a survey
      *
      * @param survey Survey
-     * @return SurveyFamily
+     * @return SurveyFamily survey family
      */
     public SurveyFamily addQuestionnaire(Survey survey) {
         if (questionnaires == null) {

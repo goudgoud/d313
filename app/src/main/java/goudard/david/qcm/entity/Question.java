@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  * @author David GOUDARD
  * @version 1
- * @since 19/12/2016
+ * @since 19 /12/2016
  */
 public class Question implements Serializable {
 
@@ -35,7 +35,7 @@ public class Question implements Serializable {
     /**
      * Title getter
      *
-     * @return String
+     * @return String titre
      */
     public String getTitre() {
         return this.titre;
@@ -45,7 +45,7 @@ public class Question implements Serializable {
      * Title setter
      *
      * @param titre String
-     * @return Question
+     * @return Question titre
      */
     public Question setTitre(String titre) {
         this.titre = titre;
@@ -55,7 +55,7 @@ public class Question implements Serializable {
     /**
      * List of response choice getter
      *
-     * @return ArrayList<String>
+     * @return ArrayList<String>    choix
      */
     public ArrayList<String> getChoix() {
         return choix;
@@ -65,7 +65,7 @@ public class Question implements Serializable {
      * List of choice setter
      *
      * @param choix ArrayList<String>
-     * @return Question
+     * @return Question choix
      */
     public Question setChoix(ArrayList<String> choix) {
         this.choix = choix;
@@ -75,7 +75,7 @@ public class Question implements Serializable {
     /**
      * Correct response getter
      *
-     * @return int
+     * @return int correct
      */
     public int getCorrect() {
         return this.correct;
@@ -85,7 +85,7 @@ public class Question implements Serializable {
      * Correct response setter
      *
      * @param correct int number of good response
-     * @return Question
+     * @return Question correct
      */
     public Question setCorrect(int correct) {
         this.correct = correct;
@@ -95,7 +95,7 @@ public class Question implements Serializable {
     /**
      * User response getter
      *
-     * @return int
+     * @return int response
      */
     public int getResponse() {
         return this.response;
@@ -105,7 +105,7 @@ public class Question implements Serializable {
      * Use response setter
      *
      * @param response int
-     * @return Question
+     * @return Question response
      */
     public Question setResponse(int response) {
         this.response = response;

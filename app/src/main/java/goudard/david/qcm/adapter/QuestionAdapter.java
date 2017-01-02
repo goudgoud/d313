@@ -25,7 +25,7 @@ import goudard.david.qcm.entity.Survey;
  *
  * @author david
  * @version 1
- * @since 24/12/2016
+ * @since 24 /12/2016
  */
 public class QuestionAdapter extends BaseAdapter {
 

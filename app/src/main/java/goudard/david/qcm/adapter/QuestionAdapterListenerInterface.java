@@ -5,7 +5,7 @@ package goudard.david.qcm.adapter;
  *
  * @author David GOUDARD
  * @version 1
- * @since 24/12/2016
+ * @since 24 /12/2016
  */
 public interface QuestionAdapterListenerInterface {
 
@@ -15,5 +15,5 @@ public interface QuestionAdapterListenerInterface {
      * @param item     String choice of response
      * @param position int
      */
-    public void onClickQuestion(String item, int position);
+    void onClickQuestion(String item, int position);
 }

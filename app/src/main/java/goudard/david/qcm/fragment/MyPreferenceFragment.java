@@ -10,7 +10,7 @@ import goudard.david.qcm.R;
  *
  * @author David GOUDARD
  * @version 1
- * @since 23/12/2016
+ * @since 23 /12/2016
  */
 public class MyPreferenceFragment extends PreferenceFragment {
     @Override

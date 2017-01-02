@@ -87,7 +87,10 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
      */
     private Context mContext;
 
-    /*
+    /**
+     * The M handler.
+     */
+/*
     * Handler pour éviter l'erreur
     * CalledFromWrongThreadException :
     * Only the original thread that created a view hierarchy can touch its views

@@ -5,15 +5,11 @@ import android.content.Context;
 import goudard.david.qcm.R;
 
 /**
- * Created by david on 01/01/17.
- */
-
-/**
  * ElapsedTime class
  *
  * @author David GOUDARD
  * @version 1
- * @since 01/01/2017
+ * @since 01 /01/2017
  */
 public class ElapsedTime {
 

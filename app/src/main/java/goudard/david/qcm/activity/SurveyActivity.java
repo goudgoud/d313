@@ -30,18 +30,32 @@ import goudard.david.qcm.tools.ElapsedTime;
  *
  * @author David Goudard
  * @version 1
- * @since 24/12/2016
+ * @since 24 /12/2016
  */
 public class SurveyActivity extends AppCompatActivity implements QuestionAdapterListenerInterface {
+    /**
+     * The constant KEY_FROM_SURVEY.
+     */
     public static final String KEY_FROM_SURVEY = "KEY_FROM_SURVEY";
     private Survey survey;
     private long startQuestion;
     private ElapsedTime elapsedTime;
 
+    /**
+     * Gets survey.
+     *
+     * @return the survey
+     */
     public Survey getSurvey() {
         return this.survey;
     }
 
+    /**
+     * Sets survey.
+     *
+     * @param survey the survey
+     * @return the survey
+     */
     public SurveyActivity setSurvey(Survey survey) {
         this.survey = survey;
         return this;

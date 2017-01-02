@@ -37,7 +37,13 @@ import static goudard.david.qcm.activity.SurveyActivity.KEY_FROM_SURVEY;
  */
 public class SurveyFamilyActivity extends AppCompatActivity implements SurveyAdapterListenerInterface {
 
+    /**
+     * The constant KEY_FROM_SURVEY_FAMILY.
+     */
     public static final String KEY_FROM_SURVEY_FAMILY = "KEY_FROM_SURVEY_FAMILY";
+    /**
+     * The constant RQC_SURVEY.
+     */
     public static final int RQC_SURVEY = 3001;
     private SurveyFamily surveyFamily;
     private SharedPreferences sharedPreferences;

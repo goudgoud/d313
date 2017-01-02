@@ -17,7 +17,7 @@ import goudard.david.qcm.tools.QcmJsonParser;
  *
  * @author David GOUDARD
  * @version 1
- * @since 23/12/2016
+ * @since 23 /12/2016
  */
 public class QcmStorageManager {
 
@@ -25,7 +25,7 @@ public class QcmStorageManager {
      * Load tests
      *
      * @param context Context in use
-     * @return Qcm
+     * @return Qcm qcm
      */
     public static Qcm loadQcm(Context context) {
         return (Qcm) SerializableManager.readSerializable(context, "qcm.tmp");
@@ -36,7 +36,7 @@ public class QcmStorageManager {
      *
      * @param context Context in use
      * @param qcm     Qcm
-     * @return boolean
+     * @return boolean boolean
      */
     static public boolean saveQcm(Context context, Qcm qcm) {
         try {
@@ -52,8 +52,8 @@ public class QcmStorageManager {
      * Download tests from server
      *
      * @param context Context in use
-     * @return Qcm
-     * @throws JSONException
+     * @return Qcm qcm
+     * @throws JSONException the json exception
      */
     static public Qcm downloadQcm(Context context) throws JSONException {
         Qcm qcm = null;

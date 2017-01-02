@@ -11,7 +11,7 @@ import goudard.david.qcm.R;
  *
  * @author David Goudard
  * @version 1
- * @since 31/12/2016
+ * @since 31 /12/2016
  */
 public class SplashScreenActivity extends Activity {
 

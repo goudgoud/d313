@@ -13,10 +13,13 @@ import goudard.david.qcm.R;
  *
  * @author David GOUDARD
  * @version 1
- * @since 30/12/2016
+ * @since 30 /12/2016
  */
 public class MainInternalFragment extends Fragment {
 
+    /**
+     * Instantiates a new Main internal fragment.
+     */
     public MainInternalFragment() {
         // Required empty public constructor
     }

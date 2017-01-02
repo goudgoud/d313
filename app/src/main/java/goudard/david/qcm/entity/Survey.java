@@ -9,7 +9,7 @@ import java.util.Iterator;
  *
  * @author David GOUDARD
  * @version 1
- * @since 19/12/2016
+ * @since 19 /12/2016
  */
 public class Survey implements Serializable {
 
@@ -46,7 +46,7 @@ public class Survey implements Serializable {
     /**
      * Code getter
      *
-     * @return String
+     * @return String code
      */
     public String getCode() {
         return this.code;
@@ -56,7 +56,7 @@ public class Survey implements Serializable {
      * Code setter
      *
      * @param code String
-     * @return Survey
+     * @return Survey code
      */
     public Survey setCode(String code) {
         this.code = code;
@@ -66,7 +66,7 @@ public class Survey implements Serializable {
     /**
      * Name getter
      *
-     * @return String
+     * @return String name
      */
     public String getName() {
         return this.name;
@@ -76,7 +76,7 @@ public class Survey implements Serializable {
      * Name setter
      *
      * @param name String
-     * @return Survey
+     * @return Survey name
      */
     public Survey setName(String name) {
         this.name = name;
@@ -86,7 +86,7 @@ public class Survey implements Serializable {
     /**
      * List of questions getter
      *
-     * @return ArrayList<Question>
+     * @return ArrayList<Question>    questions
      */
     public ArrayList<Question> getQuestions() {
         return this.questions;
@@ -96,7 +96,7 @@ public class Survey implements Serializable {
      * List of questions setter
      *
      * @param questions ArrayList<Question>
-     * @return Survey
+     * @return Survey questions
      */
     public Survey setQuestions(ArrayList<Question> questions) {
         this.questions = questions;
@@ -107,7 +107,7 @@ public class Survey implements Serializable {
      * Add a question
      *
      * @param question Question to add
-     * @return Survey
+     * @return Survey survey
      */
     public Survey addQuestion(Question question) {
         if (questions == null) {
@@ -120,7 +120,7 @@ public class Survey implements Serializable {
     /**
      * Score getter
      *
-     * @return int
+     * @return int score
      */
     public int getScore() {
         return this.score;
@@ -130,7 +130,7 @@ public class Survey implements Serializable {
      * Score getter
      *
      * @param score int
-     * @return Survey
+     * @return Survey score
      */
     public Survey setScore(int score) {
         this.score = score;
@@ -140,7 +140,7 @@ public class Survey implements Serializable {
     /**
      * Question number in progress getter
      *
-     * @return int
+     * @return int question in progress
      */
     public int getQuestionInProgress() {
         return questionInProgress;
@@ -150,7 +150,7 @@ public class Survey implements Serializable {
      * Question number in progress setter
      *
      * @param questionInProgress int
-     * @return Survey
+     * @return Survey question in progress
      */
     public Survey setQuestionInProgress(int questionInProgress) {
         this.questionInProgress = questionInProgress;
@@ -166,7 +166,7 @@ public class Survey implements Serializable {
      * Reset the survey
      * Score and questionInProgress are set to 0
      *
-     * @return Survey
+     * @return Survey survey
      */
     public Survey reset() {
         this.score = 0;
@@ -186,7 +186,7 @@ public class Survey implements Serializable {
     /**
      * Elapsed time in second getter
      *
-     * @return long
+     * @return long time elapsed
      */
     public long getTimeElapsed() {
         return this.timeElapsed;
@@ -196,7 +196,7 @@ public class Survey implements Serializable {
      * Elapsed time setter
      *
      * @param timeElapsed long in seconds
-     * @return Survey
+     * @return Survey time elapsed
      */
     public Survey setTimeElapsed(long timeElapsed) {
         this.timeElapsed = timeElapsed;
@@ -207,7 +207,7 @@ public class Survey implements Serializable {
      * Add second(s) to elapsed time
      *
      * @param time long
-     * @return Survey
+     * @return Survey survey
      */
     public Survey addTimeElapsed(long time) {
         this.timeElapsed += time;

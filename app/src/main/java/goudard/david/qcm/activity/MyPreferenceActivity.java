@@ -12,7 +12,7 @@ import goudard.david.qcm.fragment.MyPreferenceFragment;
  *
  * @author David Goudard
  * @version 1
- * @since 23/12/2106
+ * @since 23 /12/2106
  */
 public class MyPreferenceActivity extends PreferenceActivity {
 

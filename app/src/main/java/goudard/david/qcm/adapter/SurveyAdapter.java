@@ -21,7 +21,7 @@ import goudard.david.qcm.entity.Survey;
  *
  * @author David GOUDARD
  * @version 1
- * @since 23/12/2016
+ * @since 23 /12/2016
  */
 public class SurveyAdapter extends BaseAdapter {
 
@@ -113,7 +113,7 @@ public class SurveyAdapter extends BaseAdapter {
 
         tvSurveyProgress.setText(
                 Integer.toString(
-                        (int) (100 * survey.getQuestionInProgress() / survey.getQuestions().size())
+                        100 * survey.getQuestionInProgress() / survey.getQuestions().size()
                 ) + "%"
         );
 

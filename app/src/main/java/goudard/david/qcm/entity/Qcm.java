@@ -8,7 +8,7 @@ import java.util.ArrayList;
  *
  * @author David GOUDARD
  * @version 1
- * @since 19/12/2016
+ * @since 19 /12/2016
  */
 public class Qcm implements Serializable {
 
@@ -20,7 +20,7 @@ public class Qcm implements Serializable {
     /**
      * Survey families getter
      *
-     * @return ArrayList<SurveyFamily>
+     * @return ArrayList<SurveyFamily>    famille questionnaire
      */
     public ArrayList<SurveyFamily> getFamilleQuestionnaire() {
         return this.familleQuestionnaires;
@@ -30,7 +30,7 @@ public class Qcm implements Serializable {
      * Survey families setter
      *
      * @param familleQuestionnaire ArrayList<SurveyFamily> list of survey families
-     * @return Qcm
+     * @return Qcm famille questionnaire
      */
     public Qcm setFamilleQuestionnaire(ArrayList<SurveyFamily> familleQuestionnaire) {
         this.familleQuestionnaires = familleQuestionnaire;
@@ -41,7 +41,7 @@ public class Qcm implements Serializable {
      * Add a survey family
      *
      * @param surveyFamily SurveyFamily
-     * @return Qcm
+     * @return Qcm qcm
      */
     public Qcm addFamilleQuestionnaire(SurveyFamily surveyFamily) {
         if (familleQuestionnaires == null) {

@@ -24,10 +24,16 @@ import static goudard.david.qcm.R.color;
  * @author David GOUDARD
  * @version 1
  * @see goudard.david.qcm.adapter.QuestionAdapter
- * @since 24/12/2016
+ * @since 24 /12/2016
  */
 public class AnswerAdapter extends QuestionAdapter {
 
+    /**
+     * Instantiates a new Answer adapter.
+     *
+     * @param context  the context
+     * @param question the question
+     */
     public AnswerAdapter(Context context, Question question) {
         super(context, question);
     }
