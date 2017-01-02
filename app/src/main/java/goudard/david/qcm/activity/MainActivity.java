@@ -41,18 +41,50 @@ import goudard.david.qcm.fragment.MainInternalFragment;
 import static goudard.david.qcm.R.string.download_qcm;
 import static goudard.david.qcm.activity.SurveyFamilyActivity.KEY_FROM_SURVEY_FAMILY;
 
+/**
+ * Main Activity
+ *
+ * @author David Goudard
+ * @version 1
+ */
 public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapterListenerInterface {
 
+    /**
+     * The constant MSG_ERR.
+     */
     public static final int MSG_ERR = 0;
+    /**
+     * The constant MSG_CNF.
+     */
     public static final int MSG_CNF = 1;
+    /**
+     * The constant MSG_IND.
+     */
     public static final int MSG_IND = 2;
+    /**
+     * The constant TAG.
+     */
     public static final String TAG = "MainActivity";
+    /**
+     * The Key from main.
+     */
     static final String KEY_FROM_MAIN = "KEY_FROM_MAIN";
+    /**
+     * The Rqc survey family.
+     */
     static final int RQC_SURVEY_FAMILY = 101;
+    /**
+     * The M progress dialog.
+     */
     protected ProgressDialog mProgressDialog;
+    /**
+     * The Toolbar.
+     */
     Toolbar toolbar;
 
-    ;
+    /**
+     * Context of activity
+     */
     private Context mContext;
 
     /*
@@ -94,6 +126,9 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
     private TextView tvMessageSystem = null;
     private Qcm qcm;
 
+    /**
+     * @param savedInstanceState Bundle
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(
@@ -115,6 +150,9 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         loadQcm();
     }
 
+    /**
+     * Load tests from internet if empty else load from device
+     */
     private void loadQcm() {
         this.qcm = QcmStorageManager.loadQcm(this);
         // if qcm doesn't exist on disk, load from internet
@@ -123,6 +161,9 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         }
     }
 
+    /**
+     * @return ErrorStatus
+     */
     private ErrorStatus saveQcm() {
         if (QcmStorageManager.saveQcm(this, this.qcm)) {
             return ErrorStatus.NO_ERROR;
@@ -131,11 +172,18 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         }
     }
 
+    /**
+     * @return ErrorStatus
+     * @throws JSONException
+     */
     private ErrorStatus runDownloadQcm() throws JSONException {
         this.qcm = QcmStorageManager.downloadQcm(this);
         return (this.qcm == null ? ErrorStatus.ERROR_DOWNLOAD : ErrorStatus.NO_ERROR);
     }
 
+    /**
+     * Download tests from server
+     */
     private void downloadQcm() {
         mProgressDialog = ProgressDialog.show(this, getString(R.string.please_wait),
                 "...", true);
@@ -188,6 +236,9 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         })).start();
     }
 
+    /**
+     * Init main fragment
+     */
     private void initFragment() {
         final MainInternalFragment fragment = new MainInternalFragment();
         Bundle bundle = new Bundle();
@@ -199,6 +250,9 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                 .commit();
     }
 
+    /**
+     * Init bottom Toolbar
+     */
     private void initBottomToolBar() {
         AHBottomNavigation bottomNavigation = (AHBottomNavigation) findViewById(R.id.bottom_navigation);
         assert bottomNavigation != null;
@@ -246,6 +300,9 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
     }
 
 
+    /**
+     * Show scoring
+     */
     private void showScore() {
 
     }
@@ -267,6 +324,9 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         QcmStorageManager.saveQcm(this, this.qcm);
     }
 
+    /**
+     * Init Listview of tests
+     */
     private void initListView_Qcm() {
         //Récupération de la liste des personnes
         ArrayList<SurveyFamily> listSurveyFamily = this.qcm.getFamilleQuestionnaire();
@@ -283,6 +343,12 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         adapter.notifyDataSetChanged();
     }
 
+    /**
+     * Event on menu option
+     *
+     * @param item MenuItem
+     * @return boolean
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -296,6 +362,12 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * Event on option creation
+     *
+     * @param menu Menu
+     * @return boolean
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -303,6 +375,12 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         return true;
     }
 
+    /**
+     * Event on click on test
+     *
+     * @param item     SurveyFamily
+     * @param position int
+     */
     public void onClickSurveyFamily(SurveyFamily item, int position) {
         Intent myIntent = new Intent(MainActivity.this, SurveyFamilyActivity.class);
         //this.surveyFamily = item;
@@ -310,6 +388,13 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         startActivityForResult(myIntent, RQC_SURVEY_FAMILY);
     }
 
+    /**
+     * Return of activity called by intent
+     *
+     * @param requestCode int
+     * @param resultCode  int
+     * @param data        Intent
+     */
     @TargetApi(Build.VERSION_CODES.KITKAT)
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         Resources res = getResources();
@@ -335,6 +420,11 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         }
     }
 
+    /**
+     * Getter of TextView names tvMessageSystem
+     *
+     * @return TextView tv message system
+     */
     public TextView getTvMessageSystem() {
         if (tvMessageSystem == null) {
             tvMessageSystem = (TextView) findViewById(R.id.tvMainActivity_MessageSystem);
@@ -342,7 +432,19 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         return tvMessageSystem;
     }
 
+    /**
+     * The enum Error status.
+     */
     enum ErrorStatus {
-        NO_ERROR, ERROR_DOWNLOAD, ERROR_SAVE
+        /**
+         * No error error status.
+         */
+        NO_ERROR, /**
+         * Error download error status.
+         */
+        ERROR_DOWNLOAD, /**
+         * Error save error status.
+         */
+        ERROR_SAVE
     }
 }
