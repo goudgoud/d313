@@ -70,7 +70,7 @@ public class QuestionAdapter extends BaseAdapter {
     /**
      * Comptage des items
      *
-     * @return int
+     * @return items amount
      */
     public int getCount() {
         return mQuestion.getChoix().size();
@@ -79,8 +79,8 @@ public class QuestionAdapter extends BaseAdapter {
     /**
      * Choices identification by position
      *
-     * @param position int
-     * @return Object
+     * @param position in ListView
+     * @return Object at position in list
      */
     public Object getItem(int position) {
         return mQuestion.getChoix().get(position);

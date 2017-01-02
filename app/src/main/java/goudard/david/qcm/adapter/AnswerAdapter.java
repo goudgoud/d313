@@ -35,11 +35,12 @@ public class AnswerAdapter extends QuestionAdapter {
     /**
      * Show line of ListView
      *
-     * @param position    int
-     * @param convertView View
+     * @param position    number in listview
+     * @param convertView View used
      * @param parent      ViewGroup
      * @return View
      */
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LinearLayout layoutItem;

@@ -5,7 +5,7 @@ import android.content.Context;
 import org.json.JSONException;
 
 import goudard.david.qcm.entity.Qcm;
-import goudard.david.qcm.tools.Internet;
+import goudard.david.qcm.tools.Network;
 import goudard.david.qcm.tools.QcmJsonParser;
 
 /**
@@ -58,8 +58,8 @@ public class QcmStorageManager {
     static public Qcm downloadQcm(Context context) throws JSONException {
         Qcm qcm = null;
 
-        if (Internet.isNetworkAvailable(context)) {
-            if (Internet.isNetworkConnectivity(context)) {
+        if (Network.isNetworkAvailable(context)) {
+            if (Network.isNetworkConnectivity(context)) {
                 QcmJsonParser qcmParser = new QcmJsonParser(context);
                 qcm = qcmParser.getQcm();
             }

@@ -122,13 +122,22 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
             }
         }
     };
-    private ErrorStatus status;
-    private TextView tvMessageSystem = null;
-    private Qcm qcm;
 
     /**
-     * @param savedInstanceState Bundle
+     * Error status
      */
+    private ErrorStatus status;
+
+    /**
+     * The message system TextView
+     */
+    private TextView tvMessageSystem = null;
+
+    /**
+     * The Multiple Choices Test
+     */
+    private Qcm qcm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         AppCompatDelegate.setDefaultNightMode(
@@ -162,7 +171,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
     }
 
     /**
-     * @return ErrorStatus
+     * @return the saved test status
      */
     private ErrorStatus saveQcm() {
         if (QcmStorageManager.saveQcm(this, this.qcm)) {
@@ -173,7 +182,9 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
     }
 
     /**
-     * @return ErrorStatus
+     * Launch the test download
+     *
+     * @return ErrorStatus the status of download
      * @throws JSONException
      */
     private ErrorStatus runDownloadQcm() throws JSONException {
@@ -195,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                 String progressBarData = getString(R.string.download_qcm);
 
                 // populates the message
-                msg = mHandler.obtainMessage(MSG_IND, (Object) progressBarData);
+                msg = mHandler.obtainMessage(MSG_IND, progressBarData);
                 // sends the message to our handler
                 mHandler.sendMessage(msg);
 
@@ -215,7 +226,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                 } else {
                     progressBarData = getString(R.string.save);
                     // populates the message
-                    msg = mHandler.obtainMessage(MSG_IND, (Object) progressBarData);
+                    msg = mHandler.obtainMessage(MSG_IND, progressBarData);
                     // sends the message to our handler
                     mHandler.sendMessage(msg);
                     status = saveQcm();
@@ -346,7 +357,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
     /**
      * Event on menu option
      *
-     * @param item MenuItem
+     * @param item the selected MenuItem
      * @return boolean
      */
     @Override
@@ -365,7 +376,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
     /**
      * Event on option creation
      *
-     * @param menu Menu
+     * @param menu Menu selected
      * @return boolean
      */
     @Override
@@ -378,8 +389,8 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
     /**
      * Event on click on test
      *
-     * @param item     SurveyFamily
-     * @param position int
+     * @param item     the selected SurveyFamily
+     * @param position in the listView
      */
     public void onClickSurveyFamily(SurveyFamily item, int position) {
         Intent myIntent = new Intent(MainActivity.this, SurveyFamilyActivity.class);
@@ -389,6 +400,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
     }
 
     /**
+     * Dispatch incoming result to the correct fragment.
      * Return of activity called by intent
      *
      * @param requestCode int

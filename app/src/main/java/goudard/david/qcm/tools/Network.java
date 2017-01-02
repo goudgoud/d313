@@ -11,7 +11,11 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
  * Created by david on 21/12/16.
  */
 
-public class Internet {
+/**
+ * Network class
+ * Use to
+ */
+public class Network {
 
     public static boolean isNetworkConnectivity(Context context) {
         boolean value = true;

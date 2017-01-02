@@ -5,8 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import goudard.david.qcm.R;
-import goudard.david.qcm.tools.Internet;
-import goudard.david.qcm.tools.QcmJsonParser;
 
 /**
  * The application splashscreen

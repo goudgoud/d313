@@ -111,7 +111,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
      * Init the listview
      *
      * @param adapter QuestionAdapter or AnswerAdapter
-     * @param questionToShow int
+     * @param questionToShow the number of question in ListView
      */
     private void initView(QuestionAdapter adapter, int questionToShow) {
         TextView tv = (TextView) findViewById(R.id.tvSurveyActivity_Question_Title);
@@ -144,8 +144,8 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
      * Store elapsed time, verify answer (+1 point if correct)
      * And show the answer. If wrong show in green the correct response.
      *
-     * @param item
-     * @param position
+     * @param item the selected question
+     * @param position in the Listview
      */
     @Override
     public void onClickQuestion(String item, int position) {
@@ -212,8 +212,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         //assert tvTitle != null;
         if (score == nbQuestions) {
             tvTitle.setText(getString((R.string.congratulations)));
-        }
-        else if ( score > (int) (nbQuestions / 2)) {
+        } else if (score > nbQuestions / 2) {
             tvTitle.setText(getString(R.string.good_results));
         }
         else {
