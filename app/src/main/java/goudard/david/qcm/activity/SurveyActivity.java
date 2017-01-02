@@ -25,19 +25,37 @@ import goudard.david.qcm.entity.Survey;
 import goudard.david.qcm.tools.ElapsedTime;
 
 /**
- * Created by david on 24/12/16.
+ * The Survey activy.
+ * Use to manage questions and show good/wrong responses, count score et elapsed time
+ *
+ * @author David Goudard
+ * @version 1
+ * @since 24 /12/2016
  */
-
 public class SurveyActivity extends AppCompatActivity implements QuestionAdapterListenerInterface {
+    /**
+     * The constant KEY_FROM_SURVEY.
+     */
     public static final String KEY_FROM_SURVEY = "KEY_FROM_SURVEY";
     private Survey survey;
     private long startQuestion;
     private ElapsedTime elapsedTime;
 
+    /**
+     * Gets survey.
+     *
+     * @return the survey
+     */
     public Survey getSurvey() {
         return this.survey;
     }
 
+    /**
+     * Sets survey.
+     *
+     * @param survey the survey
+     * @return the survey
+     */
     public SurveyActivity setSurvey(Survey survey) {
         this.survey = survey;
         return this;
@@ -72,6 +90,9 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         }
     }
 
+    /**
+     * Manage showing of questions and start time count
+     */
     private void showQuestion() {
         //Création et initialisation de l'Adapter
         //Récupération de la liste
@@ -84,6 +105,9 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         elapsedTime.start();
     }
 
+    /**
+     * Manage showing response and good solution.
+     */
     private void showAnswer() {
         FloatingActionButton button = (FloatingActionButton) findViewById(R.id.btnSurveyActivity_ButtonNext);
         int questionToShow = this.survey.getQuestionInProgress() - 1;
@@ -97,6 +121,12 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         initView(adapter, questionToShow);
     }
 
+    /**
+     * Init the listview
+     *
+     * @param adapter QuestionAdapter or AnswerAdapter
+     * @param questionToShow the number of question in ListView
+     */
     private void initView(QuestionAdapter adapter, int questionToShow) {
         TextView tv = (TextView) findViewById(R.id.tvSurveyActivity_Question_Title);
         //int questionInProgress = survey.getQuestionInProgress();
@@ -123,13 +153,14 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         adapter.notifyDataSetChanged();
     }
 
-    private ArrayList<String> getListChoixQuestion(int questionToShow) {
-        //Récupération de la liste
-        ArrayList<Question> questions = this.survey.getQuestions();
-        Question question = questions.get(questionToShow);
-        return question.getChoix();
-    }
-
+    /**
+     * Event when a question is clicked.
+     * Store elapsed time, verify answer (+1 point if correct)
+     * And show the answer. If wrong show in green the correct response.
+     *
+     * @param item the selected question
+     * @param position in the Listview
+     */
     @Override
     public void onClickQuestion(String item, int position) {
         // temps écoulé pour la question
@@ -158,6 +189,11 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         super.finish();
     }
 
+    /**
+     * Use to go to next question or terminate survey
+     *
+     * @param v View
+     */
     public void onClickNext(View v) {
         int question = this.survey.getQuestionInProgress();
         if (question + 1 > this.survey.getQuestions().size()) {
@@ -172,6 +208,9 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         }
     }
 
+    /**
+     * On the end of survey, show results in Dialog
+     */
     private void showResult() {
         final Dialog dialog = new Dialog(this);
 
@@ -187,8 +226,7 @@ public class SurveyActivity extends AppCompatActivity implements QuestionAdapter
         //assert tvTitle != null;
         if (score == nbQuestions) {
             tvTitle.setText(getString((R.string.congratulations)));
-        }
-        else if ( score > (int) (nbQuestions / 2)) {
+        } else if (score > nbQuestions / 2) {
             tvTitle.setText(getString(R.string.good_results));
         }
         else {

@@ -27,7 +27,6 @@ import goudard.david.qcm.entity.SurveyFamily;
 /**
  * Created by david on 19/12/16.
  */
-
 public class QcmJsonParser {
 
     private static final String QCM_URL = "http://daviddurand.info/D228/qcm";
@@ -37,6 +36,12 @@ public class QcmJsonParser {
     private Context context;
 
 
+    /**
+     * Instantiates a new Qcm json parser.
+     *
+     * @param m the m
+     * @throws JSONException the json exception
+     */
     public QcmJsonParser(Context m) throws JSONException {
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
@@ -45,6 +50,11 @@ public class QcmJsonParser {
         downloadQcm();
     }
 
+    /**
+     * Gets qcm.
+     *
+     * @return the qcm
+     */
     public Qcm getQcm() {
         return this.qcm;
     }

@@ -17,21 +17,42 @@ import goudard.david.qcm.activity.SurveyActivity;
 import static goudard.david.qcm.R.color;
 
 /**
- * Created by david on 24/12/16.
+ * Answer adapter
+ * <p>
+ * Use to show user response and if necessary the good response
+ *
+ * @author David GOUDARD
+ * @version 1
+ * @see goudard.david.qcm.adapter.QuestionAdapter
+ * @since 24 /12/2016
  */
-
 public class AnswerAdapter extends QuestionAdapter {
 
+    /**
+     * Instantiates a new Answer adapter.
+     *
+     * @param context  the context
+     * @param question the question
+     */
     public AnswerAdapter(Context context, Question question) {
         super(context, question);
     }
 
+    /**
+     * Show line of ListView
+     *
+     * @param position    number in listview
+     * @param convertView View used
+     * @param parent      ViewGroup
+     * @return View
+     */
+    @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LinearLayout layoutItem;
 
         //(1) : Réutilisation des layouts
-       layoutItem = (LinearLayout) mInflater.inflate(R.layout.activity_survey_listview_question, parent, false);
+        layoutItem = (LinearLayout) mInflater.inflate(R.layout.activity_survey_listview_question, parent, false);
 
         // change couleur de fond
         layoutItem.setBackgroundColor(mContext.getResources().getColor(color.list_row_hover_start_color));

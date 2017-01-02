@@ -15,42 +15,49 @@ import goudard.david.qcm.R;
 import goudard.david.qcm.entity.SurveyFamily;
 
 /**
- * Created by david on 23/12/16.
+ * SurveyFamily Adapter
+ *
+ * @author David GOUDARD
+ * @version 1
+ * @since 23 /12/2016
  */
-
 public class SurveyFamilyAdapter extends BaseAdapter {
 
-    // Une liste de familles de questionnaires
+    /**
+     * List of family surveys
+     */
     private List<SurveyFamily> mListSurveyFamilly;
 
-    //Le contexte dans lequel est présent l' adapter
-    private Context mContext;
-
-    //Un mécanisme pour gérer l'affichage graphique depuis un layout XML
+    /**
+     * Manage graphical show
+     */
     private LayoutInflater mInflater;
 
-    //Contient la liste des listeners
+    /**
+     * List of listeners
+     */
     private ArrayList<SurveyFamilyAdapterListenerInterface> mListListener = new ArrayList<SurveyFamilyAdapterListenerInterface>();
 
-
+    /**
+     * Constructor
+     *
+     * @param context           Context of adapter
+     * @param aListSurveyFamily List of family surveys
+     */
     public SurveyFamilyAdapter(Context context, List<SurveyFamily> aListSurveyFamily) {
-        this.mContext = context;
+        //The adapter Context
         this.mListSurveyFamilly = aListSurveyFamily;
-        this.mInflater = LayoutInflater.from(mContext);
+        this.mInflater = LayoutInflater.from(context);
     }
 
-    // Comptage des items
     public int getCount() {
         return mListSurveyFamilly.size();
     }
 
-    // Identification des items
-    // par position
     public Object getItem(int position) {
         return mListSurveyFamilly.get(position);
     }
 
-    // par id
     public long getItemId(int position) {
         return position;
     }
@@ -59,7 +66,7 @@ public class SurveyFamilyAdapter extends BaseAdapter {
         LinearLayout layoutItem;
         //(1) : Réutilisation des layouts
         if (convertView == null) {
-            //Initialisation de notre item à partir du  layout XML "personne_layout.xml"
+            //Initialisation de notre item à partir du  layout XML
             layoutItem = (LinearLayout) mInflater.inflate(R.layout.activity_main_listview_qcm, parent, false);
         } else {
             layoutItem = (LinearLayout) convertView;
@@ -72,9 +79,9 @@ public class SurveyFamilyAdapter extends BaseAdapter {
         tvSurveyFamily.setText(mListSurveyFamilly.get(position).getName());
 
         //On mémorise la position dans le composant textview
-        tvSurveyFamily.setTag(position);
+        layoutItem.setTag(position);
         //On ajoute un listener
-        tvSurveyFamily.setOnClickListener(new View.OnClickListener() {
+        layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Lorsque l'on clique sur le nom, on récupère la position de la "SurveyFamily"
@@ -88,18 +95,21 @@ public class SurveyFamilyAdapter extends BaseAdapter {
         return layoutItem;
     }
 
-
-    /***************************
-     * Listener
-     */
-
     /**
-     * Pour ajouter un listener sur notre adapter
+     * Listener
+     *
+     * @param aListener SurveyFamilyAdapterListenerInterface
      */
     public void addListener(SurveyFamilyAdapterListenerInterface aListener) {
         mListListener.add(aListener);
     }
 
+    /**
+     * Send listeners
+     *
+     * @param item     SurveyFamily
+     * @param position int
+     */
     private void sendListener(SurveyFamily item, int position) {
         for (int i = mListListener.size() - 1; i >= 0; i--) {
             mListListener.get(i).onClickSurveyFamily(item, position);

@@ -1,21 +1,22 @@
 package goudard.david.qcm.activity;
 
-/**
- * Created by david on 31/12/16.
- */
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
 import goudard.david.qcm.R;
-import goudard.david.qcm.tools.Internet;
-import goudard.david.qcm.tools.QcmJsonParser;
 
+/**
+ * The application splashscreen
+ *
+ * @author David Goudard
+ * @version 1
+ * @since 31 /12/2016
+ */
 public class SplashScreenActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash);
 
@@ -36,7 +37,6 @@ public class SplashScreenActivity extends Activity {
 
     @Override
     protected void onPause() {
-        // TODO Auto-generated method stub
         super.onPause();
         finish();
     }

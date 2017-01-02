@@ -20,51 +20,95 @@ import goudard.david.qcm.entity.Survey;
  * Created by david on 24/12/16.
  */
 
+/**
+ * Question Adapter
+ *
+ * @author david
+ * @version 1
+ * @since 24 /12/2016
+ */
 public class QuestionAdapter extends BaseAdapter {
 
-    // Une liste de questions
+    /**
+     * List of possible choices
+     */
     protected List<String> mListChoix;
 
-    //Le contexte dans lequel est présent l' adapter
+    /**
+     * Context of adapter
+     */
     protected Context mContext;
 
-    //Un mécanisme pour gérer l'affichage graphique depuis un layout XML
+    /**
+     * The layout inflater
+     */
     protected LayoutInflater mInflater;
 
+    /**
+     * The current question
+     */
     protected Question mQuestion;
 
-    //Contient la liste des listeners
+    /**
+     * List of Listeners
+     */
     private ArrayList<QuestionAdapterListenerInterface> mListListener = new ArrayList<QuestionAdapterListenerInterface>();
 
 
+    /**
+     * Constructor
+     *
+     * @param context  Context parent
+     * @param question Question in progress
+     */
     public QuestionAdapter(Context context, Question question) {
         this.mContext = context;
-       // this.mListChoix = aListChoix;
         this.mQuestion = question;
         this.mInflater = LayoutInflater.from(mContext);
     }
 
-    // Comptage des items
+    /**
+     * Comptage des items
+     *
+     * @return items amount
+     */
     public int getCount() {
         return mQuestion.getChoix().size();
     }
 
-    // Identification des items
-    // par position
+    /**
+     * Choices identification by position
+     *
+     * @param position in ListView
+     * @return Object at position in list
+     */
     public Object getItem(int position) {
         return mQuestion.getChoix().get(position);
     }
 
-    // par id
+    /**
+     * Identification by id
+     *
+     * @param position int
+     * @return long
+     */
     public long getItemId(int position) {
         return position;
     }
 
+    /**
+     * Show line of listview
+     *
+     * @param position    int
+     * @param convertView View
+     * @param parent      ViewGroup
+     * @return View
+     */
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout layoutItem;
         //(1) : Réutilisation des layouts
         if (convertView == null) {
-            //Initialisation de notre item à partir du  layout XML
+            //Initialisation de notre item à partir du layout XML
             layoutItem = (LinearLayout) mInflater.inflate(R.layout.activity_survey_listview_question, parent, false);
         } else {
             layoutItem = (LinearLayout) convertView;
@@ -77,9 +121,9 @@ public class QuestionAdapter extends BaseAdapter {
         tvQuestion.setText(mQuestion.getChoix().get(position));
 
         //On mémorise la position dans le composant textview
-        tvQuestion.setTag(position);
+        layoutItem.setTag(position);
         //On ajoute un listener
-        tvQuestion.setOnClickListener(new View.OnClickListener() {
+        layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Lorsque l'on clique sur le nom, on récupère la position de la "Survey"
@@ -89,24 +133,25 @@ public class QuestionAdapter extends BaseAdapter {
             }
         });
 
-        ImageView imageView = (ImageView) layoutItem.findViewById(R.id.lvQuestion_img);
-
         //On retourne l'item créé.
         return layoutItem;
     }
 
-
-    /***************************
-     * Listener
-     */
-
     /**
-     * Pour ajouter un listener sur notre adapter
+     * Listener
+     *
+     * @param aListener QuestionAdapterListenerInterface
      */
     public void addListener(QuestionAdapterListenerInterface aListener) {
         mListListener.add(aListener);
     }
 
+    /**
+     * Send listener
+     *
+     * @param item     String of choice of response
+     * @param position int
+     */
     private void sendListener(String item, int position) {
         for (int i = mListListener.size() - 1; i >= 0; i--) {
             mListListener.get(i).onClickQuestion(item, position);

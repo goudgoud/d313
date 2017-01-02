@@ -17,67 +17,86 @@ import goudard.david.qcm.R;
 import goudard.david.qcm.entity.Survey;
 
 /**
- * Created by david on 23/12/16.
+ * The Survey activity Adapter
+ *
+ * @author David GOUDARD
+ * @version 1
+ * @since 23 /12/2016
  */
-
 public class SurveyAdapter extends BaseAdapter {
 
-    // Une liste de questionnaires
+    /**
+     * List of Survey
+     */
     private List<Survey> mListSurvey;
 
-    //Le contexte dans lequel est présent l' adapter
+    /**
+     * Adapter parent context
+     */
     private Context mContext;
 
-    //Un mécanisme pour gérer l'affichage graphique depuis un layout XML
+    /**
+     * Graphic screen manager
+     */
     private LayoutInflater mInflater;
 
-    //Contient la liste des listeners
+    /**
+     * List of listener interface
+     */
     private ArrayList<SurveyAdapterListenerInterface> mListListener = new ArrayList<SurveyAdapterListenerInterface>();
 
-
+    /**
+     * Constructor
+     *
+     * @param context     Context
+     * @param aListSurvey List of Survey
+     */
     public SurveyAdapter(Context context, List<Survey> aListSurvey) {
         this.mContext = context;
         this.mListSurvey = aListSurvey;
         this.mInflater = LayoutInflater.from(mContext);
     }
 
-    // Comptage des items
+
     public int getCount() {
         return mListSurvey.size();
     }
 
-    // Identification des items
-    // par position
     public Object getItem(int position) {
         return mListSurvey.get(position);
     }
 
-    // par id
     public long getItemId(int position) {
         return position;
     }
 
+    /**
+     * Return listview line to show
+     *
+     * @param position    int
+     * @param convertView View
+     * @param parent      ViewGroup
+     * @return View
+     */
     public View getView(int position, View convertView, ViewGroup parent) {
         LinearLayout layoutItem;
         //(1) : Réutilisation des layouts
         if (convertView == null) {
-            //Initialisation de notre item à partir du  layout XML
+            //Initialisation de notre item à partir du layout XML
             layoutItem = (LinearLayout) mInflater.inflate(R.layout.activity_survey_family_listview_survey, parent, false);
         } else {
             layoutItem = (LinearLayout) convertView;
         }
 
+        Survey survey = mListSurvey.get(position);
+
         // si questionnaire terminé, et que l'on ne peut le refaire
         boolean bCanRestart;
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-        //if (sharedPreferences.contains("pref_qcm_restart")) {
-            bCanRestart = sharedPreferences.getBoolean("pref_qcm_restart", true);
-        //}
-        //else {
-        //    bCanRestart = true;
-        //}
 
-        if (mListSurvey.get(position).getQuestionInProgress() >= mListSurvey.get(position).getQuestions().size()) {
+        bCanRestart = sharedPreferences.getBoolean("pref_qcm_restart", true);
+
+        if (survey.getQuestionInProgress() >= survey.getQuestions().size()) {
             if (!bCanRestart) {
                 layoutItem.setEnabled(false);
             }
@@ -85,14 +104,23 @@ public class SurveyAdapter extends BaseAdapter {
 
         //(2) : Récupération des TextView du layout
         TextView tvSurvey = (TextView) layoutItem.findViewById(R.id.lvSurveyFamily_Survey_tvText);
+        TextView tvSurveyScore = (TextView) layoutItem.findViewById(R.id.tvllSurveyFamily_Survey_Score);
+        TextView tvSurveyProgress = (TextView) layoutItem.findViewById(R.id.tvllSurveyFamily_Survey_Progress);
 
         //(3) : Renseignement des valeurs
-        tvSurvey.setText(mListSurvey.get(position).getName());
+        tvSurvey.setText(survey.getName());
+        tvSurveyScore.setText(Integer.toString(survey.getScore()));
 
-        //On mémorise la position dans le composant textview
-        tvSurvey.setTag(position);
+        tvSurveyProgress.setText(
+                Integer.toString(
+                        100 * survey.getQuestionInProgress() / survey.getQuestions().size()
+                ) + "%"
+        );
+
+        //On mémorise la position
+        layoutItem.setTag(position);
         //On ajoute un listener
-        tvSurvey.setOnClickListener(new View.OnClickListener() {
+        layoutItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Lorsque l'on clique sur le nom, on récupère la position de la "Survey"
@@ -106,18 +134,21 @@ public class SurveyAdapter extends BaseAdapter {
         return layoutItem;
     }
 
-
-    /***************************
-     * Listener
-     */
-
     /**
-     * Pour ajouter un listener sur notre adapter
+     * Listener
+     *
+     * @param aListener SurveyAdapterListenerInterface
      */
     public void addListener(SurveyAdapterListenerInterface aListener) {
         mListListener.add(aListener);
     }
 
+    /**
+     * Send listener
+     *
+     * @param item     Survey
+     * @param position int
+     */
     private void sendListener(Survey item, int position) {
         for (int i = mListListener.size() - 1; i >= 0; i--) {
             mListListener.get(i).onClickSurvey(item, position);

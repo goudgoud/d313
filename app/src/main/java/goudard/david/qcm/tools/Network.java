@@ -11,8 +11,18 @@ import static android.content.Context.CONNECTIVITY_SERVICE;
  * Created by david on 21/12/16.
  */
 
-public class Internet {
+/**
+ * Network class
+ * Use to
+ */
+public class Network {
 
+    /**
+     * Is network connectivity boolean.
+     *
+     * @param context the context
+     * @return the boolean
+     */
     public static boolean isNetworkConnectivity(Context context) {
         boolean value = true;
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
@@ -30,6 +40,12 @@ public class Internet {
         return value;
     }
 
+    /**
+     * Is network available boolean.
+     *
+     * @param context the context
+     * @return the boolean
+     */
     public static boolean isNetworkAvailable(Context context) {
         boolean value = false;
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);

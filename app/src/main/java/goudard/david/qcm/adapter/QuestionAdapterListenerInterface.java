@@ -1,9 +1,19 @@
 package goudard.david.qcm.adapter;
 
 /**
- * Created by david on 24/12/16.
+ * Listener interface of QuestionAdapter
+ *
+ * @author David GOUDARD
+ * @version 1
+ * @since 24 /12/2016
  */
-
 public interface QuestionAdapterListenerInterface {
-    public void onClickQuestion(String item, int position);
+
+    /**
+     * Event onclick
+     *
+     * @param item     String choice of response
+     * @param position int
+     */
+    void onClickQuestion(String item, int position);
 }
