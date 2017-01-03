@@ -5,7 +5,7 @@
     <string name="already_completed">Le questionnaire a déjà été fait</string>
     <string name="congratulations">Bravo !</string>
     <string name="download_ok">Téléchargement réussi !</string>
-    <string name="download_qcm">Recharger les qcm</string>
+    <string name="download_qcm">Télécharger</string>
     <string name="error_download">erreur durant le téléchargement:</string>
     <string name="error_save">erreur durant la sauvegarde des qcm</string>
     <string name="good_results">Bon résultat</string>
