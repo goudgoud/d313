@@ -25,21 +25,30 @@ import goudard.david.qcm.entity.Survey;
 import goudard.david.qcm.entity.SurveyFamily;
 
 /**
- * Created by david on 19/12/16.
+ * Qcm json parser and downloader
  */
 public class QcmJsonParser {
 
+    /**
+     * Qcm server uri
+     */
     private static final String QCM_URL = "http://daviddurand.info/D228/qcm";
+
+    /**
+     * Test object
+     */
     private Qcm qcm;
-    private TextView tv;
-    private boolean loading = false;
+
+    /**
+     * Parent context
+     */
     private Context context;
 
 
     /**
      * Instantiates a new Qcm json parser.
      *
-     * @param m the m
+     * @param m the context
      * @throws JSONException the json exception
      */
     public QcmJsonParser(Context m) throws JSONException {
@@ -59,6 +68,11 @@ public class QcmJsonParser {
         return this.qcm;
     }
 
+    /**
+     * Download test
+     *
+     * @throws JSONException
+     */
     private void downloadQcm() throws JSONException {
         qcm = new Qcm();
 
@@ -84,6 +98,14 @@ public class QcmJsonParser {
         }
     }
 
+    /**
+     * Download and part survey families
+     *
+     * @param qcm          the parent test
+     * @param jsonResponse Json response
+     * @return Qcm object
+     * @throws Exception
+     */
     private Qcm loadSurveyFamilies(Qcm qcm, JSONObject jsonResponse) throws Exception {
         try {
             Iterator<String> iteratorSurveyFamily = jsonResponse.keys();
@@ -105,6 +127,14 @@ public class QcmJsonParser {
         return qcm;
     }
 
+    /**
+     * Download and parse survey
+     *
+     * @param surveyFamily the parent survey family
+     * @param jsonSurveys Json surveys object
+     * @return SurveyFamily object
+     * @throws Exception
+     */
     private SurveyFamily loadSurveys(final SurveyFamily surveyFamily, JSONObject jsonSurveys) throws Exception {
         Iterator<String> iteratorSurvey = jsonSurveys.keys();
         while (iteratorSurvey.hasNext()) {
@@ -133,6 +163,14 @@ public class QcmJsonParser {
         return surveyFamily;
     }
 
+    /**
+     * Download and parse questions
+     *
+     * @param survey the parent Surveyr object
+     * @param jsonQuestions json Questions object
+     * @return Survey object
+     * @throws JSONException
+     */
     private Survey loadQuestions(Survey survey, JSONArray jsonQuestions) throws JSONException {
 
         for (int n = 0; n < jsonQuestions.length(); n++) {
@@ -157,5 +195,4 @@ public class QcmJsonParser {
 
         return survey;
     }
-
 }
