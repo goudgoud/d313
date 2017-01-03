@@ -38,6 +38,7 @@ import goudard.david.qcm.adapter.SurveyFamilyAdapter;
 import goudard.david.qcm.adapter.SurveyFamilyAdapterListenerInterface;
 import goudard.david.qcm.fragment.MainInternalFragment;
 
+import static android.widget.Toast.LENGTH_SHORT;
 import static goudard.david.qcm.R.string.download_qcm;
 import static goudard.david.qcm.activity.SurveyFamilyActivity.KEY_FROM_SURVEY_FAMILY;
 
@@ -282,7 +283,6 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         bottomNavigation.setDefaultBackgroundColor(Color.parseColor("#FEFEFE"));
         bottomNavigation.setAccentColor(Color.parseColor("#F63D2B"));
         bottomNavigation.setInactiveColor(Color.parseColor("#F63D2B"));
-        //bottomNavigation.setInactiveColor(Color.parseColor("#747474"));
         //  Enables Reveal effect
         bottomNavigation.setColored(true);
         bottomNavigation.setCurrentItem(0);
@@ -313,12 +313,11 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         });
     }
 
-
     /**
      * Show scoring
      */
     private void showScore() {
-
+        Toast.makeText(mContext, R.string.not_implemented, LENGTH_SHORT).show();
     }
 
     @Override

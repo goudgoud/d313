@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">QCM</string>
+    <string name="Finish">Terminé</string>
+    <string name="already_completed">Le questionnaire a déjà été fait</string>
+    <string name="congratulations">Bravo !</string>
+    <string name="download_ok">Téléchargement réussi !</string>
+    <string name="download_qcm">Recharger les qcm</string>
+    <string name="error_download">erreur durant le téléchargement:</string>
+    <string name="error_save">erreur durant la sauvegarde des qcm</string>
+    <string name="good_results">Bon résultat</string>
+    <string name="hour">Heure</string>
+    <string name="hours">Heures</string>
+    <string name="minute">minute</string>
+    <string name="minutes">minutes</string>
+    <string name="next">Suivant</string>
+    <string name="not_implemented">"Non disponible "</string>
+    <string name="please_select_a_subject">Choisissez un sujet</string>
+    <string name="please_wait">Veuillez patienter</string>
+    <string name="pref_qcm">Préférences des qcm</string>
+    <string name="pref_qcm_restart">Questionnaire peut-être refait</string>
+    <string name="pref_qcm_restart_summ">Autoriser à rrefaire une qcm déjà effectué</string>
+    <string name="pref_qcm_summ">Préférences des qcm</string>
+    <string name="preferences">Préférences</string>
+    <string name="progress">Progression</string>
+    <string name="restart">Recommencer</string>
+    <string name="restartSurvey">Voulez-vous recommencer le questionnaire ?</string>
+    <string name="restartSurveyTitle">Recommencer le questionnaire</string>
+    <string name="resume">Continuer</string>
+    <string name="save">Sauvegarder</string>
+    <string name="saved">Sauvegardé</string>
+    <string name="score">Score</string>
+    <string name="second">seconde</string>
+    <string name="seconds">secondes</string>
+    <string name="select_subject">Choisissez un sujet</string>
+    <string name="select_survey">Choisissez un questionnaire</string>
+    <string name="survey_restart_ask">Souhaitez-vous recommencer ou continuer le questionnaire ?</string>
+    <string name="survey_restart_title">Questionnaire</string>
+    <string name="test_result">Résultats du questionnaire</string>
+    <string name="time_elapsed">Temps écoulé</string>
+    <string name="your_score">Votre score</string>
+</resources>

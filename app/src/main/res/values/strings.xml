@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Multiple choice tests</string>
-    <string name="pref_qcm_restart">Ttests can be restart</string>
+    <string name="pref_qcm_restart">Tests can be restart</string>
     <string name="pref_qcm_restart_summ">Allow to make a test already done</string>
     <string name="pref_qcm">Multiple choice tests preferences</string>
     <string name="pref_qcm_summ">Tests preferences</string>
@@ -19,7 +19,7 @@
     <string name="select_survey">Select a survey</string>
     <string name="select_subject">Select a subject</string>
     <string name="please_wait">Please wait</string>
-    <string name="error_download">error while parsing the file status:</string>
+    <string name="error_download">error while downloading :</string>
     <string name="error_save">error while saving the tests:</string>
     <string name="download_ok">Downloading successfully !</string>
     <string name="saved">Saved</string>
@@ -36,4 +36,6 @@
     <string name="seconds">seconds</string>
     <string name="already_completed">This survey is already completed</string>
     <string name="progress">Progress</string>
+    <string name="not_implemented">Not implemented yet</string>
+    <string name="preferences">Preferences</string>
 </resources>
