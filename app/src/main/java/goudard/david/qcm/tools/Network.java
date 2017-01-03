@@ -3,19 +3,20 @@ package goudard.david.qcm.tools;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.widget.Toast;
 
 import static android.content.Context.CONNECTIVITY_SERVICE;
 
 /**
- * Created by david on 21/12/16.
- */
-
-/**
  * Network class
- * Use to
+ *
+ * @author David GOUDARD
+ * @version 1.0.1
+ * @since 03/01/2017
  */
 public class Network {
+
+    public static final String ERR_NETWORK = "ERR_NETWORK";
+    public static final String ERR_INTERNET = "ERR_INTERNET";
 
     /**
      * Is network connectivity boolean.
@@ -24,18 +25,19 @@ public class Network {
      * @return the boolean
      */
     public static boolean isNetworkConnectivity(Context context) {
-        boolean value = true;
+        boolean value = false;
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
 
-        // Le type de connexion, réseau ou Wi-Fi.
-        int networkType = networkInfo.getType();
+        if (networkInfo != null) {
+            // Le type de connexion, réseau ou Wi-Fi.
+            int networkType = networkInfo.getType();
 
-        // Vérification de l’état de la connexion.
-        NetworkInfo.State networkState = networkInfo.getState();
-        if (networkState.compareTo(NetworkInfo.State.CONNECTED) != 0) {
-            Toast.makeText(context, "NO INTERNET CONNECTION", Toast.LENGTH_LONG).show();
-            value = false;
+            // Vérification de l’état de la connexion.
+            NetworkInfo.State networkState = networkInfo.getState();
+            if (networkState.compareTo(NetworkInfo.State.CONNECTED) == 0) {
+                value = true;
+            }
         }
         return value;
     }
@@ -51,10 +53,10 @@ public class Network {
         ConnectivityManager manager = (ConnectivityManager) context.getSystemService(CONNECTIVITY_SERVICE);
         NetworkInfo info = manager.getActiveNetworkInfo();
 
-        if (info == null | info.isAvailable() == false) {
-            Toast.makeText(context, "No network available", Toast.LENGTH_LONG).show();
-        } else if (info != null && info.isAvailable()) {
-            value = true;
+        if (info != null) {
+            if (info.isAvailable()) {
+                value = true;
+            }
         }
         return value;
     }

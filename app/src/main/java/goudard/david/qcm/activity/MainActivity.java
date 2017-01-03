@@ -37,6 +37,7 @@ import goudard.david.qcm.entity.SurveyFamily;
 import goudard.david.qcm.adapter.SurveyFamilyAdapter;
 import goudard.david.qcm.adapter.SurveyFamilyAdapterListenerInterface;
 import goudard.david.qcm.fragment.MainInternalFragment;
+import goudard.david.qcm.tools.Network;
 
 import static android.widget.Toast.LENGTH_SHORT;
 import static goudard.david.qcm.R.string.download_qcm;
@@ -191,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
      * @return ErrorStatus the status of download
      * @throws JSONException
      */
-    private ErrorStatus runDownloadQcm() throws JSONException {
+    private ErrorStatus runDownloadQcm() throws Exception {
         this.qcm = QcmStorageManager.downloadQcm(this);
         return (this.qcm == null ? ErrorStatus.ERROR_DOWNLOAD : ErrorStatus.NO_ERROR);
     }
@@ -219,34 +220,45 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
                 } catch (JSONException e) {
                     status = ErrorStatus.ERROR_DOWNLOAD;
                     e.printStackTrace();
-                }
-                if (ErrorStatus.NO_ERROR != status) {
-                    Log.e(TAG, getString(R.string.error_download) + status);
-                    // error management, creates an error message
-                    msg = mHandler.obtainMessage(MSG_ERR,
-                            getString(R.string.error_download) + status);
-                    // sends the message to our handler
-                    mHandler.sendMessage(msg);
-                } else {
-                    progressBarData = getString(R.string.save);
-                    // populates the message
-                    msg = mHandler.obtainMessage(MSG_IND, progressBarData);
-                    // sends the message to our handler
-                    mHandler.sendMessage(msg);
-                    status = saveQcm();
-
+                } catch (Exception e) {
+                    switch (e.getMessage()) {
+                        case Network.ERR_NETWORK:
+                            status = ErrorStatus.ERROR_NO_NETWORK;
+                            break;
+                        case Network.ERR_INTERNET:
+                            status = ErrorStatus.ERROR_NO_INTERNET;
+                            break;
+                        default:
+                            status = ErrorStatus.ERROR_DOWNLOAD;
+                    }
+                } finally {
                     if (ErrorStatus.NO_ERROR != status) {
-                        Log.e(TAG, getString(R.string.error_save) + status);
-                        // error management,creates an error message
-                        msg = mHandler.obtainMessage(MSG_ERR, getString(R.string.error_save)
-                                + status);
+                        Log.e(TAG, getString(R.string.error_download) + status);
+                        // error management, creates an error message
+                        msg = mHandler.obtainMessage(MSG_ERR,
+                                getString(R.string.error_download) + status);
+                        // sends the message to our handler
                         mHandler.sendMessage(msg);
                     } else {
-                        msg = mHandler.obtainMessage(MSG_CNF, getString(R.string.download_ok));
+                        progressBarData = getString(R.string.save);
+                        // populates the message
+                        msg = mHandler.obtainMessage(MSG_IND, progressBarData);
+                        // sends the message to our handler
                         mHandler.sendMessage(msg);
+                        status = saveQcm();
+
+                        if (ErrorStatus.NO_ERROR != status) {
+                            Log.e(TAG, getString(R.string.error_save) + status);
+                            // error management,creates an error message
+                            msg = mHandler.obtainMessage(MSG_ERR, getString(R.string.error_save)
+                                    + status);
+                            mHandler.sendMessage(msg);
+                        } else {
+                            msg = mHandler.obtainMessage(MSG_CNF, getString(R.string.download_ok));
+                            mHandler.sendMessage(msg);
+                        }
                     }
                 }
-
             }
         })).start();
     }
@@ -459,6 +471,10 @@ public class MainActivity extends AppCompatActivity implements SurveyFamilyAdapt
         ERROR_DOWNLOAD, /**
          * Error save error status.
          */
-        ERROR_SAVE
+        ERROR_SAVE,
+
+        ERROR_NO_NETWORK,
+
+        ERROR_NO_INTERNET
     }
 }

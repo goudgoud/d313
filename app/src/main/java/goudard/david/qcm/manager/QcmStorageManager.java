@@ -1,16 +1,13 @@
 package goudard.david.qcm.manager;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import org.json.JSONException;
 
 import goudard.david.qcm.entity.Qcm;
 import goudard.david.qcm.tools.Network;
 import goudard.david.qcm.tools.QcmJsonParser;
-
-/**
- * Created by david on 23/12/16.
- */
 
 /**
  * Tests storage manager
@@ -55,14 +52,20 @@ public class QcmStorageManager {
      * @return Qcm qcm
      * @throws JSONException the json exception
      */
-    static public Qcm downloadQcm(Context context) throws JSONException {
+    static public Qcm downloadQcm(Context context) throws Exception {
         Qcm qcm = null;
 
         if (Network.isNetworkAvailable(context)) {
             if (Network.isNetworkConnectivity(context)) {
                 QcmJsonParser qcmParser = new QcmJsonParser(context);
                 qcm = qcmParser.getQcm();
+            } else {
+                throw new Exception(Network.ERR_INTERNET);
+                //Toast.makeText(context, "NO INTERNET CONNECTION", Toast.LENGTH_LONG).show();
             }
+        } else {
+            throw new Exception(Network.ERR_NETWORK);
+            //Toast.makeText(context, "No network available", Toast.LENGTH_LONG).show();
         }
         return qcm;
     }

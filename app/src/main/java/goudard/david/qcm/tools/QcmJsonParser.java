@@ -79,6 +79,8 @@ public class QcmJsonParser {
         } catch (Exception e) {
             e.printStackTrace();
             Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
+        } finally {
+
         }
     }
 
