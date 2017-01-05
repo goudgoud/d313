@@ -4,7 +4,7 @@ android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
     defaultConfig {
-        applicationId "goudard.david.qcm"
+        applicationId "siga.mireille.d228"
         minSdkVersion 16
         targetSdkVersion 23
         versionCode 1

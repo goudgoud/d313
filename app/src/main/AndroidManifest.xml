@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="goudard.david.qcm">
+    package="siga.mireille.d228">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -13,30 +13,30 @@
         android:supportsRtl="true"
         android:theme="@style/MyTheme">
 
-        <activity android:name=".activity.SplashScreenActivity">
+        <activity android:name="siga.mireille.d228.activity.SplashScreenActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
               <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.MainActivity">
+        <activity android:name="siga.mireille.d228.activity.MainActivity">
             <intent-filter>
-                <action android:name="goudard.david.qcm.MAINACTIVITY" />
+                <action android:name="siga.mireille.d228.MAINACTIVITY" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.SurveyFamilyActivity">
+        <activity android:name="siga.mireille.d228.activity.SurveyFamilyActivity">
 
         </activity>
 
-        <activity android:name=".activity.SurveyActivity">
+        <activity android:name="siga.mireille.d228.activity.SurveyActivity">
 
         </activity>
 
         <activity
-            android:name="goudard.david.qcm.activity.MyPreferenceActivity"
+            android:name="siga.mireille.d228.activity.MyPreferenceActivity"
             android:label="Preferences">
 
         </activity>
